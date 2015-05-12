@@ -3,8 +3,8 @@
   <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>tw.com.model.dao.Account</class>
-    <class>tw.com.model.dao.AccountTbl</class>
     <class>tw.com.model.dao.AccountTbl_1</class>
+    <class>tw.com.model.entity.AccountTbl</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull"/>
