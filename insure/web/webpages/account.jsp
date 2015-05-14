@@ -50,7 +50,7 @@
                             </h1>
                             <ol class="breadcrumb">
                                 <li class="active">
-                                    <i class="fa fa-dashboard"></i> Dashboard
+                                    <i class="fa fa-dashboard"></i> 帳號管理
                                 </li>
                             </ol>
                             <table id="example" class="display" cellspacing="0" width="100%">
@@ -63,18 +63,12 @@
                                         <th>生效日期(起)</th>
                                         <th>生效日期(迄)</th>
                                         <th>認證狀態</th>
+                                        <th>修改</th>
+                                        <th>刪除</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                    </tr>
                                     <%
                                         @SuppressWarnings(  "unchecked")
                                         List<AccountTbl> accountList = (List<AccountTbl>) request.getAttribute("accountList");
@@ -87,6 +81,8 @@
                                             out.write("<td>" + account.getValidFrom() + "</td>");
                                             out.write("<td>" + account.getValidEnd() + "</td>");
                                             out.write("<td>" + account.getStatus() + "</td>");
+                                            out.write("<td><a class=\"glyphicon glyphicon-pencil\" href=\"\"></a></td>");
+                                            out.write("<td><a class=\"glyphicon glyphicon-trash\" href=\"\"></a></td>");
                                             out.write("</tr>");
                                         }
                                     %>
@@ -100,17 +96,12 @@
                         </div>
                     </div>
                     <!-- /.row -->
-
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <i class="fa fa-info-circle"></i>  <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
-                            </div>
+                            <button id="add">新增</button>
                         </div>
-                    </div>
-                    <!-- /.row -->
 
+                    </div>
                 </div>
             </div>
         </div>
