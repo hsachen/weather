@@ -53,7 +53,7 @@
                                     <i class="fa fa-dashboard"></i> 帳號管理
                                 </li>
                             </ol>
-                            <table id="example" class="display" cellspacing="0" width="100%">
+                            <table id="acc_tbl" class="display" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>帳號群組</th>
@@ -89,7 +89,6 @@
                                 </tbody>
 
                                 <tfoot>
-
                                 </tfoot>
 
                             </table>
@@ -98,7 +97,9 @@
                     <!-- /.row -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <button id="add">新增</button>
+                            <button type="button"  data-toggle="modal" data-target="#acc_modal">
+                                新增
+                            </button>
                         </div>
 
                     </div>
@@ -106,6 +107,33 @@
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="acc_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">新增</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">Recipient:</label>
+                                <input type="text" class="form-control" id="recipient-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="control-label">Message:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- jQuery -->
         <script src="${pageContext.request.contextPath}/lib/bootstrap-3.3.4-dist/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 
@@ -114,10 +142,8 @@
         <script src="${pageContext.request.contextPath}/lib/DataTables-1.10.7/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
+                $('#acc_tbl').DataTable();
             });
         </script>
-
     </body>
-
 </html>
