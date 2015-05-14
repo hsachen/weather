@@ -97,9 +97,8 @@
                     <!-- /.row -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button"  data-toggle="modal" data-target="#acc_modal"　data-whatever="新增">
-                                新增
-                            </button>
+                 
+                            <button type="button" data-toggle="modal" data-target="#acc_modal" data-whatever="新增">新增</button>
                         </div>
 
                     </div>
@@ -108,12 +107,12 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="acc_modal" tabindex="-1" role="dialog" aria-labelledby="accmodalLabel" aria-hidden="true">
+        <div class="modal fade" id="acc_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="accmodalLabel">新增</h4>
+                        <h4 class="modal-title" id="exampleModalLabel">新增</h4>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -146,14 +145,17 @@
 
                 $('#acc_modal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget) // Button that triggered the modal
+                    alert(button)
                     var recipient = button.data('whatever') // Extract info from data-* attributes
                     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                     var modal = $(this)
-                    modal.find('.modal-title').text('New message to ' + recipient)
-                    modal.find('.modal-body input').val(recipient)
+                    modal.find('.modal-title').text(recipient)
+                    modal.find('.modal-body input').val(recipient);
                 })
             });
+
+
 
 
         </script>
