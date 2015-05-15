@@ -10,9 +10,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-
 import tw.com.model.dao.exceptions.PreexistingEntityException;
-
 
 /**
  *
@@ -20,15 +18,22 @@ import tw.com.model.dao.exceptions.PreexistingEntityException;
  */
 public class BaseDAO<T> {
 
+    private String msg = "";
+
+    public String getMessage() {
+        return msg;
+    }
+
     public void create(T object) throws PreexistingEntityException, Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction(); //開啟交易
             session.persist(object); //將物件儲存資料庫
             session.getTransaction().commit(); //傳送交易
-
+            msg = "新增成功";
         } catch (Exception ex) {
             session.getTransaction().rollback();
+            msg = "新增失敗";
         } finally {
             session.close();
         }

@@ -7,7 +7,11 @@ package tw.com.web.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -33,12 +37,14 @@ public class AccountServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private BaseDAO<AccountTbl> baseDao = new BaseDAO<AccountTbl>();
+    public String msg = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
+
         if (action.equals("add")) {
             add(request, response);
         } else if (action.equals("list")) {
@@ -47,25 +53,31 @@ public class AccountServlet extends HttpServlet {
 
     }
 
-    protected void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AccountTbl account = new AccountTbl();
-        account.setAccountGroup("123");
-        account.setEmailAddress("mail");
-        account.setPkiCode("pki");
-        account.setStatus('1');
-        account.setStatusText("xxxxx");
-        account.setUserId("0001");
-        account.setUserName("test");
-        account.setValidEnd(new Date());
-        account.setValidFrom(new Date());
-
+    protected void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+        PrintWriter out = response.getWriter();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm aa", Locale.US);
         try {
-            baseDao.create(account);
 
+            AccountTbl account = new AccountTbl();
+            account.setAccountGroup(request.getParameter("account_group"));
+            account.setEmailAddress(request.getParameter("email"));
+            account.setPkiCode("pki");
+            account.setStatus(null);
+            account.setStatusText(null);
+            account.setUserId(request.getParameter("user_id"));
+            account.setUserName(request.getParameter("user_name"));
+            account.setValidEnd(sdf.parse(request.getParameter("valid_end")));
+            account.setValidFrom(sdf.parse(request.getParameter("valid_from")));
+            baseDao.create(account);
+            msg = baseDao.getMessage();
             //request.setAttribute("msg", dao);
+        } catch (ParseException ex) {
+            msg = "新增失敗，日期格式錯誤";
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        out.print(msg);
     }
 
     protected void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,7 +103,11 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -105,7 +121,11 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
