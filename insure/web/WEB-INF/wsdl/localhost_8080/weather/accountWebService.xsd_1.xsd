@@ -6,7 +6,12 @@
 
 <xs:complexType name="accountChk">
 <xs:sequence>
-<xs:element name="name" type="xs:string" minOccurs="0" />
+<xs:element name="account_group" type="xs:string" minOccurs="0" />
+<xs:element name="user_id" type="xs:string" minOccurs="0" />
+<xs:element name="email" type="xs:string" minOccurs="0" />
+<xs:element name="uid_attr" type="xs:string" minOccurs="0" />
+<xs:element name="valid_from" type="xs:string" minOccurs="0" />
+<xs:element name="valid_end" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 

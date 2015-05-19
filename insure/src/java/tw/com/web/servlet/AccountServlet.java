@@ -23,7 +23,7 @@ import tw.com.model.base.BaseDAO;
 
 /**
  *
- * @author Z00907
+ * @author Jean
  */
 public class AccountServlet extends HttpServlet {
 
@@ -49,13 +49,15 @@ public class AccountServlet extends HttpServlet {
             add(request, response);
         } else if (action.equals("list")) {
             list(request, response);
+        }  else if (action.equals("update")) {
+            update(request, response);
         }
 
     }
 
     protected void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         PrintWriter out = response.getWriter();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm aa", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss", Locale.US);
         try {
 
             AccountTbl account = new AccountTbl();
@@ -73,6 +75,33 @@ public class AccountServlet extends HttpServlet {
             //request.setAttribute("msg", dao);
         } catch (ParseException ex) {
             msg = "新增失敗，日期格式錯誤";
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        out.print(msg);
+    }
+    
+        protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+        PrintWriter out = response.getWriter();
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss", Locale.US);
+        try {
+
+            AccountTbl account = new AccountTbl();
+            account.setAccountGroup(request.getParameter("account_group"));
+            account.setEmailAddress(request.getParameter("email"));
+            account.setPkiCode("pki");
+            account.setStatus(null);
+            account.setStatusText(null);
+            account.setUserId(request.getParameter("user_id"));
+            account.setUserName(request.getParameter("user_name"));
+            account.setValidEnd(sdf.parse(request.getParameter("valid_end")));
+            account.setValidFrom(sdf.parse(request.getParameter("valid_from")));
+            baseDao.update(account);
+            msg = baseDao.getMessage();
+            //request.setAttribute("msg", dao);
+        } catch (ParseException ex) {
+            msg = "修改失敗，日期格式錯誤";
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);

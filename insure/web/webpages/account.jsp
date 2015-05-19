@@ -74,6 +74,7 @@
                                     <%
                                         @SuppressWarnings(  "unchecked")
                                         List<AccountTbl> accountList = (List<AccountTbl>) request.getAttribute("accountList");
+                                        int i = 0;
                                         for (AccountTbl account : accountList) {
                                             out.write("<tr>");
                                             out.write("<td>" + account.getAccountGroup() + "</td>");
@@ -83,9 +84,10 @@
                                             out.write("<td>" + account.getValidFrom() + "</td>");
                                             out.write("<td>" + account.getValidEnd() + "</td>");
                                             out.write("<td>" + account.getStatus() + "</td>");
-                                            out.write("<td><a class=\"glyphicon glyphicon-pencil\" href=\"\"></a></td>");
+                                            out.write("<td><a id=" + i + " class=\"glyphicon glyphicon-pencil\"  data-toggle=\"modal\" data-target=\"#acc_modal\"   data-whatever=\"修改\" href=\"\"></a></td>");
                                             out.write("<td><a class=\"glyphicon glyphicon-trash\" href=\"\"></a></td>");
                                             out.write("</tr>");
+                                            i++;
                                         }
                                     %>
                                 </tbody>
@@ -182,12 +184,52 @@
                     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                     var modal = $(this)
                     modal.find('.modal-title').text(recipient)
+                    if (recipient == '修改') {
+                        var $row = button.closest("tr"),
+                                //群組
+                                $tds = $row.find("td:nth-child(1)");                              
+                        $tds.each(function () {
+                            $("#account_group").val($(this).text());
+                        });
+
+                        //用戶帳號
+                        $tds = $row.find("td:nth-child(2)");
+                        $tds.each(function () {
+                            $("#user_id").val($(this).text());
+                        });
+                        
+                         //用戶名稱
+                        $tds = $row.find("td:nth-child(3)");
+                        $tds.each(function () {
+                            $("#user_name").val($(this).text());
+                        });
+                        
+                         //email
+                        $tds = $row.find("td:nth-child(4)");
+                        $tds.each(function () {
+                            $("#email").val($(this).text());
+                        });
+                        
+                             //生效日期
+                        $tds = $row.find("td:nth-child(5)");
+                        $tds.each(function () {
+                            $("#valid_from").val($(this).text());
+                        });
+                        
+                              //生效日期
+                        $tds = $row.find("td:nth-child(6)");
+                        $tds.each(function () {
+                            $("#valid_end").val($(this).text());
+                        });
+                    }
                     //    modal.find('.modal-body input').val(recipient);
                 })
 
                 //日期
                 $(function () {
-                    $('.datetimepicker').datetimepicker();
+                    $('.datetimepicker').datetimepicker({
+                          format: 'YYYY-MM-DD hh:mm:ss',
+                    });
                 });
 
 

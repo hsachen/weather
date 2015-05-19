@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Z00907
  */
-public class NewServlet extends HttpServlet {
+public class AccountChk extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,16 +35,14 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet NewServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + hello("s") + "</h1>");
+            out.println("<h1>Servlet NewServlet at " + accountChk("accountGroup", "userId", "s", "s", "s", "s") + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -85,12 +83,10 @@ public class NewServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private static String hello(java.lang.String name) {
+    private static String accountChk(java.lang.String accountGroup, java.lang.String userId, java.lang.String email, java.lang.String uidAttr, java.lang.String validFrom, java.lang.String validEnd) {
         tw.com.webservice.AccountWebService_Service service = new tw.com.webservice.AccountWebService_Service();
         tw.com.webservice.AccountWebService port = service.getAccountWebServicePort();
-        return port.accountChk(name);
+        return port.accountChk(accountGroup, userId, email, uidAttr, validFrom, validEnd);
     }
-
-
 
 }

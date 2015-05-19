@@ -18,7 +18,7 @@
     </servlet>
     <servlet>
         <servlet-name>NewServlet</servlet-name>
-        <servlet-class>tw.com.web.servlet.NewServlet</servlet-class>
+        <servlet-class>tw.com.web.servlet.AccountChk</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
