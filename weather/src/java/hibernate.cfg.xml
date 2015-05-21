@@ -7,6 +7,6 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/weather?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">nchu1020</property>
-    <mapping class="tw.com.model.entity.AccountTbl"/>
+    <mapping class="tw.com.entity.AccountTbl" />
   </session-factory>
 </hibernate-configuration>
