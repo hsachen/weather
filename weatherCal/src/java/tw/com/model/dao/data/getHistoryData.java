@@ -29,15 +29,17 @@ public class getHistoryData {
 
     // private HibernateUtil HUtil;  
 
-    public List<Map<String, Object>> findHisttoryDataWithAlone(WeatherCalVo queryVo) {
+    public List<Map<String, Object>> findHistoryData(WeatherCalVo queryVo) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Date fromDate = queryVo.getEventValidFrom();
         Date endDate = queryVo.getEventValidEnd();
+        //起日
         calendar.setTime(fromDate);
         int yearFrom = calendar.get(Calendar.YEAR);
         int monthFrom = calendar.get(Calendar.MONTH);
         int dayFrom = calendar.get(Calendar.DAY_OF_MONTH);
+        //迄日
         calendar.setTime(endDate);
         int yearEnd = calendar.get(Calendar.YEAR);
         int monthEnd = calendar.get(Calendar.MONTH);
@@ -50,17 +52,17 @@ public class getHistoryData {
 
         if (yearFrom == yearEnd) {
                if(monthFrom == monthEnd){
-                   tableName = "WeatherData.ViewHistory"+String.valueOf(yearFrom)+String.format(formatStr, monthFrom);
+                   tableName = "WeatherData.ViewHistory"+String.valueOf(yearFrom-1)+String.format(formatStr, monthFrom);
                    dayString =" and Day between " + dayFrom +" and "+ dayEnd;
                }
         }
         try {
-            StrBuffer.append("SELECT  count(1)  FROM  "+ tableName
+            StrBuffer.append("SELECT  Day,TemperatureMax  FROM  "+ tableName
                     + " where  SiteId = 50136 " + dayString +" and TemperatureMax >= 50");
             session.beginTransaction(); //開啟交易
             SQLQuery query = session.createSQLQuery(StrBuffer.toString());
             query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-
+List<Map<String, Object>> a=query.list();
             return query.list();
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -72,6 +74,12 @@ public class getHistoryData {
 
     }
     
-   // public 
+    public void filterWithRunningDay(){
+        
+    }
+    
+    public void returnVariable(){
+        
+    }
 
 }

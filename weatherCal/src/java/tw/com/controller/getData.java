@@ -56,8 +56,15 @@ public class getData extends HttpServlet {
             queryVo.setRunningDay(1);
             queryVo.setOperationUB(null);
             queryVo.setOperationLB(">=");
+            queryVo.setTrigerPointUB(null);
+            queryVo.setTrigerPointLB("50");
+            queryVo.setMeasureUnit("mm");
+            queryVo.setStatisticMethod("1");
+            queryVo.setElementMethod(" ");
+            queryVo.setReturnVarible("1");
             
-            List list = getData.findHisttoryDataWithAlone(queryVo);
+            
+            List list = getData.findHistoryData(queryVo);
 
             Map map = null;
             JSONObject jsonObject = null;
