@@ -28,7 +28,6 @@ public class getHistoryData {
     public static Calendar calendar = Calendar.getInstance();
 
     // private HibernateUtil HUtil;  
-
     public List<Map<String, Object>> findHistoryData(WeatherCalVo queryVo) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -45,24 +44,25 @@ public class getHistoryData {
         int monthEnd = calendar.get(Calendar.MONTH);
         int dayEnd = calendar.get(Calendar.DAY_OF_MONTH);
         String tableName = null;
-        String dayString=null;
+        String dayString = null;
         StringBuffer StrBuffer = new StringBuffer();
-        
+
         String formatStr = "%02d";
 
         if (yearFrom == yearEnd) {
-               if(monthFrom == monthEnd){
-                   tableName = "WeatherData.ViewHistory"+String.valueOf(yearFrom-1)+String.format(formatStr, monthFrom);
-                   dayString =" and Day between " + dayFrom +" and "+ dayEnd;
-               }
+            if (monthFrom == monthEnd) {
+                tableName = "WeatherData.ViewHistory" + String.valueOf(yearFrom - 1) + String.format(formatStr, monthFrom);
+                dayString = " and Day between " + dayFrom + " and " + dayEnd;
+            }
         }
         try {
-            StrBuffer.append("SELECT  Day,TemperatureMax  FROM  "+ tableName
-                    + " where  SiteId = 50136 " + dayString +" and TemperatureMax >= 50");
+            StrBuffer.append("SELECT  Day,TemperatureMax  FROM  " + tableName
+                    + " where  SiteId = 50136 " + dayString + " and TemperatureMax >= 50");
             session.beginTransaction(); //開啟交易
             SQLQuery query = session.createSQLQuery(StrBuffer.toString());
             query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-List<Map<String, Object>> a=query.list();
+            List<Map<String, Object>> a = query.list();
+            
             return query.list();
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -73,13 +73,18 @@ List<Map<String, Object>> a=query.list();
         }
 
     }
-    
-    public void filterWithRunningDay(){
-        
+
+    public void filterWithRunningDay() {
+
     }
-    
-    public void returnVariable(){
+
+    //)环比日概率
+    public List<Map<String, Object>> returnVariable_01() {
         
+        
+        
+        return null;
+
     }
 
 }
