@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import tw.com.mode.vo.WeatherCalVo;
-import tw.com.model.dao.data.getHistoryData;
+import tw.com.model.dao.data.FspWeatherAssess;
 
 /**
  *
@@ -43,7 +43,7 @@ public class getData extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        getHistoryData getData = new getHistoryData();
+        FspWeatherAssess getData = new FspWeatherAssess();
         WeatherCalVo queryVo = new WeatherCalVo();
         String dateFrom = "2015/04/01";
          String dateEnd = "2015/04/20";
@@ -60,10 +60,9 @@ public class getData extends HttpServlet {
             queryVo.setTrigerPointLB("50");
             queryVo.setMeasureUnit("mm");
             queryVo.setStatisticMethod("1");
-            queryVo.setElementMethod(" ");
+            queryVo.setElementMethod("10");
             queryVo.setReturnVarible("1");
-            
-            
+
             List list = getData.findHistoryData(queryVo);
 
             Map map = null;

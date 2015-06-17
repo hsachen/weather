@@ -11,8 +11,9 @@ package tw.com.model.enumeration;
  */
 public enum MeteroElementEnum {
       
-        Element_01("01","降雨"),
-	Element_02("02","溫度");
+        Element_10("10","降水"),
+	Element_11("11","氣溫"),
+        Element_12("12","風力");
 	
 	
 	private String code;

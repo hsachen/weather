@@ -12,16 +12,23 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil { 
 
-    private static final SessionFactory sessionFactory;
+    private static final SessionFactory sessionFactoryHist;
+    private static final StandardServiceRegistry serviceRegistryHist;
+    
+   private static final SessionFactory sessionFactory;
     private static final StandardServiceRegistry serviceRegistry;
 
     static {
         try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-
-            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            Configuration configurationHist = new Configuration();
+            configurationHist.configure("hist.cfg.xml");
+            serviceRegistryHist = new StandardServiceRegistryBuilder().applySettings(configurationHist.getProperties()).build();
+            sessionFactoryHist = configurationHist.buildSessionFactory(serviceRegistryHist);
+            
+             Configuration configuration = new Configuration();
+            configuration.configure("db.cfg.xml");
+            serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configurationHist.getProperties()).build();
+            sessionFactory = configurationHist.buildSessionFactory(serviceRegistry);
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
         }
@@ -33,6 +40,15 @@ public class HibernateUtil {
 
     public static void closeAllResources() {
         sessionFactory.close();
+        StandardServiceRegistryBuilder.destroy(serviceRegistry);
+    }
+    
+      public static SessionFactory getSessionFactoryHist() {
+        return sessionFactoryHist;
+    }
+
+    public static void closeAllResourcesHist() {
+        sessionFactoryHist.close();
         StandardServiceRegistryBuilder.destroy(serviceRegistry);
     }
 }

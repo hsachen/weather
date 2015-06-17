@@ -8,4 +8,5 @@
     <property name="hibernate.connection.username">hist05</property>
     <property name="hibernate.connection.password">qwer@123</property>
   </session-factory>
+  
 </hibernate-configuration>
