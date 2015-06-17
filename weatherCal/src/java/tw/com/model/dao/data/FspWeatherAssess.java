@@ -40,12 +40,12 @@ public class FspWeatherAssess {
         //起日
         calendar.setTime(fromDate);
         int yearFrom = calendar.get(Calendar.YEAR);
-        int monthFrom = calendar.get(Calendar.MONTH);
+        int monthFrom = calendar.get(Calendar.MONTH)+1;
         int dayFrom = calendar.get(Calendar.DAY_OF_MONTH);
         //迄日
         calendar.setTime(endDate);
         int yearEnd = calendar.get(Calendar.YEAR);
-        int monthEnd = calendar.get(Calendar.MONTH);
+        int monthEnd = calendar.get(Calendar.MONTH)+1;
         int dayEnd = calendar.get(Calendar.DAY_OF_MONTH);
 
         String tableName = null;
@@ -59,10 +59,10 @@ public class FspWeatherAssess {
 
         String formatStr = "%02d"; //兩位數補0
         String yyyymm = "00000";
-
+        
         if (yearFrom == yearEnd) {
             if (monthFrom == monthEnd) {
-                tableName = "WeatherData.ViewHistory" + yyyymm;
+               
                 dayString = " and Day between " + dayFrom + " and " + dayEnd;
             }
         }
@@ -71,12 +71,14 @@ public class FspWeatherAssess {
         String tempsql = "";
         String tempOperation = "";
         if (queryVo.getOperationUB() != null) {
-            tempsql += " AND OPRRATION_UB = '" + queryVo.getOperationUB() + "'";
+            tempsql += " AND OPERATION_UB = '" + queryVo.getOperationUB() + "'";
         }
         if (queryVo.getOperationLB() != null) {
-            tempsql += " AND OPRRATION_LB = '" + queryVo.getOperationLB() + "'";
+            tempsql += " AND OPERATION_LB = '" + queryVo.getOperationLB() + "'";
         }
-        SQLQuery query = session.createSQLQuery("SELECT VIEW_COLUMN FROM weather.metero_operation_tbl where METERO_ELEMENT= " + tempsql);
+
+    
+        SQLQuery query = session.createSQLQuery("SELECT VIEW_COLUMN FROM weather.metero_operation_tbl where METERO_ELEMENT= '"+queryVo.getMeteroElement()+"' " + tempsql);
         String viewColumn = query.uniqueResult().toString();
 
         /**
@@ -93,9 +95,11 @@ public class FspWeatherAssess {
 
         try {
             for (int i = 1; i <= calyear; i++) {
-                yyyymm = String.valueOf(yearFrom - i) + String.format(formatStr, monthFrom); //年月          
+                yyyymm = String.valueOf(yearFrom - i) + String.format(formatStr, monthFrom); //年月
+                 tableName = "WeatherData.ViewHistory" + yyyymm;
+               StrBuffer.delete(0, StrBuffer.length());
                 StrBuffer.append("SELECT  Day," + viewColumn + "," + yyyymm + "  FROM  " + tableName
-                        + " where  SiteId = 50136 " + dayString + " and " + tempOperation);
+                        + " where  SiteId = 50136 " + dayString + tempOperation);
                 query = sessionHist.createSQLQuery(StrBuffer.toString());
                 query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
                 resMap.put(yyyymm, query.list());
@@ -121,7 +125,7 @@ public class FspWeatherAssess {
 
     //输出格式：(1)环比日概率
 
-    public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+      public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
@@ -134,18 +138,18 @@ public class FspWeatherAssess {
             // key
             String key = its.next();
             // value
-            Object list = tempmap.get(key);
-            list = new ArrayList<String>();
+            Object list = tempmap.get(key); 
+           // list = new ArrayList<String>();
             valuslist = cast(list);
-            mm = key.substring(5, 2);
+            mm = key.substring(4, 6);
             for (Map<String, Object> data : valuslist) {
                 dd = data.get("Day").toString();
                 //如果累加
                 count = (Integer) countMap.get(mm + dd);
                 if (count == null) {
-                    countMap.put(key, 0);
+                    countMap.put(mm + dd, 1); 
                 } else {
-                    countMap.put(key, count + 1);
+                   countMap.put(mm + dd, count + 1);
                 }
             }
         }

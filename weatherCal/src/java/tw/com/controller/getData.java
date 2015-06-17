@@ -45,8 +45,8 @@ public class getData extends HttpServlet {
         PrintWriter out = response.getWriter();
         FspWeatherAssess getData = new FspWeatherAssess();
         WeatherCalVo queryVo = new WeatherCalVo();
-        String dateFrom = "2015/04/01";
-         String dateEnd = "2015/04/20";
+        String dateFrom = "2015/05/01";
+         String dateEnd = "2015/05/20";
         try {
         //    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom);
             queryVo.setEventValidFrom(new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom)); 
@@ -54,7 +54,8 @@ public class getData extends HttpServlet {
             queryVo.setAssessmentYear(2);//計算年
             queryVo.setOperationRunningDay("=");
             queryVo.setRunningDay(1);
-            queryVo.setOperationUB(null);
+            queryVo.setMeteroElement("10");
+            queryVo.setOperationUB(null); 
             queryVo.setOperationLB(">=");
             queryVo.setTrigerPointUB(null);
             queryVo.setTrigerPointLB("50");
@@ -62,6 +63,7 @@ public class getData extends HttpServlet {
             queryVo.setStatisticMethod("1");
             queryVo.setElementMethod("10");
             queryVo.setReturnVarible("1");
+            queryVo.setElementMethod(" ");
 
             List list = getData.findHistoryData(queryVo);
 
