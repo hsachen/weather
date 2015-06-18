@@ -40,12 +40,12 @@ public class FspWeatherAssess {
         //起日
         calendar.setTime(fromDate);
         int yearFrom = calendar.get(Calendar.YEAR);
-        int monthFrom = calendar.get(Calendar.MONTH)+1;
+        int monthFrom = calendar.get(Calendar.MONTH) + 1;
         int dayFrom = calendar.get(Calendar.DAY_OF_MONTH);
         //迄日
         calendar.setTime(endDate);
         int yearEnd = calendar.get(Calendar.YEAR);
-        int monthEnd = calendar.get(Calendar.MONTH)+1;
+        int monthEnd = calendar.get(Calendar.MONTH) + 1;
         int dayEnd = calendar.get(Calendar.DAY_OF_MONTH);
 
         String tableName = null;
@@ -59,10 +59,10 @@ public class FspWeatherAssess {
 
         String formatStr = "%02d"; //兩位數補0
         String yyyymm = "00000";
-        
+
         if (yearFrom == yearEnd) {
             if (monthFrom == monthEnd) {
-               
+
                 dayString = " and Day between " + dayFrom + " and " + dayEnd;
             }
         }
@@ -77,12 +77,11 @@ public class FspWeatherAssess {
             tempsql += " AND OPERATION_LB = '" + queryVo.getOperationLB() + "'";
         }
 
-    
-        SQLQuery query = session.createSQLQuery("SELECT VIEW_COLUMN FROM weather.metero_operation_tbl where METERO_ELEMENT= '"+queryVo.getMeteroElement()+"' " + tempsql);
+        SQLQuery query = session.createSQLQuery("SELECT VIEW_COLUMN FROM weather.metero_operation_tbl where METERO_ELEMENT= '" + queryVo.getMeteroElement() + "' " + tempsql);
         String viewColumn = query.uniqueResult().toString();
 
         /**
-         * 條件 不累加直接在sql過濾
+         * 觸發條件 不累加直接在sql過濾 累加則要全部傳入運算
          */
         if (queryVo.getElementMethod().equals(" ")) {
             if (queryVo.getOperationUB() != null) {
@@ -96,19 +95,22 @@ public class FspWeatherAssess {
         try {
             for (int i = 1; i <= calyear; i++) {
                 yyyymm = String.valueOf(yearFrom - i) + String.format(formatStr, monthFrom); //年月
-                 tableName = "WeatherData.ViewHistory" + yyyymm;
-               StrBuffer.delete(0, StrBuffer.length());
-                StrBuffer.append("SELECT  Day," + viewColumn + "," + yyyymm + "  FROM  " + tableName
+                tableName = "WeatherData.ViewHistory" + yyyymm;
+                StrBuffer.delete(0, StrBuffer.length());
+                StrBuffer.append("SELECT  Day," + viewColumn + " FROM  " + tableName
                         + " where  SiteId = 50136 " + dayString + tempOperation);
                 query = sessionHist.createSQLQuery(StrBuffer.toString());
                 query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
                 resMap.put(yyyymm, query.list());
             }
+            /***
+             * resMap : [yyyymm : {Day,viewcolumn}]
+             */
 
             if (queryVo.getReturnVarible().equals("1")) {
                 returnMap = returnVariable_01(resMap, queryVo);
-            } else if (queryVo.getReturnVarible().equals("2")) {
-                returnMap = returnVariable_02(resMap, queryVo);
+            } else if (queryVo.getReturnVarible().equals("4")) {
+                returnMap = returnVariable_04(resMap, queryVo);
             }
             reslist.add(returnMap);
 
@@ -123,9 +125,11 @@ public class FspWeatherAssess {
 
     }
 
-    //输出格式：(1)环比日概率
-
-      public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    /**
+     * 输出格式：(1)环比日概率
+     * RUNNING_DAYS =1
+     */
+    public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
@@ -138,18 +142,17 @@ public class FspWeatherAssess {
             // key
             String key = its.next();
             // value
-            Object list = tempmap.get(key); 
-           // list = new ArrayList<String>();
+            Object list = tempmap.get(key);
+
             valuslist = cast(list);
             mm = key.substring(4, 6);
             for (Map<String, Object> data : valuslist) {
                 dd = data.get("Day").toString();
-                //如果累加
                 count = (Integer) countMap.get(mm + dd);
                 if (count == null) {
-                    countMap.put(mm + dd, 1); 
+                    countMap.put(mm + dd, 1);
                 } else {
-                   countMap.put(mm + dd, count + 1);
+                    countMap.put(mm + dd, (count + 1) / queryVo.getAssessmentYear());
                 }
             }
         }
@@ -157,8 +160,11 @@ public class FspWeatherAssess {
 
     }
 
-    //输出格式：(2)环比年概率
-    public Map<String, Object> returnVariable_02(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    /**
+     * 输出格式：(4)平均天数 
+     * RUNNING_DAYS =1
+     */
+    public Map<String, Object> returnVariable_04(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();

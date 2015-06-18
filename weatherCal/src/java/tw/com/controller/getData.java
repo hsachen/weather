@@ -49,6 +49,7 @@ public class getData extends HttpServlet {
          String dateEnd = "2015/05/20";
         try {
         //    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom);
+            queryVo.seAreaCode("110000");
             queryVo.setEventValidFrom(new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom)); 
             queryVo.setEventValidEnd(new SimpleDateFormat("yyyy/MM/dd").parse(dateEnd));
             queryVo.setAssessmentYear(2);//計算年

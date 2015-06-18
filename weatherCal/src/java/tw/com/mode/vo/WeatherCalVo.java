@@ -12,10 +12,11 @@ import java.util.Date;
  * @author Jean
  */
 public class WeatherCalVo {
-    
-   private Date eventValidFrom;  //天氣風險評估日期（起）
+
+    private String areaCode; //行政區域代碼
+    private Date eventValidFrom;  //天氣風險評估日期（起）
     private Date eventValidEnd;  //天氣風險評估日期（迄）
-    private Integer assessmentYear ; //計算年
+    private Integer assessmentYear; //計算年
     private String operationRunningDay;//連續天數操作符號
     private Integer runningDay;//天數
     private String meteroElement;//氣象要素代碼
@@ -30,124 +31,148 @@ public class WeatherCalVo {
     private String phenomenaID;//天氣要素代碼
     private String meteroElementGradeId;//天氣要素等級
     private String operationGrade;//天气要素等级操作符,天气要素等级操作符:>,>=,=,><,<=,<
-    
-    
-    public void setEventValidFrom(Date eventValidFrom){
-        this.eventValidFrom=eventValidFrom;
+
+    public void seAreaCode(String areaCode) {
+        this.areaCode = areaCode;
     }
-    public Date getEventValidFrom(){
+
+    public String getAreaCode() {
+        return this.areaCode;
+    }
+
+    public void setEventValidFrom(Date eventValidFrom) {
+        this.eventValidFrom = eventValidFrom;
+    }
+
+    public Date getEventValidFrom() {
         return this.eventValidFrom;
     }
-    
-    public void setEventValidEnd(Date eventValidEnd){
-        this.eventValidEnd=eventValidEnd;
+
+    public void setEventValidEnd(Date eventValidEnd) {
+        this.eventValidEnd = eventValidEnd;
     }
-    public Date getEventValidEnd(){
+
+    public Date getEventValidEnd() {
         return this.eventValidEnd;
     }
-    
-    public void setAssessmentYear(Integer assessmentYear){
-        this.assessmentYear=assessmentYear;
+
+    public void setAssessmentYear(Integer assessmentYear) {
+        this.assessmentYear = assessmentYear;
     }
-    public Integer getAssessmentYear(){
+
+    public Integer getAssessmentYear() {
         return this.assessmentYear;
     }
-    
-     public void setOperationRunningDay(String operationRunningDay){
-        this.operationRunningDay=operationRunningDay;
+
+    public void setOperationRunningDay(String operationRunningDay) {
+        this.operationRunningDay = operationRunningDay;
     }
-    public String getOperationRunningDay(){
+
+    public String getOperationRunningDay() {
         return this.operationRunningDay;
     }
-    
-      public void setRunningDay(Integer runningDay){
-        this.runningDay=runningDay;
+
+    public void setRunningDay(Integer runningDay) {
+        this.runningDay = runningDay;
     }
-    public Integer getRunningDay(){
+
+    public Integer getRunningDay() {
         return this.runningDay;
     }
-    
-     public void setMeteroElement(String meteroElement){
-        this.meteroElement=meteroElement;
+
+    public void setMeteroElement(String meteroElement) {
+        this.meteroElement = meteroElement;
     }
-    public String getMeteroElement(){
+
+    public String getMeteroElement() {
         return this.meteroElement;
     }
-    
-     public void setOperationUB(String operationUB){
-        this.operationUB=operationUB;
+
+    public void setOperationUB(String operationUB) {
+        this.operationUB = operationUB;
     }
-    public String getOperationUB(){
+
+    public String getOperationUB() {
         return this.operationUB;
     }
-    
-     public void setOperationLB(String operationLB){
-        this.operationLB=operationLB;
+
+    public void setOperationLB(String operationLB) {
+        this.operationLB = operationLB;
     }
-    public String getOperationLB(){
+
+    public String getOperationLB() {
         return this.operationLB;
     }
-    
-      public void setTrigerPointUB(String trigerPointUB){
-        this.trigerPointUB=trigerPointUB;
+
+    public void setTrigerPointUB(String trigerPointUB) {
+        this.trigerPointUB = trigerPointUB;
     }
-    public String getTigerPointUB(){
+
+    public String getTigerPointUB() {
         return this.trigerPointUB;
     }
-    
-     public void setTrigerPointLB(String trigerPointLB){
-        this.trigerPointLB=trigerPointLB;
+
+    public void setTrigerPointLB(String trigerPointLB) {
+        this.trigerPointLB = trigerPointLB;
     }
-    public String getTigerPointLB(){
+
+    public String getTigerPointLB() {
         return this.trigerPointLB;
     }
-    
-     public void setMeasureUnit(String measureUnit){
-        this.measureUnit=measureUnit;
+
+    public void setMeasureUnit(String measureUnit) {
+        this.measureUnit = measureUnit;
     }
-    public String getMeasureUnit(){
+
+    public String getMeasureUnit() {
         return this.measureUnit;
     }
-    
-      public void setStatisticMethod(String statisticMethod){
-        this.statisticMethod=statisticMethod;
+
+    public void setStatisticMethod(String statisticMethod) {
+        this.statisticMethod = statisticMethod;
     }
-    public String getStatisticMethod(){
+
+    public String getStatisticMethod() {
         return this.statisticMethod;
     }
-    
-     public void setElementMethod(String elementMethod){
-        this.elementMethod=elementMethod;
+
+    public void setElementMethod(String elementMethod) {
+        this.elementMethod = elementMethod;
     }
-    public String getElementMethod(){
+
+    public String getElementMethod() {
         return this.elementMethod;
     }
-    
-     public void setReturnVarible(String returnVarible){
-        this.returnVarible=returnVarible;
+
+    public void setReturnVarible(String returnVarible) {
+        this.returnVarible = returnVarible;
     }
-    public String getReturnVarible(){
+
+    public String getReturnVarible() {
         return this.returnVarible;
     }
-    
-    public void setPhenomenaID(String phenomenaID){
-        this.phenomenaID=phenomenaID;
+
+    public void setPhenomenaID(String phenomenaID) {
+        this.phenomenaID = phenomenaID;
     }
-    public String getPhenomenaID(){
+
+    public String getPhenomenaID() {
         return this.phenomenaID;
     }
-    
-      public void setMeteroElementGradeId(String meteroElementGradeId){
-        this.meteroElementGradeId=meteroElementGradeId;
+
+    public void setMeteroElementGradeId(String meteroElementGradeId) {
+        this.meteroElementGradeId = meteroElementGradeId;
     }
-    public String getMeteroElementGradeId(){
+
+    public String getMeteroElementGradeId() {
         return this.meteroElementGradeId;
     }
-    
-     public void setOperationGrade(String operationGrade){
-        this.operationGrade=operationGrade;
+
+    public void setOperationGrade(String operationGrade) {
+        this.operationGrade = operationGrade;
     }
-    public String getOperationGrade(){
+
+    public String getOperationGrade() {
         return this.operationGrade;
     }
 }
