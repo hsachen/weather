@@ -61,9 +61,9 @@ public class getData extends HttpServlet {
             queryVo.setTrigerPointUB(null);
             queryVo.setTrigerPointLB("50");
             queryVo.setMeasureUnit("mm");
-            queryVo.setStatisticMethod("1");
+            queryVo.setStatisticMethod("2");
             queryVo.setElementMethod("10");
-            queryVo.setReturnVarible("1");
+            queryVo.setReturnVarible("3");
             queryVo.setElementMethod(" ");
 
             List list = getData.findHistoryData(queryVo);

@@ -5,6 +5,7 @@
  */
 package tw.com.model.dao.data;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ import tw.com.model.base.HibernateUtil;
 public class FspWeatherAssess {
 
     public static Calendar calendar = Calendar.getInstance();
+    public String formatStr = "%02d"; //兩位數補0
 
     // private HibernateUtil HUtil;  
     public List<Map<String, Object>> findHistoryData(WeatherCalVo queryVo) {
@@ -58,7 +60,6 @@ public class FspWeatherAssess {
         calyear = 2;
         Map<String, Object> returnMap = new HashMap<String, Object>(); //計算後結果
 
-        String formatStr = "%02d"; //兩位數補0
         String yyyymm = "00000";
 
         if (yearFrom == yearEnd) {
@@ -110,17 +111,17 @@ public class FspWeatherAssess {
              */
 
             if (queryVo.getReturnVarible().equals("1")) {
-                returnMap = returnVariable_01(resMap, queryVo);
-            }else if (queryVo.getReturnVarible().equals("2")) {
-                returnMap = returnVariable_02(resMap, queryVo);
+                reslist = returnVariable_01(resMap, queryVo);
+            } else if (queryVo.getReturnVarible().equals("2")) {
+                reslist = returnVariable_02(resMap, queryVo);
             } else if (queryVo.getReturnVarible().equals("3")) {
-                returnMap = returnVariable_04(resMap, queryVo);
-            }else if (queryVo.getReturnVarible().equals("4")) {
-                returnMap = returnVariable_04(resMap, queryVo);
-            }else if (queryVo.getReturnVarible().equals("5")) {
-                returnMap = returnVariable_05(resMap, queryVo);
+                reslist = returnVariable_04(resMap, queryVo);
+            } else if (queryVo.getReturnVarible().equals("4")) {
+                reslist = returnVariable_04(resMap, queryVo);
+            } else if (queryVo.getReturnVarible().equals("5")) {
+                reslist = returnVariable_05(resMap, queryVo);
             }
-            reslist.add(returnMap);
+            // reslist.add(returnMap);
 
             return reslist;
         } catch (Exception e) {
@@ -136,12 +137,14 @@ public class FspWeatherAssess {
     /**
      * 输出格式：(1)环比日概率 RUNNING_DAYS =1
      */
-    public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    public List<Map<String, Object>> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
+        Map<String, Object> tmptMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
         Set<String> set = tempmap.keySet();
         Iterator<String> its = set.iterator();
+        String yy = null;
         String mm = null;
         String dd = null;
         Integer count = 0;
@@ -154,17 +157,28 @@ public class FspWeatherAssess {
 
             valuslist = cast(list);
             mm = key.substring(4, 6);
+
             for (Map<String, Object> data : valuslist) {
-                dd = data.get("Day").toString();
-                count = (Integer) countMap.get(mm + dd);
+                countMap = new HashMap<String, Object>();
+                dd = String.format(formatStr, Integer.parseInt(data.get("Day").toString()));
+
+                count = (Integer) tmptMap.get(key + dd);
                 if (count == null) {
-                    countMap.put(mm + dd, 1);
+                    countMap.put("AREA_CODE", queryVo.getAreaCode());
+                    countMap.put("DATE", key + dd);
+                    Double a = 1 / queryVo.getAssessmentYear().doubleValue();
+                    countMap.put("RESULTS", 1 / queryVo.getAssessmentYear().doubleValue());
+                    tmptMap.put(key + dd, 1);
                 } else {
-                    countMap.put(mm + dd, (count + 1) / queryVo.getAssessmentYear());
+                    countMap.put("AREA_CODE", queryVo.getAreaCode());
+                    countMap.put("DATE", key + dd);
+                    countMap.put("RESULTS", (count + 1) / queryVo.getAssessmentYear().doubleValue());
+                    tmptMap.put(key + dd, count + 1);
                 }
+                reslist.add(countMap);
             }
         }
-        return countMap;
+        return reslist;
 
     }
 
@@ -172,7 +186,7 @@ public class FspWeatherAssess {
      * 输出格式：(3)平均次數(獨立)(4)平均天数(連續)
      *
      */
-    public Map<String, Object> returnVariable_04(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    public List<Map<String, Object>> returnVariable_04(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
@@ -186,9 +200,9 @@ public class FspWeatherAssess {
         while (its.hasNext()) {
             // key
             String key = its.next();
-            // value    
+            // value     
             Object list = tempmap.get(key);
-            list = new ArrayList<String>();
+            //   list = new ArrayList<String>();
             valuslist = cast(list);
             //獨立 有達到RUNNING_DAYS
             if (queryVo.getStatisticMethod() != null && queryVo.getStatisticMethod().equals("1")) {
@@ -213,15 +227,19 @@ public class FspWeatherAssess {
             }
 
         }
-        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
-        return countMap;
+        countMap.put("AREA_CODE", queryVo.getAreaCode());
+        countMap.put("DATE", new SimpleDateFormat("yyyy/MM/dd").format(queryVo.getEventValidFrom()));
+        countMap.put("RESULTS", count / queryVo.getAssessmentYear());
+        reslist.add(countMap);
+        //     countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
+        return reslist;
 
     }
-    
+
     /**
      * 输出格式：(2)环比年概率 RUNNING_DAYS >= -->獨立, RUNNING_DAYS = -->連續
      */
-    public Map<String, Object> returnVariable_02(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    public List<Map<String, Object>> returnVariable_02(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
@@ -251,7 +269,7 @@ public class FspWeatherAssess {
                 //連續
             } else {
                 for (Map<String, Object> data : valuslist) {
-                    tempcount= 0;
+                    tempcount = 0;
                     i++;
                     //不累加
                     if (queryVo.getElementMethod() != null && queryVo.getElementMethod().equals(" ")) {
@@ -296,16 +314,20 @@ public class FspWeatherAssess {
             }
 
         }
-        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
-        return countMap;
+         countMap.put("AREA_CODE", queryVo.getAreaCode());
+        countMap.put("DATE", new SimpleDateFormat("yyyy/MM/dd").format(queryVo.getEventValidFrom()));
+        countMap.put("RESULTS", count / queryVo.getAssessmentYear());
+        reslist.add(countMap);
+        
+       /// countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
+        return reslist;
     }
-    
-    
-        /**
+
+    /**
      * 输出格式：(5)差值累计平均天数
      *
      */
-    public Map<String, Object> returnVariable_05(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+    public List<Map<String, Object>> returnVariable_05(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
         List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
@@ -346,13 +368,15 @@ public class FspWeatherAssess {
             }
 
         }
-        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
-        return countMap;
+        countMap.put("AREA_CODE", queryVo.getAreaCode());
+        countMap.put("DATE", new SimpleDateFormat("yyyy/MM/dd").format(queryVo.getEventValidFrom()));
+        countMap.put("RESULTS", count / queryVo.getAssessmentYear());
+        reslist.add(countMap);
+        
+       // countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
+        return reslist;
 
     }
-    
-    
-
 
     @SuppressWarnings("unchecked")
     public static <T extends List<?>> T cast(Object obj) {
