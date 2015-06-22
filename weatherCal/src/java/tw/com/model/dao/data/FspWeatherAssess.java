@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -97,20 +98,27 @@ public class FspWeatherAssess {
                 yyyymm = String.valueOf(yearFrom - i) + String.format(formatStr, monthFrom); //年月
                 tableName = "WeatherData.ViewHistory" + yyyymm;
                 StrBuffer.delete(0, StrBuffer.length());
-                StrBuffer.append("SELECT  Day," + viewColumn + " FROM  " + tableName
-                        + " where  SiteId = 50136 " + dayString + tempOperation);
+                StrBuffer.append("SELECT  Day," + viewColumn + " AS COL  FROM  " + tableName
+                        + " where  SiteId = 50136 " + dayString + tempOperation + " order by Day");
                 query = sessionHist.createSQLQuery(StrBuffer.toString());
                 query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
                 resMap.put(yyyymm, query.list());
             }
-            /***
+            /**
+             * *
              * resMap : [yyyymm : {Day,viewcolumn}]
              */
 
             if (queryVo.getReturnVarible().equals("1")) {
                 returnMap = returnVariable_01(resMap, queryVo);
-            } else if (queryVo.getReturnVarible().equals("4")) {
+            }else if (queryVo.getReturnVarible().equals("2")) {
+                returnMap = returnVariable_02(resMap, queryVo);
+            } else if (queryVo.getReturnVarible().equals("3")) {
                 returnMap = returnVariable_04(resMap, queryVo);
+            }else if (queryVo.getReturnVarible().equals("4")) {
+                returnMap = returnVariable_04(resMap, queryVo);
+            }else if (queryVo.getReturnVarible().equals("5")) {
+                returnMap = returnVariable_05(resMap, queryVo);
             }
             reslist.add(returnMap);
 
@@ -126,8 +134,7 @@ public class FspWeatherAssess {
     }
 
     /**
-     * 输出格式：(1)环比日概率
-     * RUNNING_DAYS =1
+     * 输出格式：(1)环比日概率 RUNNING_DAYS =1
      */
     public Map<String, Object> returnVariable_01(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
@@ -138,6 +145,7 @@ public class FspWeatherAssess {
         String mm = null;
         String dd = null;
         Integer count = 0;
+        int i = 0;
         while (its.hasNext()) {
             // key
             String key = its.next();
@@ -161,8 +169,8 @@ public class FspWeatherAssess {
     }
 
     /**
-     * 输出格式：(4)平均天数 
-     * RUNNING_DAYS =1
+     * 输出格式：(3)平均次數(獨立)(4)平均天数(連續)
+     *
      */
     public Map<String, Object> returnVariable_04(Map<String, Object> tempmap, WeatherCalVo queryVo) {
         Map<String, Object> countMap = new HashMap<String, Object>();
@@ -170,31 +178,181 @@ public class FspWeatherAssess {
         List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
         Set<String> set = tempmap.keySet();
         Iterator<String> its = set.iterator();
-        String mm = null;
-        String dd = null;
+        Integer dd = 0;
         Integer count = 0;
+        Integer tempcount = 0;
+        int i = 0;
+
         while (its.hasNext()) {
             // key
             String key = its.next();
-            // value
+            // value    
             Object list = tempmap.get(key);
             list = new ArrayList<String>();
             valuslist = cast(list);
-            mm = key.substring(5, 2);
-            for (Map<String, Object> data : valuslist) {
-                dd = data.get("Day").toString();
-                //如果累加
-                count = (Integer) countMap.get(mm + dd);
-                if (count == null) {
-                    countMap.put(key, 0);
-                } else {
-                    countMap.put(key, count + 1);
+            //獨立 有達到RUNNING_DAYS
+            if (queryVo.getStatisticMethod() != null && queryVo.getStatisticMethod().equals("1")) {
+                count = count + valuslist.size();
+            } else {
+                //連續
+                for (Map<String, Object> data : valuslist) {
+                    i++;
+                    tempcount = 0;
+                    if (dd == 0) {
+                        tempcount = tempcount + 1;
+                    }
+                    if (Integer.parseInt(data.get("Day").toString()) - dd == 1) {
+                        //連續天數差1累加
+                        tempcount = tempcount + 1;
+                    } else {
+                        count = count + tempcount;
+                        tempcount = 0;
+                    }
                 }
+
             }
+
         }
+        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
         return countMap;
 
     }
+    
+    /**
+     * 输出格式：(2)环比年概率 RUNNING_DAYS >= -->獨立, RUNNING_DAYS = -->連續
+     */
+    public Map<String, Object> returnVariable_02(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+        Map<String, Object> countMap = new HashMap<String, Object>();
+        List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
+        Set<String> set = tempmap.keySet();
+        Iterator<String> its = set.iterator();
+        Integer tempcount = 0;
+        Integer dd = 0;
+        Integer count = 0;
+        LinkedList listcount = new LinkedList();
+        Double sum = 0.00;
+        int i = 0;
+        while (its.hasNext()) {
+            i = 0;
+            sum = 0.00;
+            // key
+            String key = its.next();
+            // value    
+            Object list = tempmap.get(key);
+            list = new ArrayList<String>();
+            valuslist = cast(list);
+
+            //獨立 有達到RUNNING_DAYS
+            if (queryVo.getStatisticMethod() != null && queryVo.getStatisticMethod().equals("1")) {
+                if (valuslist.size() >= queryVo.getRunningDay()) {
+                    count = count + 1;
+                }
+                //連續
+            } else {
+                for (Map<String, Object> data : valuslist) {
+                    tempcount= 0;
+                    i++;
+                    //不累加
+                    if (queryVo.getElementMethod() != null && queryVo.getElementMethod().equals(" ")) {
+
+                        //第一筆
+                        if (dd == 0) {
+                            tempcount = tempcount + 1;
+                        } else {
+                            //
+                            if (Integer.parseInt(data.get("Day").toString()) - dd == 1 && dd != 0) {
+                                tempcount = tempcount + 1;
+                            } else {
+                                tempcount = 0;
+                            }
+                            //達到連續天數記為是並跳出迴圈
+                            if (tempcount >= queryVo.getRunningDay()) {
+                                count = count + 1;
+                                break;
+                            }
+                        }
+                        dd = Integer.parseInt(data.get("Day").toString());
+                    } else {
+                        //累加
+                        if (i >= queryVo.getRunningDay()) {
+                            sum = sum - Double.parseDouble(listcount.getFirst().toString());
+                            listcount.removeFirst();
+                            listcount.addLast(data.get("COL"));
+                            sum = sum + Double.parseDouble(data.get("COL").toString());
+                        } else {
+                            listcount.addLast(data.get("COL"));
+                            sum = sum + Double.parseDouble(data.get("COL").toString());
+                        }
+
+                        if (sum >= Double.parseDouble(queryVo.getTigerPointLB().toString())) {
+                            count = count + 1;
+                            break;
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
+        return countMap;
+    }
+    
+    
+        /**
+     * 输出格式：(5)差值累计平均天数
+     *
+     */
+    public Map<String, Object> returnVariable_05(Map<String, Object> tempmap, WeatherCalVo queryVo) {
+        Map<String, Object> countMap = new HashMap<String, Object>();
+        List<Map<String, Object>> valuslist = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> reslist = new ArrayList<Map<String, Object>>();
+        Set<String> set = tempmap.keySet();
+        Iterator<String> its = set.iterator();
+        Integer dd = 0;
+        Integer count = 0;
+        Integer tempcount = 0;
+        int i = 0;
+
+        while (its.hasNext()) {
+            // key
+            String key = its.next();
+            // value    
+            Object list = tempmap.get(key);
+            list = new ArrayList<String>();
+            valuslist = cast(list);
+            //獨立 有達到RUNNING_DAYS
+            if (queryVo.getStatisticMethod() != null && queryVo.getStatisticMethod().equals("1")) {
+                count = count + valuslist.size() - queryVo.getRunningDay().intValue();
+            } else {
+                //連續
+                for (Map<String, Object> data : valuslist) {
+                    i++;
+                    tempcount = 0;
+                    if (dd == 0) {
+                        tempcount = tempcount + 1;
+                    }
+                    if (Integer.parseInt(data.get("Day").toString()) - dd == 1) {
+                        //連續天數差1累加
+                        tempcount = tempcount + 1;
+                    } else {
+                        count = count + (tempcount - queryVo.getRunningDay().intValue());
+                        tempcount = 0;
+                    }
+                }
+
+            }
+
+        }
+        countMap.put(queryVo.getEventValidFrom().toString(), count / queryVo.getAssessmentYear());
+        return countMap;
+
+    }
+    
+    
+
 
     @SuppressWarnings("unchecked")
     public static <T extends List<?>> T cast(Object obj) {
