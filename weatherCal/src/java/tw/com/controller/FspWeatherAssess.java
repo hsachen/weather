@@ -13,22 +13,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import tw.com.mode.vo.WeatherCalVo;
-import tw.com.model.dao.data.FspWeatherAssess;
+import tw.com.model.dao.data.riskAssessment;
 
 /**
  *
  * @author Jean
  */
 @WebServlet(name = "getData", urlPatterns = {"/getData"})
-public class getData extends HttpServlet {
+public class FspWeatherAssess extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,27 +46,33 @@ public class getData extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        FspWeatherAssess getData = new FspWeatherAssess();
+        riskAssessment getData = new riskAssessment();
         WeatherCalVo queryVo = new WeatherCalVo();
+        JSONObject jObj = new JSONObject();
         String dateFrom = "2015/05/01";
-         String dateEnd = "2015/05/20";
+        String dateEnd = "2015/05/20";
+
         try {
-        //    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom);
+            JSONObject piProductH = jObj.getJSONObject(request.getParameter("piProductH"));
+            JSONObject piTimeSpace = jObj.getJSONObject(request.getParameter("piTimeSpace"));
+            JSONObject piProductI = jObj.getJSONObject(request.getParameter("piProductI"));
+
+            //    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom);
             queryVo.seAreaCode("110000");
-            queryVo.setEventValidFrom(new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom)); 
+            queryVo.setEventValidFrom(new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom));
             queryVo.setEventValidEnd(new SimpleDateFormat("yyyy/MM/dd").parse(dateEnd));
-            queryVo.setAssessmentYear(2);//計算年
+            queryVo.setAssessmentYear(Integer.parseInt(piProductH.getJSONObject("piProductH").getString("assessmentYears").toString()));//計算年
             queryVo.setOperationRunningDay("=");
             queryVo.setRunningDay(1);
             queryVo.setMeteroElement("10");
-            queryVo.setOperationUB(null); 
+            queryVo.setOperationUB(null);
             queryVo.setOperationLB(">=");
             queryVo.setTrigerPointUB(null);
             queryVo.setTrigerPointLB("50");
             queryVo.setMeasureUnit("mm");
-            queryVo.setStatisticMethod("2");
+            queryVo.setStatisticMethod("1");
             queryVo.setElementMethod("10");
-            queryVo.setReturnVarible("3");
+            queryVo.setReturnVarible("1");
             queryVo.setElementMethod(" ");
 
             List list = getData.findHistoryData(queryVo);
@@ -80,6 +89,9 @@ public class getData extends HttpServlet {
             out.println(json.toString());
         } catch (ParseException e) {
             out.print("日期格式錯誤");
+        } catch (JSONException ex) {
+            out.print("json格式錯誤");
+            Logger.getLogger(FspWeatherAssess.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
