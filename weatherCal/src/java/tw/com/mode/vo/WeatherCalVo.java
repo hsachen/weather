@@ -13,6 +13,11 @@ import java.util.Date;
  */
 public class WeatherCalVo {
 
+    private String eventId;
+    private String eventName;
+    private String productId;
+    private String productName;
+    private String path;
     private String areaCode; //行政區域代碼
     private Date eventValidFrom;  //天氣風險評估日期（起）
     private Date eventValidEnd;  //天氣風險評估日期（迄）
@@ -32,7 +37,39 @@ public class WeatherCalVo {
     private String meteroElementGradeId;//天氣要素等級
     private String operationGrade;//天气要素等级操作符,天气要素等级操作符:>,>=,=,><,<=,<
 
-    public void seAreaCode(String areaCode) {
+     public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventId() {
+        return this.eventId;
+    }
+    
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getEventName() {
+        return this.eventName;
+    }
+    
+     public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductId() {
+        return this.productId;
+    }
+    
+     public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductName() {
+        return this.productName;
+    }
+    
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 

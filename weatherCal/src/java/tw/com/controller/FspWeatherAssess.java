@@ -53,15 +53,31 @@ public class FspWeatherAssess extends HttpServlet {
         String dateEnd = "2015/05/20";
 
         try {
-            JSONObject piProductH = jObj.getJSONObject(request.getParameter("piProductH"));
-            JSONObject piTimeSpace = jObj.getJSONObject(request.getParameter("piTimeSpace"));
-            JSONObject piProductI = jObj.getJSONObject(request.getParameter("piProductI"));
+           // String para_piProductH = request.getParameter("piProductH");
+            String para_piProductH = "{\"piProductH\":{\"assessmentYears\":\"2\","
+                    + "\"elementethod\":\"\",\"eventDescription\":\"新测试雨01\""
+                    + ",\"eventId\":\"2000245002\",\"eventSDescription\":\"新测试雨01\""
+                    + ",\"eventValidEnd\":\"2015-06-30 12:16:00\",\"eventValidFrom\":\"2015-06-01 12:16:00\""
+                    + ",\"operationRunningDays\":\"=\",\"pkiCode\":\"\",\"productId\":\"r_001\""
+                    + ",\"productName\":\"降雨01\",\"returnVariable\":\"4\","
+                    + "\"runningDays\":\"1\",\"statisticMethod\":\"1\"}}"; 
+          //  String para_piProductH = "{\"assessmentYears\":\"20\"}";
+           // String para_piTimeSpace = request.getParameter("piTimeSpace");
+           // String para_piProductI = request.getParameter("piProductI");
+            JSONObject piProductH = new JSONObject(para_piProductH);
+           // JSONObject piTimeSpace = jObj.getJSONObject(para_piTimeSpace);
+           // JSONObject piProductI = jObj.getJSONObject(para_piProductI);
+            queryVo.setEventId(piProductH.getJSONObject("piProductH").getString("eventId"));
+            queryVo.setEventName(piProductH.getJSONObject("piProductH").getString("eventDescription"));
+            queryVo.setProductId(piProductH.getJSONObject("piProductH").getString("productId"));
+            queryVo.setProductName(piProductH.getJSONObject("piProductH").getString("productName"));
 
             //    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom);
-            queryVo.seAreaCode("110000");
+            queryVo.setAreaCode("110000");
             queryVo.setEventValidFrom(new SimpleDateFormat("yyyy/MM/dd").parse(dateFrom));
             queryVo.setEventValidEnd(new SimpleDateFormat("yyyy/MM/dd").parse(dateEnd));
-            queryVo.setAssessmentYear(Integer.parseInt(piProductH.getJSONObject("piProductH").getString("assessmentYears").toString()));//計算年
+            queryVo.setAssessmentYear(Integer.parseInt(piProductH.getJSONObject("piProductH").getString("assessmentYears")));//計算年
+          //  queryVo.setAssessmentYear(20);//計算年
             queryVo.setOperationRunningDay("=");
             queryVo.setRunningDay(1);
             queryVo.setMeteroElement("10");
@@ -75,8 +91,9 @@ public class FspWeatherAssess extends HttpServlet {
             queryVo.setReturnVarible("1");
             queryVo.setElementMethod(" ");
 
+          //  List list = new ArrayList();
+          //  list.add(getData.findHistoryData(queryVo));
             List list = getData.findHistoryData(queryVo);
-
             Map map = null;
             JSONObject jsonObject = null;
             List jsonList = new ArrayList();
@@ -91,6 +108,7 @@ public class FspWeatherAssess extends HttpServlet {
             out.print("日期格式錯誤");
         } catch (JSONException ex) {
             out.print("json格式錯誤");
+            System.out.print(ex.toString());
             Logger.getLogger(FspWeatherAssess.class.getName()).log(Level.SEVERE, null, ex);
         }
 
