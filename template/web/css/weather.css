@@ -1,0 +1,7 @@
+.icon-wt-cloud {
+	width: 65px;
+	height: 35px;
+	background: url('../img/icons/weather.png') no-repeat -85px  -15px;
+	background-size: 447px 293px;
+	display: inline-block !important;
+}
