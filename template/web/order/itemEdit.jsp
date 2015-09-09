@@ -10,7 +10,7 @@
         <div class="panel-heading"><span style="font-size:36px;">项目管理</span><span style="font-size:24px;">&nbsp; 项目修改</span></div>
         <div class="panel-content ">
             <div class="panel-body">           
-                <form class="form-horizontal " method="post">
+                <form id="editForm" class="form-horizontal " method="post">
                       <input type="hidden" class="form-control" id="postType" name="postType" value="edit" >
                     <div class="form-group">
                         <label class="col-sm-1 control-label">项目编号</label>
@@ -384,7 +384,19 @@
         });
 
         $("#add").click(function () {
-            alert("儲存成功")
+            $.ajax({
+                url: "itemSave",
+                data: $('#editForm').serialize(),
+                type: "POST",
+                success: function (msg) {
+                    alert(msg);
+                      $("#main-content").load("order/itemManager.jsp");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
         });
     });
 

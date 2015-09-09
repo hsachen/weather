@@ -7,10 +7,10 @@ package view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +20,9 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Jean
+ * @author Z00907
  */
-@WebServlet(name = "itemQuery", urlPatterns = {"/itemQuery"})
-public class itemQuery extends HttpServlet {
+public class siteListQuery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,40 +34,28 @@ public class itemQuery extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException {
+
+        response.setContentType("text/html;charset=UTF-8");
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        String projectCode = request.getParameter("projectCode"); //项目编号
-        String validFrom = request.getParameter("validFrom"); //项目开始时间(起)
-        String validFrom1 = request.getParameter("validFrom1"); //项目开始时间(迄)
-        String customerId = request.getParameter("customerId"); //客户编号(迄)
-        String validEnd = request.getParameter("validEnd"); //项目结束时间(迄)
-        String validEnd1 = request.getParameter("validEnd1"); //项目结束时间(迄)
-        String projectStatus = request.getParameter("projectStatus"); //项目状态(迄)
-        String projectName = request.getParameter("projectName"); //项目名称关键字
 
         try (PrintWriter out = response.getWriter()) {
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
+            obj.put("siteName", "美的");
+            obj.put("siteDesc", "高温险329个城市");
+            obj.put("siteList", "哈尔滨,齐齐哈尔,牡丹江,佳木斯,大庆,长春,延吉,吉林,大连,沈阳,抚顺,锦州,石家庄,承德,保定,唐山,秦皇岛,北京,天津,太原,大同,呼和浩特,鄂尔多斯,包头,济南,青岛,临沂,潍坊,淄博,烟台,南昌,九江,景德镇,赣州,黄山,合肥,芜湖,马鞍山");
+
             arry.put(obj);
             obj = new JSONObject();
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
-                arry.put(obj);
+            obj.put("siteName", "5A景区");
+            obj.put("siteDesc", "北京4个AAAAA景区");
+            obj.put("siteList", "故宫博物院,天坛公园,颐和园,八达岭长城");
+
+            arry.put(obj);
             out.print(arry);
-            
+
         } catch (JSONException ex) {
             String a = ex.toString();
             System.out.print(ex);
@@ -88,8 +75,11 @@ public class itemQuery extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(siteListQuery.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -103,7 +93,11 @@ public class itemQuery extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(siteListQuery.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

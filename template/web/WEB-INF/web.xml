@@ -4,17 +4,81 @@
         <servlet-name>itemSave</servlet-name>
         <servlet-class>view.itemSave</servlet-class>
     </servlet>
-      <servlet>
+    <servlet>
         <servlet-name>itemQuery</servlet-name>
         <servlet-class>view.itemQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productSave</servlet-name>
+        <servlet-class>view.productSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productQuery</servlet-name>
+        <servlet-class>view.productQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>activityQuery</servlet-name>
+        <servlet-class>view.activityQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroElementQuery</servlet-name>
+        <servlet-class>view.meteroElementQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroGradeQuery</servlet-name>
+        <servlet-class>view.meteroGradeQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>siteQuery</servlet-name>
+        <servlet-class>view.siteQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>siteListQuery</servlet-name>
+        <servlet-class>view.siteListQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>siteAttrQuery</servlet-name>
+        <servlet-class>view.siteAttrQuery</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>itemQuery</servlet-name>
         <url-pattern>/itemQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productSave</servlet-name>
+        <url-pattern>/productSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productQuery</servlet-name>
+        <url-pattern>/productQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>activityQuery</servlet-name>
+        <url-pattern>/activityQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroElementQuery</servlet-name>
+        <url-pattern>/meteroElementQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroGradeQuery</servlet-name>
+        <url-pattern>/meteroGradeQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>siteQuery</servlet-name>
+        <url-pattern>/siteQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>siteListQuery</servlet-name>
+        <url-pattern>/siteListQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>siteAttrQuery</servlet-name>
+        <url-pattern>/siteAttrQuery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

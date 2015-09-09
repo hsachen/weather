@@ -1,13 +1,23 @@
 <%-- 
-    Document   : itemManager
+    Document   : productManager
     Created on : 2015/8/20, 上午 10:39:10
     Author     : Jean
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<section class="wrapper">     
+<section class="wrapper">
+  
     <div class="panel panel-info">
-        <div class="panel-heading"><span style="font-size:36px;">项目管理</span><span style="font-size:24px;">&nbsp; 项目报表</span></div>
+          <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                <li><i class="icon_documents_alt"></i>产品管理</li>
+            </ol>
+        </div>
+    </div>
+        <div class="panel-heading"></div>
+        <!--        <div class="panel-heading"><span style="font-size:36px;">产品管理</span><span style="font-size:24px;">&nbsp;产品报表</span></div>-->
         <div class="panel-content ">
             <div class="panel-body">           
                 <form id="queryForm" class="form-horizontal " method="get">
@@ -16,13 +26,9 @@
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="projectCode" name="projectCode">
                         </div>
-                        <label class="col-sm-2 control-label">项目开始时间</label>
+                        <label class="col-sm-2 control-label">产品编号</label>
                         <div class="col-sm-2">
-                            <input id="validFrom" name="validFrom" type="text" value="" size="16" class="form-control">
-                        </div>
-                        <label class="col">至</label>
-                        <div class="col-sm-2">
-                            <input id="validFrom1" name="validFrom1" type="text" value="" size="16" class="form-control">
+                            <input type="text" class="form-control" id="productID" name="productID">
                         </div>
                     </div>
                     <div class="form-group">
@@ -30,36 +36,37 @@
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="customerId" name="customerId">
                         </div>
-                        <label class="col-sm-2 control-label">项目结束时间</label>
+                        <label class="col-sm-2 control-label">产品建立时间</label>
                         <div class="col-sm-2">
-                            <input id="validEnd" name="validEnd" type="text" value="" size="16" class="form-control">
+                            <input id="productDate" name="productDate" type="text" value="" size="16" class="form-control">
                         </div>
                         <label class="col">至</label>
                         <div class="col-sm-2">
-                            <input id="validEnd1" name="validEnd1" type="text" value="" size="16" class="form-control">
+                            <input id="productDate1" name="productDate1" type="text" value="" size="16" class="form-control">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">项目状态</label>
+                        <label class="col-sm-2 control-label">产品状态</label>
                         <div class="col-sm-2">
-                            <select class="form-control m-bot15" id="projectStatus" name="projectStatus">
-                                <option value="0">结项</option>
-                                <option value="I">IT项目对接确认</option>
-                                <option value="P">保险项目经理确认</option>
-                                <option value="D">保险项目总监确认</option>
-                                <option value="V">保险项目副总确认</option>
-                                <option value="1">启用</option>
-                                <option value="2">暂停</option>
-                                <option value="3">结算</option>
+                            <select class="form-control m-bot15" id="productStatus" name="productStatus">
+                                <option value="0">关闭</option>
+                                <option value="1">可用</option>
+                                <option value="2">待系统建议观测站</option>
+                                <option value="3">系统建议观测站(错误)</option>
+                                <option value="4">待专员确认气象阀值站</option>
+                                <option value="5">待计算概率</option>
+                                <option value="6">待客户接收确认</option>
+                                <option value="7">暂时关闭</option>
+                                <option value="9">结帐中  </option>
                             </select>
                         </div>
-                        <label class="col-sm-2 control-label">项目名称关键字</label>
+                        <label class="col-sm-2 control-label">产品名称关键字</label>
                         <div class="col-sm-2">
-                            <input id="projectName" name="projectName" type="text"   class="form-control">
+                            <input id="cstPoductDec" name="cstPoductDec" type="text"   class="form-control">
                         </div>
 
                     </div>
+
 
                     <div class="form-group">
                         <label class="col-sm-5 control-label"></label>
@@ -68,7 +75,7 @@
                     </div>
                 </form>
                 <div class="form-group">
-                    <button class="btn btn-default clink" href="#" id="new" folder="order/itemNew.jsp">新建</button>
+                    <button class="btn btn-default clink" href="#" id="new" folder="order/productNew.jsp">新建</button>
                     <button class="btn btn-default"  id="del">刪除</button>
                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
                 </div>
@@ -81,19 +88,13 @@
 </section>
 <script>
     $(document).ready(function () {
-        $('#validFrom').datepicker({
+        $('#productDate').datepicker({
             dateFormat: 'yy/mm/dd'
         });
-        $('#validFrom1').datepicker({
+        $('#productDate').datepicker({
             dateFormat: 'yy/mm/dd'
         });
 
-        $('#validEnd').datepicker({
-            dateFormat: 'yy/mm/dd'
-        });
-        $('#validEnd1').datepicker({
-            dateFormat: 'yy/mm/dd'
-        });
 
         $(".clink").click(function () {
             $("#main-content").load($(this).attr("folder"));
@@ -122,15 +123,15 @@
 
         $("#query").click(function () {
             $.ajax({
-                url: "itemQuery",
+                url: "productQuery",
                 data: $('#queryForm').serialize(),
                 type: "POST",
                 dataType: "json",
                 success: function (JData) {
                     $("#table_div").empty();
-                    $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目编号</th><th>客户编号</th><th>项目有效日（起）</th><th>项目有效日（讫）</th><th>项目状态</th><th>修改时间</th><th>修改人</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                    $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目编号</th><th>客户编号</th><th>产品编号</th><th>客户产品描述</th><th>产品建立时间</th><th>产品状态状态</th><th>修改时间</th><th>修改人</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                     $.each(JData, function (index, element) {
-                        $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.projectCode + "</td><td>" + element.customerId + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.projectStatus + "</td><td>" + element.logTime + "</td><td>" + element.logUser + "</td><td><select class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option><option value=\"V\">查看</option><option value=\"C\">審核</option></select></td></tr>");
+                        $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.projectCode + "</td><td>" + element.customerId + "</td><td>" + element.productId + "</td><td>" + element.CstpoductDec + "</td><td>" + element.productDate + "</td><td>" + element.productStatus + "</td><td>" + element.changeTime + "</td><td>" + element.changeBy + "</td><td><select class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"V\">查看产品信息</option><option value=\"R\">订单报表</option></select></td></tr>");
                     });
                     $('#detailTable').DataTable({
                         columnDefs: [

@@ -1,0 +1,47 @@
+{  
+    "nodes": [{
+           
+            "span": {
+                "html": "<input type='checkbox' '> 全選"
+            },
+          
+            "children": [
+                {
+                    "span": {
+                        "html": "<input type='checkbox'> 北京"
+                    },
+                    "children": [
+                        {
+                            "span": {
+                                "html": "<input type='checkbox' name='checkboxSite' value='01'> 朝阳(110105)"
+                            }
+                        },
+                        {
+                            "span": {
+                                "html": "<input type='checkbox' name='checkboxSite' value='02'> 海淀(110108)"
+                            }
+                        }
+
+                    ]
+                },
+                {
+                    "span": {
+                        "html": "<input type='checkbox'> 上海"
+                    },
+                    "children": [
+                        {
+                            "span": {
+                                "html": "<input type='checkbox'  name='checkboxSite'> Ajax leaf 21"
+                            }
+                        },
+                        {
+                            "span": {
+                                "html": "<input type='checkbox'  name='checkboxSite'> Ajax leaf 22"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

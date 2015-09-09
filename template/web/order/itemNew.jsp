@@ -396,6 +396,7 @@
                 type: "POST",
                 success: function (msg) {
                     alert(msg);
+                      $("#main-content").load("order/itemManager.jsp");
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);

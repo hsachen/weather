@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String path = request.getParameter("path");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -41,7 +44,9 @@
         <link href="css/xcharts.min.css" rel=" stylesheet">	
         <link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
         <link href="lib/DataTables1.10.8/media/css/jquery.dataTables.min.css" rel="stylesheet">
-             <link href="css/jquery-ui-timepicker-addon.css" rel="stylesheet">
+        <link href="css/jquery-ui-timepicker-addon.css" rel="stylesheet">
+        <link href="css/dropdowns-enhancement.css" rel="stylesheet">
+        <link href="css/jquery-tree.css" rel="stylesheet">
 
         <style>
             @media (min-width: 768px){
@@ -62,7 +67,6 @@
           <script src="js/lte-ie7.js"></script>
         <![endif]-->
     </head>
-
     <body>
         <!-- container section start -->
         <section id="container" class="">
@@ -142,8 +146,8 @@
                             </a>
                             <ul class="sub">                          
                                 <li><a class="clink" href="#" folder="order/itemManager.jsp">项目管理</a></li>
-                                <li><a class="" href="#">产品管理</a></li>
-                                <li><a class="" href="#">系统监控</a></li>
+                                <li><a class="clink" href="#" folder="order/productManager.jsp" >产品管理</a></li>
+                                <li><a class="clink" href="#">系统监控</a></li>
                             </ul>
                         </li>
 
@@ -218,7 +222,10 @@
         <script src="js/charts.js"></script>
         <script src="js/jquery.slimscroll.min.js"></script>
         <script src="lib/DataTables1.10.8/media/js/jquery.dataTables.min.js"></script>
-             <script src="js/jquery-ui-timepicker-addon.js"></script>
+        <script src="js/jquery-ui-timepicker-addon.js"></script>
+        <script src="js/dropdowns-enhancement.js"></script>
+        <script src="js/jquery-tree.js"></script>
+
         <script>
 
             //knob
@@ -239,12 +246,19 @@
                     singleItem: true
 
                 });
-                $(".clink").click(function () {
+             
+
+                var path = "<%=path%>";
+                if (path != "null") {
+                    $("#main-content").load(path);
+                }
+                  $(".clink").click(function () {
+                    $("#main-content").empty();
                     $("#main-content").load($(this).attr("folder"));
                 });
 
             });
-
+ 
             //custom select box
 
             $(function () {

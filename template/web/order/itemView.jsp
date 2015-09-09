@@ -381,9 +381,6 @@
             timeFormat: 'HH:mm:ss'
         });
 
-        $("#add").click(function () {
-            alert("儲存成功")
-        });
     });
 
 </script>

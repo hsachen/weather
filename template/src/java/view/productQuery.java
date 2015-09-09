@@ -7,10 +7,7 @@ package view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +17,9 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Jean
+ * @author Z00907
  */
-@WebServlet(name = "itemQuery", urlPatterns = {"/itemQuery"})
-public class itemQuery extends HttpServlet {
+public class productQuery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,39 +32,44 @@ public class itemQuery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+            
+               response.setContentType("text/html;charset=UTF-8");
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         String projectCode = request.getParameter("projectCode"); //项目编号
-        String validFrom = request.getParameter("validFrom"); //项目开始时间(起)
-        String validFrom1 = request.getParameter("validFrom1"); //项目开始时间(迄)
-        String customerId = request.getParameter("customerId"); //客户编号(迄)
-        String validEnd = request.getParameter("validEnd"); //项目结束时间(迄)
-        String validEnd1 = request.getParameter("validEnd1"); //项目结束时间(迄)
-        String projectStatus = request.getParameter("projectStatus"); //项目状态(迄)
-        String projectName = request.getParameter("projectName"); //项目名称关键字
+        String customerId = request.getParameter("customerId"); //客户编号
+        String productId = request.getParameter("productId"); //产品编号
+        String CstpoductDec = request.getParameter("CstpoductDec"); //客户产品描述
+        String productDate = request.getParameter("productDate"); //产品建立时间
+        String productStatus = request.getParameter("productStatus"); //产品状态状态
+        String changeTime = request.getParameter("changeTime"); //修改时间
+        String changeBy = request.getParameter("changeBy"); //修改人
 
         try (PrintWriter out = response.getWriter()) {
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
+            obj.put("projectCode", "ZA20140001");
+            obj.put("customerId", "I000000001");
+            obj.put("productId", "110000420");
+            obj.put("CstpoductDec", "众安在线财产保险股份有限公司完美婚礼险");
+            obj.put("productDate", "9999/12/31 23:59");
+            obj.put("productStatus", "启用");
+            obj.put("changeTime", "2014/11/16 21:51");
+            obj.put("changeBy", "Alfred Luo");
             arry.put(obj);
             obj = new JSONObject();
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
-                arry.put(obj);
+            obj.put("projectCode", "ZA20140002");
+            obj.put("customerId", "I000000001");
+            obj.put("productId", "110000420");
+            obj.put("CstpoductDec", "众安在线财产保险股份有限公司完美婚礼险");
+            obj.put("productDate", "9999/12/31 23:59");
+            obj.put("productStatus", "结算");
+            obj.put("changeTime", "2014/11/16 21:51");
+            obj.put("changeBy", "Alfred Luo");
+            arry.put(obj);
             out.print(arry);
-            
+
         } catch (JSONException ex) {
             String a = ex.toString();
             System.out.print(ex);
@@ -89,7 +90,6 @@ public class itemQuery extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

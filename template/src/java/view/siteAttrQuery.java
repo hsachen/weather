@@ -7,23 +7,18 @@ package view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *
- * @author Jean
+ * @author Z00907
  */
-@WebServlet(name = "itemQuery", urlPatterns = {"/itemQuery"})
-public class itemQuery extends HttpServlet {
+public class siteAttrQuery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,43 +31,34 @@ public class itemQuery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+               response.setContentType("text/html;charset=UTF-8");
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        String projectCode = request.getParameter("projectCode"); //项目编号
-        String validFrom = request.getParameter("validFrom"); //项目开始时间(起)
-        String validFrom1 = request.getParameter("validFrom1"); //项目开始时间(迄)
-        String customerId = request.getParameter("customerId"); //客户编号(迄)
-        String validEnd = request.getParameter("validEnd"); //项目结束时间(迄)
-        String validEnd1 = request.getParameter("validEnd1"); //项目结束时间(迄)
-        String projectStatus = request.getParameter("projectStatus"); //项目状态(迄)
-        String projectName = request.getParameter("projectName"); //项目名称关键字
-
         try (PrintWriter out = response.getWriter()) {
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
-            arry.put(obj);
-            obj = new JSONObject();
-            obj.put("projectCode", "项目编号");
-            obj.put("validFrom", "项目开始时间");
-            obj.put("validEnd", "项目結束时间");
-            obj.put("customerId", "客户编号");
-            obj.put("projectStatus", "项目状态");
-            obj.put("logTime", "修改时间");
-            obj.put("logUser", "修改人");
-                arry.put(obj);
-            out.print(arry);
-            
-        } catch (JSONException ex) {
-            String a = ex.toString();
-            System.out.print(ex);
-            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("{  \n"
+                    + "    \"nodes\": [{\n"
+                    + "           \n"
+                    + "            \"span\": {\n"
+                    + "                \"html\": \"<input type='checkbox' '> 全選\"\n"
+                    + "            },\n"
+                    + "          \n"
+                    + "            \"children\": [\n"
+                    + "                {\n"
+                    + "                    \"span\": {\n"
+                    + "                        \"html\": \"<input type='checkbox' value='01' name='checkboxSite2'> 上海\"\n"
+                    + "                    }\n"
+                    + "                },\n"
+                                        + "                {\n"
+                    + "                    \"span\": {\n"
+                    + "                        \"html\": \"<input type='checkbox' value='02' name='checkboxSite2'> 北京\"\n"
+                    + "                    }\n"
+                    + "                }\n"
+                    + "            ]\n"
+                    + "        }\n"
+                    + "    ]\n"
+                    + "}");
         }
     }
 
@@ -89,7 +75,6 @@ public class itemQuery extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
