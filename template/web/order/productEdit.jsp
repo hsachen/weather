@@ -1,5 +1,5 @@
 <%-- 
-    Document   : productNew
+    Document   : productEdit
     Created on : 2015/8/31, 上午 11:31:15
     Author     : Jean
 --%>

@@ -5,6 +5,43 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+        <meta name="author" content="GeeksLabs">
+        <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+        <link rel="shortcut icon" href="img/favicon.png">
+
+        <title></title>
+
+        <%@include file="../template/style.jsp" %>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+        <!--[if lt IE 9]>
+          <script src="js/html5shiv.js"></script>
+          <script src="js/respond.min.js"></script>
+          <script src="js/lte-ie7.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!-- container section start -->
+        <section id="container" class="">
+
+            <header class="header dark-bg">
+                <%@include file="../template/header.jsp" %>
+            </header>      
+            <!--header end-->
+
+            <aside>
+                <%@include file="../template/sidebar.jsp" %>
+            </aside>
+            <!--sidebar end-->
+            <!--main content start-->
+            <section id="main-content">
+                
 <section class="wrapper">
    
  
@@ -13,7 +50,7 @@
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
-                    <li><i class="icon_documents_alt"></i><a href="index.jsp?path=order/productManager.jsp">产品管理</a></li>
+                    <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
                 <li><i class="icon_documents_alt"></i>调取活动代码</li>
             </ol>
         </div>
@@ -69,6 +106,16 @@
         </div>
     </div>
 </section>
+            </section>
+            <!--main content end-->
+        </section>
+        <!-- container section start -->
+
+    </body>
+    <%@include file="../template/script.jsp" %>
+    
+
+
 <script>
     $(document).ready(function () {
         $('#submitDate').datepicker({
@@ -80,7 +127,7 @@
 
         $("#query").click(function () {
             $.ajax({
-                url: "activityQuery",
+                url: "../activityQuery",
                 data: $('#queryForm').serialize(),
                 type: "POST",
                 dataType: "json",
@@ -114,3 +161,4 @@
         });
     });
 </script>
+</html>

@@ -1,18 +1,54 @@
 <%-- 
-    Document   : input
+    Document   : paramSiteSet
     Created on : 2015/8/13, 下午 04:32:03
     Author     : Jean
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+        <meta name="author" content="GeeksLabs">
+        <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+        <link rel="shortcut icon" href="img/favicon.png">
 
+        <title></title>
+
+        <%@include file="../template/style.jsp" %>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+        <!--[if lt IE 9]>
+          <script src="js/html5shiv.js"></script>
+          <script src="js/respond.min.js"></script>
+          <script src="js/lte-ie7.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!-- container section start -->
+        <section id="container" class="">
+
+            <header class="header dark-bg">
+                <%@include file="../template/header.jsp" %>
+            </header>      
+            <!--header end-->
+
+            <aside>
+                <%@include file="../template/sidebar.jsp" %>
+            </aside>
+            <!--sidebar end-->
+            <!--main content start-->
+            <section id="main-content">
+                
 <section class="wrapper">     
     <div class="panel panel-info">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
-                <li><i class="icon_documents_alt"></i><a href="index.jsp?path=order/productManager.jsp">产品管理</a></li>
-                <li><i class="icon_documents_alt"></i><a href="index.jsp?path=order/productNew.jsp">产品新建</a></li>
+                <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
+                <li><i class="icon_documents_alt"></i><a href="productNew.jsp">产品新建</a></li>
                 <li><i class="fa fa-home"></i>阈值站点设置</li>
             </ol>
         </div>
@@ -76,7 +112,7 @@
                             <input type="text" class="form-control"  placeholder="输入活动代码或活动名称" id="eventInput" name="eventInput" value="">  
                         </div>
                         <div class="col-sm-2">
-                            <a href="index.jsp?path=order/activityMain.jsp" id="listActivity" target="_blank">查看列表...</a>
+                            <a href="activityMain.jsp" target="_blank">查看列表...</a>
                         </div>
                     </div>
                     <div class="form-group">
@@ -201,6 +237,14 @@
         </div>
     </div>
 </section>
+            </section>
+            <!--main content end-->
+        </section>
+        <!-- container section start -->
+
+    </body>
+    <%@include file="../template/script.jsp" %>
+
 <script>
     var count = 1;
     var conditionString = "";
@@ -223,7 +267,7 @@
      */
     var meteroE = "";
     $.ajax({
-        url: "meteroElementQuery",
+        url: "../meteroElementQuery",
         //   data: $('#areaForm').serialize(),
         type: "GET",
         success: function (JData) {
@@ -245,7 +289,7 @@
      */
     var meteroG = "";
     $.ajax({
-        url: "meteroGradeQuery",
+        url: "../meteroGradeQuery",
         //   data: $('#areaForm').serialize(),
         type: "GET",
         success: function (JData) {
@@ -286,11 +330,11 @@
         //手动输入
         $("#saveName").click(function () {
             $.ajax({
-                url: "siteSetSave",
+                url: "../siteSetSave",
                 data: $('#areaForm').serialize(),
                 type: "POST",
                 success: function (msg) {
-                    alert();
+                    alert(msg);
                     //       $("#main-content").load("order/itemManager.jsp");
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -304,11 +348,11 @@
         //站點保存
         $("#modelSave").click(function () {
             $.ajax({
-                url: "siteSetSave",
-                data: $('#form1').serialize(),
+                url: "../siteSetSave",
+                data: $('#batchForm').serialize(),
                 type: "POST",
                 success: function (msg) {
-                    //     alert(msg);
+                   //    alert(msg);
                     $('#saveModalContent').empty();
                     $('#saveModalContent').append(msg);
                     $('#saveModal').modal('show');
@@ -322,8 +366,8 @@
         });
         $("#modelSave2").click(function () {
             $.ajax({
-                url: "siteSetSave",
-                data: $('#form2').serialize(),
+                url: "../siteSetSave",
+                data: $('#batchForm').serialize(),
                 type: "POST",
                 success: function (msg) {
                     //     alert(msg);
@@ -341,11 +385,11 @@
 
         $("#submitBtn").click(function () {
             $.ajax({
-                url: "siteSetSave",
+                url: "../siteSetSave",
                 data: $('#submitForm').serialize(),
                 type: "POST",
                 success: function (msg) {
-                    //     alert(msg);
+                      alert(msg);
                 //    $('#saveModalContent').empty();
                //     $('#saveModalContent').append(msg);
                 //    $('#saveModal').modal('show');
@@ -369,16 +413,16 @@
 
     $('#treeCheckbox').tree({
         lazyLoading: true,
-        nodesLazyUrl: 'siteQuery',
-        nodesInitUrl: 'siteQuery',
+        nodesLazyUrl: '../siteQuery',
+        nodesInitUrl: '../siteQuery',
         collapseUiIcon: 'ui-icon-plus',
         expandUiIcon: 'ui-icon-minus',
     });
 
     $('#treeCheckbox2').tree({
         lazyLoading: true,
-        nodesLazyUrl: 'siteAttrQuery',
-        nodesInitUrl: 'siteAttrQuery',
+        nodesLazyUrl: '../siteAttrQuery',
+        nodesInitUrl: '../siteAttrQuery',
         collapseUiIcon: 'ui-icon-plus',
         expandUiIcon: 'ui-icon-minus',
     });
@@ -422,3 +466,5 @@
 
 
 </script>
+
+</html>
