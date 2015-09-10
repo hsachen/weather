@@ -30,7 +30,7 @@ public class productSave extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,7 +63,7 @@ public class productSave extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-        
+
         String postType = request.getParameter("postType"); //增刪改查
         String projectCode = request.getParameter("projectCode"); //项目编号
         String cstEstProductId = request.getParameter("cstEstProductId"); //试算产品代码
@@ -121,7 +121,7 @@ public class productSave extends HttpServlet {
         String judgeFtpPassword = request.getParameter("judgeFtpPassword"); //FTP密码
         String judgeFtpPort = request.getParameter("judgeFtpPort"); //FTP端口
         String aa = "";
-        
+
         if (postType != null && postType.equals("add")) {
             /*新增*/
             out.print("新增成功");
@@ -136,11 +136,14 @@ public class productSave extends HttpServlet {
             String checkbox[] = request.getParameter("checkbox").split(","); //FTP端口
             ;
             for (String s : checkbox) {
-                aa += s+",";
+                aa += s + ",";
             }
             out.print("刪除成功:" + aa);
+        } else if (postType != null && postType.equals("upload")) {
+            /*上傳*/
+            out.print("上傳成功");
         }
-        
+
     }
 
     /**

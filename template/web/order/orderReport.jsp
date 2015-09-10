@@ -1,8 +1,9 @@
 <%-- 
-    Document   : productManager
-    Created on : 2015/8/20, 上午 10:39:10
+    Document   : orderReport
+    Created on : 2015/9/10, 下午 04:21:46
     Author     : Jean
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,13 +44,13 @@
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper">
-
                     <div class="panel panel-info">
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>产品管理</li>
+                                    <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
+                                    <li><i class="icon_documents_alt"></i>订单报表</li>
                                 </ol>
                             </div>
                         </div>
@@ -59,49 +60,42 @@
                             <div class="panel-body">           
                                 <form id="queryForm" class="form-horizontal " method="get">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">项目编号</label>
+                                        <label class="col-sm-2 control-label">订单代码</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="projectCode" name="projectCode">
+                                            <input type="text" class="form-control" id="orderId" name="orderId">
                                         </div>
-                                        <label class="col-sm-2 control-label">产品编号</label>
+                                        <label class="col-sm-2 control-label">订单关键字</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="productID" name="productID">
+                                            <input type="text" class="form-control" id="orderDesc" name="orderDesc">
+                                        </div>
+                                         <label class="col-sm-2 control-label">订单状态</label>
+                                        <div class="col-sm-2">
+                                           <select class="form-control m-bot15" id="orderStatus" name="orderStatus">
+                                                <option value="0">关闭</option>
+                                                <option value="1">有效</option>
+                                                <option value="2">无效</option>
+                                                <option value="3">判赔已发布</option>
+                                                <option value="4">判赔已发布</option>
+                                                <option value="5">判赔失败(其他因素)</option>
+                                                <option value="6">判赔成功</option>
+                                                <option value="7">判赔回退</option>
+                                                <option value="8">待结账</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">客户编号</label>
+                                         <label class="col-sm-2 control-label">保单号</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="customerId" name="customerId">
+                                            <input type="text" class="form-control" id="salesDoc" name="salesDoc">
                                         </div>
-                                        <label class="col-sm-2 control-label">产品建立时间</label>
+                                        <label class="col-sm-2 control-label">订单开始时间</label>
                                         <div class="col-sm-2">
-                                            <input id="productDate" name="productDate" type="text" value="" size="16" class="form-control">
+                                            <input id="orderDate" name="orderDate" type="text" value="" size="16" class="form-control">
                                         </div>
                                         <label class="col">至</label>
                                         <div class="col-sm-2">
-                                            <input id="productDate1" name="productDate1" type="text" value="" size="16" class="form-control">
+                                            <input id="orderDate1" name="orderDate1" type="text" value="" size="16" class="form-control">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">产品状态</label>
-                                        <div class="col-sm-2">
-                                            <select class="form-control m-bot15" id="productStatus" name="productStatus">
-                                                <option value="0">关闭</option>
-                                                <option value="1">可用</option>
-                                                <option value="2">待系统建议观测站</option>
-                                                <option value="3">系统建议观测站(错误)</option>
-                                                <option value="4">待专员确认气象阀值站</option>
-                                                <option value="5">待计算概率</option>
-                                                <option value="6">待客户接收确认</option>
-                                                <option value="7">暂时关闭</option>
-                                                <option value="9">结帐中  </option>
-                                            </select>
-                                        </div>
-                                        <label class="col-sm-2 control-label">产品名称关键字</label>
-                                        <div class="col-sm-2">
-                                            <input id="cstPoductDec" name="cstPoductDec" type="text"   class="form-control">
-                                        </div>
-
                                     </div>
 
 
@@ -112,11 +106,11 @@
                                     </div>
                                 </form>
                                 <div class="form-group">
-                                    <a class="btn btn-default" href="productNew.jsp">新建</a>
                                     <button class="btn btn-default"  id="del">刪除</button>
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
                                 </div>
                                 <div id="table_div">
+
                                 </div>
                             </div>
                         </div>
@@ -132,12 +126,15 @@
     <%@include file="../template/script.jsp" %>
     <script>
         $(document).ready(function () {
-            $('#productDate').datepicker({
+            $('#orderDate').datepicker({
                 dateFormat: 'yy/mm/dd'
             });
-            $('#productDate').datepicker({
+            $('#orderDate1').datepicker({
                 dateFormat: 'yy/mm/dd'
             });
+
+
+     
 
             $("#del").click(function () {
 
@@ -162,15 +159,15 @@
 
             $("#query").click(function () {
                 $.ajax({
-                    url: "../productQuery",
+                    url: "../orderQuery",
                     data: $('#queryForm').serialize(),
                     type: "POST",
                     dataType: "json",
                     success: function (JData) {
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目编号</th><th>客户编号</th><th>产品编号</th><th>客户产品描述</th><th>产品建立时间</th><th>产品状态状态</th><th>修改时间</th><th>修改人</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫）</th><th>保单状态</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.projectCode + "</td><td>" + element.customerId + "</td><td>" + element.productId + "</td><td>" + element.CstpoductDec + "</td><td>" + element.productDate + "</td><td>" + element.productStatus + "</td><td>" + element.changeTime + "</td><td>" + element.changeBy + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation\"> <option value=\"\">--</option><option value=\"V\">查看产品信息</option><option value=\"R\">订单报表</option></select></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.orderId + "</td><td>" + element.salesDoc + "</td><td>" + element.orderDesc + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderStatus + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation\"> <option value=\"\">--</option><option value=\"V\">查看</option><option value=\"D\">删除</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -179,10 +176,10 @@
                             //     bFilter: false
                         });
                         $("select[name='operation']").change(function () {
-                            if ($(this).val() === "R") {
-                                window.location.href ="orderReport.jsp?key="+$(this).attr("inx");
-                            }  else if ($(this).val() === "V") {
-                                window.location.href ="productEdit.jsp?key="+$(this).attr("inx");
+                            if ($(this).val() === "D") {
+                                $("#main-content").load("order/itemEdit.jsp");
+                            } else if ($(this).val() === "V") {
+                                window.location.href = "orderView.jsp?key=" + $(this).attr("inx");
                             }
                         });
 
