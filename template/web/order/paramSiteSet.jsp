@@ -46,7 +46,7 @@
     <div class="panel panel-info">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                 <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
                 <li><i class="icon_documents_alt"></i><a href="productNew.jsp">产品新建</a></li>
                 <li><i class="fa fa-home"></i>阈值站点设置</li>
@@ -168,7 +168,7 @@
                             <div class="modal-body" id="saveModalContent">
                             </div>
                             <div class="modal-footer">
-                                <a href="index.jsp?path=order/siteList.jsp" class="btn btn-default" target="_blank">查看</a>
+                                <a href="siteList.jsp" class="btn btn-default" target="_blank">查看</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
                                 <button type="button" class="btn btn-default" id="siteReturn" data-dismiss="modal">返回</button>
                             </div>

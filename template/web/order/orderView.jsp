@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
-                                    <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                                    <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="orderReport.jsp">订单报表</a></li>
                                     <li><i class="icon_documents_alt"></i>订单查看</li>
@@ -59,7 +59,7 @@
                         <!--        <div class="panel-heading"><span style="font-size:36px;">产品管理</span><span style="font-size:24px;">&nbsp;产品报表</span></div>-->
                         <div class="panel-content ">
                             <div class="panel-body">           
-                                <form id="queryForm" class="form-horizontal " method="get">
+                                <form  class="form-horizontal " method="get">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">订单号</label>
                                         <div class="col-sm-2">
@@ -201,3 +201,54 @@
     <%@include file="../template/script.jsp" %>
 
 </html>
+<script>
+    //$("#query").click(function () {
+    $.ajax({
+        url: "../orderQuery",
+        //  data: $('#queryForm').serialize(),
+        type: "POST",
+        dataType: "json",
+        success: function (JData) {
+            $("#table_div").empty();
+            $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫）</th><th>保单状态</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+            $.each(JData, function (index, element) {
+                $("#orderId").val(element.orderId);
+                $("#salesDoc").val(element.salesDoc);
+                $("#orderDesc").val(element.orderDesc);
+                $("#orderDate").val(element.orderDate);
+                $("#validFrom").val(element.validFrom);
+                $("#validEnd").val(element.validEnd);
+                $("#orderStatus").val(element.orderStatus);
+                $("#customerId").val(element.customerId);
+                $("#productID").val(element.productID);
+                $("#lastName").val(element.lastName);
+                $("#firtName").val(element.firtName);
+                $("#premium").val(element.premium);
+                $("#currency").val(element.currency);
+                $("#mobile").val(element.mobile);
+                $("#gender").val(element.gender);
+                $("#happenTime").val(element.happenTime);
+                $("#returnTime").val(element.returnTime);
+                $("#resultQuantity").val(element.resultQuantity);
+                $("#resultNum").val(element.resultNum);
+                $("#siteCode").val(element.siteCode);
+                $("#measurementUnit").val(element.measurementUnit);
+                $("#resultJudgeNum").val(element.resultJudgeNum);
+                $("#resultJudgeDesc").val(element.resultJudgeDesc);
+                $("#sysOrderDate").val(element.sysOrderDate);
+                $("#orderUpdateDate").val(element.orderUpdateDate);
+                $("#createBy").val(element.createBy);
+                $("#changeBy").val(element.changeBy);
+
+
+            });
+
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+    //  });           
+</script>

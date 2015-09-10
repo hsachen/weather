@@ -40,7 +40,7 @@
                                 <span class="menu-arrow arrow_carrot-right"></span>
                             </a>
                             <ul class="sub">                          
-                                <li><a class="clink" href="#" folder="order/itemManager.jsp">项目管理</a></li>
+                                <li><a class="clink" href="${pageContext.request.contextPath}/order/itemManager.jsp" >项目管理</a></li>
                                 <li><a  href="${pageContext.request.contextPath}/order/productManager.jsp" >产品管理</a></li>
                                 <li><a class="clink" href="#">系统监控</a></li>
                             </ul>

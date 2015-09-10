@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
-                                    <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                                    <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
                                     <li><i class="icon_documents_alt"></i>订单报表</li>
                                 </ol>
@@ -68,9 +68,9 @@
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="orderDesc" name="orderDesc">
                                         </div>
-                                         <label class="col-sm-2 control-label">订单状态</label>
+                                        <label class="col-sm-2 control-label">订单状态</label>
                                         <div class="col-sm-2">
-                                           <select class="form-control m-bot15" id="orderStatus" name="orderStatus">
+                                            <select class="form-control m-bot15" id="orderStatus" name="orderStatus">
                                                 <option value="0">关闭</option>
                                                 <option value="1">有效</option>
                                                 <option value="2">无效</option>
@@ -84,7 +84,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                         <label class="col-sm-2 control-label">保单号</label>
+                                        <label class="col-sm-2 control-label">保单号</label>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="salesDoc" name="salesDoc">
                                         </div>
@@ -134,17 +134,16 @@
             });
 
 
-     
+
 
             $("#del").click(function () {
-
                 var chkBoxArray = [];
                 $('input[name="checkbox"]:checked').each(function () {
                     chkBoxArray.push($(this).val());
                 });
                 var data = 'checkbox="' + chkBoxArray + '"&postType=del';
                 $.ajax({
-                    url: "itemSave",
+                    url: "../orderSave",
                     data: data,
                     type: "POST",
                     success: function (msg) {
@@ -177,7 +176,19 @@
                         });
                         $("select[name='operation']").change(function () {
                             if ($(this).val() === "D") {
-                                $("#main-content").load("order/itemEdit.jsp");
+                                  var data = 'checkbox="' + $(this).attr("inx") + '"&postType=del';
+                                $.ajax({
+                                    url: "../orderSave",
+                                       data: data,
+                                    type: "POST",
+                                    success: function (msg) {
+                                        alert(msg)
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                });
                             } else if ($(this).val() === "V") {
                                 window.location.href = "orderView.jsp?key=" + $(this).attr("inx");
                             }
