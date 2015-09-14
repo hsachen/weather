@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
-                                    <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                                    <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i>产品管理</li>
                                 </ol>
                             </div>
@@ -147,7 +147,7 @@
                 });
                 var data = 'checkbox="' + chkBoxArray + '"&postType=del';
                 $.ajax({
-                    url: "itemSave",
+                    url: "../itemSave",
                     data: data,
                     type: "POST",
                     success: function (msg) {

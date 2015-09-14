@@ -50,9 +50,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
-                                    <li><i class="fa fa-home"></i><a href="index.jsp">Home</a></li>
+                                    <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="productManager.jsp">产品管理</a></li>
-                                    <li><i class="icon_documents_alt"></i>产品新建</li>
+                                    <li><i class="icon_documents_alt"></i>产品修改/查看</li>
                                 </ol>
                             </div>
                         </div>

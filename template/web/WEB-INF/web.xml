@@ -44,6 +44,10 @@
         <servlet-name>orderQuery</servlet-name>
         <servlet-class>view.orderQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>orderSave</servlet-name>
+        <servlet-class>view.orderSave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>orderQuery</servlet-name>
         <url-pattern>/orderQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderSave</servlet-name>
+        <url-pattern>/orderSave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
