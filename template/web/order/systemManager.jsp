@@ -1,5 +1,5 @@
 <%-- 
-    Document   : productManager
+    Document   : systemItemManager
     Created on : 2015/8/20, 上午 10:39:10
     Author     : Jean
 --%>
@@ -49,7 +49,7 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>产品管理</li>
+                                    <li><i class="icon_documents_alt"></i>系统监控</li>
                                 </ol>
                             </div>
                         </div>
@@ -59,52 +59,48 @@
                             <div class="panel-body">           
                                 <form id="queryForm" class="form-horizontal " method="get">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">项目编号</label>
+                                        <label class="col-sm-1 control-label">项目编号</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="projectCode" name="projectCode">
+                                            <input type="text" class="form-control" id="itemCode" name="itemCode">
                                         </div>
-                                        <label class="col-sm-2 control-label">产品编号</label>
+                                        <label class="col-sm-1 control-label">保单建立日期</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="productID" name="productID">
+                                            <input type="text" class="form-control" id="orderDate" name="orderDate">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">客户编号</label>
+                                        <label class="col-sm-1 control-label">产品描述关键字</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="customerId" name="customerId">
-                                        </div>
-                                        <label class="col-sm-2 control-label">产品建立时间</label>
-                                        <div class="col-sm-2">
-                                            <input id="productDate" name="productDate" type="text" value="" size="16" class="form-control">
-                                        </div>
-                                        <label class="col">至</label>
-                                        <div class="col-sm-2">
-                                            <input id="productDate1" name="productDate1" type="text" value="" size="16" class="form-control">
+                                            <input type="text" class="form-control" id="productDesc" name="productDesc">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">产品状态</label>
+                                        <label class="col-sm-1 control-label">客户代码</label>
                                         <div class="col-sm-2">
-                                            <select class="form-control m-bot15" id="productStatus" name="productStatus">
-                                                <option value="0">关闭</option>
-                                                <option value="1">可用</option>
-                                                <option value="2">待系统建议观测站</option>
-                                                <option value="3">系统建议观测站(错误)</option>
-                                                <option value="4">待专员确认气象阀值站</option>
-                                                <option value="5">待计算概率</option>
-                                                <option value="6">待客户接收确认</option>
-                                                <option value="7">暂时关闭</option>
-                                                <option value="9">结帐中  </option>
+                                            <input type="text" class="form-control" id="customerCode" name="customerCode">
+                                        </div>
+                                        <label class="col-sm-1 control-label">承保开始时间</label>
+                                        <div class="col-sm-2">
+                                            <input id="validFrom" name="validFrom" type="text" value="" size="16" class="form-control">
+                                        </div>
+                                        <label  class="col-sm-1" >承保终止时间</label>
+                                        <div class="col-sm-2">
+                                            <input id="validEnd" name="validEnd" type="text" value="" size="16" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">产品代码</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="productCode" name="productCode">
+                                        </div>
+                                        <label class="col-sm-1 control-label">保单状态</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-bot15" id="orderStatus" name="orderStatus">
+                                                <option value="0">所有保单</option>
+                                                <option value="1">新增保单</option>
+                                                <option value="2">活动期间保单</option>
+                                                <option value="3">已判赔保单(错误)</option>
                                             </select>
                                         </div>
-                                        <label class="col-sm-2 control-label">产品名称关键字</label>
-                                        <div class="col-sm-2">
-                                            <input id="cstPoductDec" name="cstPoductDec" type="text"   class="form-control">
-                                        </div>
-
                                     </div>
-
-
                                     <div class="form-group">
                                         <label class="col-sm-5 control-label"></label>
                                         <a class="btn btn-default"  title="查询" id="query">查询</a>
@@ -112,8 +108,6 @@
                                     </div>
                                 </form>
                                 <div class="form-group">
-                                    <a class="btn btn-default" href="productNew.jsp">新建</a>
-                                    <button class="btn btn-default"  id="del">刪除</button>
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
                                 </div>
                                 <div id="table_div">
@@ -131,6 +125,8 @@
     </body>
     <%@include file="../template/script.jsp" %>
     <script>
+        var color;
+        var color1;
         $(document).ready(function () {
             $('#productDate').datepicker({
                 dateFormat: 'yy/mm/dd'
@@ -162,15 +158,27 @@
 
             $("#query").click(function () {
                 $.ajax({
-                    url: "../productQuery",
+                    url: "../systemItemQuery",
                     data: $('#queryForm').serialize(),
                     type: "GET",
                     dataType: "json",
                     success: function (JData) {
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目编号</th><th>客户编号</th><th>产品编号</th><th>客户产品描述</th><th>产品建立时间</th><th>产品状态状态</th><th>修改时间</th><th>修改人</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.projectCode + "</td><td>" + element.customerId + "</td><td>" + element.productId + "</td><td>" + element.CstpoductDec + "</td><td>" + element.productDate + "</td><td>" + element.productStatus + "</td><td>" + element.changeTime + "</td><td>" + element.changeBy + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation\"> <option value=\"\">--</option><option value=\"V\">查看产品信息</option><option value=\"R\">订单报表</option></select></td></tr>");
+                            if (element.operationStatusCode == '0') {
+                                color = "#B5FFB5";
+                            } else {
+                                color = "#FFB5B5";
+                            }
+                            if (element.payStatusCode == '0') {
+                                color1 = "#B5FFB5";
+                            } else if (element.payStatusCode == '1'){
+                                color1 = "#FFB5B5";
+                            } else {
+                                color1 = "white";
+                            }
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"\">" + element.payStatus + "</a></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -180,9 +188,9 @@
                         });
                         $("select[name='operation']").change(function () {
                             if ($(this).val() === "R") {
-                                window.location.href ="orderReport.jsp?key="+$(this).attr("inx");
-                            }  else if ($(this).val() === "V") {
-                                window.location.href ="productEdit.jsp?key="+$(this).attr("inx");
+                                window.location.href = "orderReport.jsp?key=" + $(this).attr("inx");
+                            } else if ($(this).val() === "V") {
+                                window.location.href = "productEdit.jsp?key=" + $(this).attr("inx");
                             }
                         });
 

@@ -48,6 +48,22 @@
         <servlet-name>orderSave</servlet-name>
         <servlet-class>view.orderSave</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>riskInputSave</servlet-name>
+        <servlet-class>view.riskInputSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>systemSyncQuery</servlet-name>
+        <servlet-class>view.systemSyncQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>systemItemQuery</servlet-name>
+        <servlet-class>view.systemQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>systemReSync</servlet-name>
+        <servlet-class>view.systemReSync</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -95,6 +111,22 @@
     <servlet-mapping>
         <servlet-name>orderSave</servlet-name>
         <url-pattern>/orderSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>riskInputSave</servlet-name>
+        <url-pattern>/riskInputSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemSyncQuery</servlet-name>
+        <url-pattern>/systemSyncQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemItemQuery</servlet-name>
+        <url-pattern>/systemItemQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemReSync</servlet-name>
+        <url-pattern>/systemReSync</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
