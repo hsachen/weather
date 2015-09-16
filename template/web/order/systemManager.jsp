@@ -178,7 +178,7 @@
                             } else {
                                 color1 = "white";
                             }
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"\">" + element.payStatus + "</a></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"systemPay.jsp?key=" + index + "\">" + element.payStatus + "</a></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [

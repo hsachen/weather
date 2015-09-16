@@ -47,7 +47,7 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>系统监控</li>
+                                    <li><i class="icon_documents_alt"></i><a href="systemManager.jsp">系统监控</a></li>
                                     <li><i class="icon_documents_alt"></i>同步监控</li>
 
                                 </ol>
