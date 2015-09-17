@@ -68,6 +68,10 @@
         <servlet-name>systemPayQuery</servlet-name>
         <servlet-class>view.systemPayQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>systemPaySave</servlet-name>
+        <servlet-class>view.systemPaySave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>systemPayQuery</servlet-name>
         <url-pattern>/systemPayQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemPaySave</servlet-name>
+        <url-pattern>/systemPaySave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Z00907
  */
-public class systemReSync extends HttpServlet {
+public class systemPaySave extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,7 +30,7 @@ public class systemReSync extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,15 +59,11 @@ public class systemReSync extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-               response.setCharacterEncoding("UTF-8");
+          processRequest(request, response);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-        String sync= request.getParameter("sync");
-           String type= request.getParameter("type");
-           
-           out.print(sync+"同步成功");
-           
-      
+          out.print("儲存成功");
     }
 
     /**

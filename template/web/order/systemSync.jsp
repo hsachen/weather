@@ -53,6 +53,9 @@
                                 </ol>
                             </div>
                         </div>
+                        <div class="panel-content ">
+                            <a class="btn btn-default"  title="重设同步时间" href="systemSyncTime.jsp">重设同步时间</a>
+                        </div>
 
                         <div class="panel-content ">
                             <div class="panel-heading">产品同步监控</div>
@@ -104,7 +107,7 @@
                         } else {
                             color = "#FFB5B5";
                         }
-                        $("#detailTable > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation\"> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
+                        $("#detailTable > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation\" onChange=\"reSync('" + index + "','P');\">> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
                     });
                     $('#detailTable').DataTable({
                         columnDefs: [
@@ -139,7 +142,7 @@
                         } else {
                             color = "#FFB5B5";
                         }
-                        $("#detailTable1 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation1\"> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
+                        $("#detailTable1 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation1\" onChange=\"reSync('" + index + "','O');\">> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
                     });
                     $('#detailTable1').DataTable({
                         columnDefs: [
@@ -174,7 +177,7 @@
                         } else {
                             color = "#FFB5B5";
                         }
-                        $("#detailTable2 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation2\"> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
+                        $("#detailTable2 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation2\" onChange=\"reSync('" + index + "','P');\"> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
                     });
                     $('#detailTable2').DataTable({
                         columnDefs: [
@@ -182,10 +185,7 @@
                         ],
                         //     bFilter: false
                     });
-                    $("select[name='operation2']").change(function () {
-                        if ($(this).val() === "R") {
-                        }
-                    });
+
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -194,4 +194,22 @@
                 }
             });
         });
+
+
+        function reSync(sync, type) {
+            $.ajax({
+                url: "../systemReSync",
+                data: {sync: sync, type: type},
+                type: "POST",
+                success: function (msg) {
+                    alert(msg);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+
+
     </script>

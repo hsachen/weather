@@ -116,9 +116,19 @@
             });
 
             $('#submitBtn').click(function () {
-                var data =  $('#detailTable').DataTable().$('select').serialize();
-               alert(data);
-               return false;
+                $.ajax({
+                    url: "../systemPaySave",
+                    data: $('#form1').serialize(),
+                    type: "POST",
+                    success: function (msg) {
+                       alert(msg)
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
             });
         });
     </script>
