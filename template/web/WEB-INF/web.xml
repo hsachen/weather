@@ -57,7 +57,7 @@
         <servlet-class>view.systemSyncQuery</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>systemItemQuery</servlet-name>
+        <servlet-name>systemQuery</servlet-name>
         <servlet-class>view.systemQuery</servlet-class>
     </servlet>
     <servlet>
@@ -71,6 +71,14 @@
     <servlet>
         <servlet-name>systemPaySave</servlet-name>
         <servlet-class>view.systemPaySave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>systemSyncTimeSave</servlet-name>
+        <servlet-class>view.systemSyncTimeSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>predictJudgeQuery</servlet-name>
+        <servlet-class>view.predictJudgeQuery</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
@@ -129,8 +137,8 @@
         <url-pattern>/systemSyncQuery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>systemItemQuery</servlet-name>
-        <url-pattern>/systemItemQuery</url-pattern>
+        <servlet-name>systemQuery</servlet-name>
+        <url-pattern>/systemQuery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>systemReSync</servlet-name>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>systemPaySave</servlet-name>
         <url-pattern>/systemPaySave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemSyncTimeSave</servlet-name>
+        <url-pattern>/systemSyncTimeSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>predictJudgeQuery</servlet-name>
+        <url-pattern>/predictJudgeQuery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

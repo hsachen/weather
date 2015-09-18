@@ -152,7 +152,7 @@
                                         </div>
                                         <label class="col-sm-2 control-label">每日同步时间</label>
                                         <div class="col-sm-2">
-                                            <input type="text" id="judgeSyncDayTime" name="judgeSyncDayTime" class="form-control" placeholder="HH:MM:SS" >
+                                            <input type="text" id="judgeSyncDayTime" name="judgeSyncDayTime" class="form-control m-bot15" placeholder="HH:MM:SS" >
                                         </div>
                                     </div>
                                     <div class="form-group-">  
@@ -180,7 +180,7 @@
                                         </div>
                                         <label class="col-sm-2 control-label">指定同步时间</label>
                                         <div class="col-sm-2">
-                                            <input type="text" id="judgeSyncTime" name="judgeSyncTime" class="form-control" placeholder="YYYY/MM/DD HH:MM:SS">
+                                            <input type="text" id="judgeSyncTime" name="judgeSyncTime" class="form-control m-bot15" placeholder="YYYY/MM/DD HH:MM:SS">
                                         </div>
                                     </div>
                                     <div class="form-group">  
@@ -200,12 +200,17 @@
                                                 <option value="A">判赔时间内所有保单</option>
                                             </select>
                                         </div>
-
                                     </div>
-                                </div>
+                                </div>    
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label"></label>
+                                <a class="btn btn-default" href="#" title="保存" id="add">保存</a>
+                                <a class="btn btn-default" href="#" title="重置" id="reset">重置</a>
                             </div>
-                        </form>
+                        </form>      
                     </div>
+
                 </section>
 
             </section>
@@ -217,7 +222,31 @@
     <%@include file="../template/script.jsp" %>
     <script>
 
+        $("#judgeSyncTime").datetimepicker({
+            dateFormat: 'yy/mm/dd',
+            showSecond: true,
+            timeFormat: 'HH:mm:ss'
+        });
 
+        $("#judgeSyncDayTime").timepicker({
+            showSecond: true,
+            timeFormat: 'HH:mm:ss'
+        });
+
+        $("#add").click(function () {
+            $.ajax({
+                url: "../systemSyncTimeSave",
+                data: $('#formSet').serialize(),
+                type: "POST",
+                success: function (msg) {
+                    alert(msg);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
     </script>
 
 </html>

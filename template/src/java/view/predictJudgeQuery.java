@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *
  * @author Z00907
  */
-public class productQuery extends HttpServlet {
+public class predictJudgeQuery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,40 +32,37 @@ public class productQuery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-               response.setContentType("text/html;charset=UTF-8");
-        JSONObject obj = new JSONObject();
+          JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        String projectCode = request.getParameter("projectCode"); //项目编号
-        String customerId = request.getParameter("customerId"); //客户编号
-        String productId = request.getParameter("productId"); //产品编号
-        String CstpoductDec = request.getParameter("CstpoductDec"); //客户产品描述
-        String productDate = request.getParameter("productDate"); //产品建立时间
-        String productStatus = request.getParameter("productStatus"); //产品状态状态
-        String changeTime = request.getParameter("changeTime"); //修改时间
-        String changeBy = request.getParameter("changeBy"); //修改人
+        String itemCode = request.getParameter("itemCode"); //项目号代码
+           String orderDate = request.getParameter("orderDate"); //保单建立日期
+              String productDesc = request.getParameter("productDesc"); //产品描述关键字
+        String customerCode = request.getParameter("customerCode"); //客户代码
+        String validFrom = request.getParameter("validFrom"); //承保开始时间
+        String validEnd = request.getParameter("validEnd"); //承保终止时间
+        String productCode = request.getParameter("productCode"); //产品代码
+        String orderStatus = request.getParameter("orderStatus"); //保单状态
+          String selDate = request.getParameter("selDate"); //选择日期
 
         try (PrintWriter out = response.getWriter()) {
-            obj.put("projectCode", "ZA20140001");
-            obj.put("customerId", "I000000001");
-            obj.put("productId", "110000420");
-            obj.put("CstpoductDec", "众安在线财产保险股份有限公司完美婚礼险");
-            obj.put("productDate", "9999/12/31 23:59");
-            obj.put("productStatus", "启用");
-            obj.put("changeTime", "2014/11/16 21:51");
-            obj.put("changeBy", "Alfred Luo");
+            obj.put("orderId", "ZA20140001");
+            obj.put("saleDoc", "I000000001");
+            obj.put("productName", "2015/3/31 0:00");
+            obj.put("orderDate", "2015/7/31 23:59");
+            obj.put("validFrom", "启用");
+            obj.put("validEnd", "125687");
+            obj.put("orderStatus", "414856");
             arry.put(obj);
             obj = new JSONObject();
-            obj.put("projectCode", "ZA20140002");
-            obj.put("customerId", "I000000001");
-            obj.put("productId", "110000420");
-            obj.put("CstpoductDec", "众安在线财产保险股份有限公司完美婚礼险");
-            obj.put("productDate", "9999/12/31 23:59");
-            obj.put("productStatus", "结算");
-            obj.put("changeTime", "2014/11/16 21:51");
-            obj.put("changeBy", "Alfred Luo");
+            obj.put("orderId", "ZA20140001");
+            obj.put("saleDoc", "I000000001");
+            obj.put("productName", "2015/3/31 0:00");
+            obj.put("orderDate", "2015/7/31 23:59");
+            obj.put("validFrom", "启用");
+            obj.put("validEnd", "125687");
+            obj.put("orderStatus", "414856");
             arry.put(obj);
             out.print(arry);
 

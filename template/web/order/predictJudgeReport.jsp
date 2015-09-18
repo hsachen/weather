@@ -1,6 +1,6 @@
 <%-- 
-    Document   : systemItemManager
-    Created on : 2015/8/20, 上午 10:39:10
+    Document   : predictJudgeReport
+    Created on : 2015/9/18, 上午 10:39:10
     Author     : Jean
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -49,7 +49,8 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>系统监控</li>
+                                   <li><i class="icon_documents_alt"></i><a href="systemManager.jsp">系统监控</a></li>
+                                    <li><i class="icon_documents_alt"></i>预测判赔报表</li>
                                 </ol>
                             </div>
                         </div>
@@ -100,6 +101,14 @@
                                                 <option value="3">已判赔保单(错误)</option>
                                             </select>
                                         </div>
+                                        <label class="col-sm-1 control-label">选择日期</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-bot15" id="selDate" name="selDate">
+                                                <option value="0">明天（YYYYMMDD）</option>
+                                                <option value="1">后天（YYYYMMDD）</option>
+                                                <option value="2">大后天（YYYYMMDD）</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-5 control-label"></label>
@@ -109,18 +118,6 @@
                                 </form>
                                 <br>
                                 <div class="form-group">
-                                     <div>
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td class="success">所有保单数量</td>
-                                            <td>944850</td>
-                                             <td class="success">所有活动期保单数量</td>
-                                            <td>330578</td>
-                                             <td class="success">近三日预测判赔保单数</td>
-                                            <td>330578 <a class="btn btn-default" href="predictJudgeReport.jsp" >查看</a></td>
-                                        </tr>
-                                    </table>
-                                </div>
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
                                 </div>
                                 <div id="table_div">
@@ -171,13 +168,13 @@
 
             $("#query").click(function () {
                 $.ajax({
-                    url: "../systemQuery",
+                    url: "../predictJudgeQuery",
                     data: $('#queryForm').serialize(),
                     type: "GET",
                     dataType: "json",
                     success: function (JData) {
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫）</th><th>保单状态</th><th>操作</th><</tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
                             if (element.operationStatusCode == '0') {
                                 color = "#B5FFB5";
@@ -191,7 +188,7 @@
                             } else {
                                 color1 = "white";
                             }
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"systemPay.jsp?key=" + index + "\">" + element.payStatus + "</a></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.orderId + "</td><td>" + element.saleDoc + "</td><td>" + element.productName + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderStatus + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option><option value=\"V\">查看</option><option value=\"C\">審核</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
