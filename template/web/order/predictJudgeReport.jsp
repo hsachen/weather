@@ -49,7 +49,7 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                   <li><i class="icon_documents_alt"></i><a href="systemManager.jsp">系统监控</a></li>
+                                    <li><i class="icon_documents_alt"></i><a href="systemManager.jsp">系统监控</a></li>
                                     <li><i class="icon_documents_alt"></i>预测判赔报表</li>
                                 </ol>
                             </div>
@@ -119,6 +119,7 @@
                                 <br>
                                 <div class="form-group">
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
+                                    <button class="btn btn-default"  id="del">刪除</button>
                                 </div>
                                 <div id="table_div">
                                 </div>
@@ -146,24 +147,25 @@
             });
 
             $("#del").click(function () {
-
-                var chkBoxArray = [];
-                $('input[name="checkbox"]:checked').each(function () {
-                    chkBoxArray.push($(this).val());
-                });
-                var data = 'checkbox="' + chkBoxArray + '"&postType=del';
-                $.ajax({
-                    url: "../itemSave",
-                    data: data,
-                    type: "POST",
-                    success: function (msg) {
-                        alert(msg)
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
+                if (confirm("確定是否刪除？")) {
+                    var chkBoxArray = [];
+                    $('input[name="checkbox"]:checked').each(function () {
+                        chkBoxArray.push($(this).val());
+                    });
+                    var data = 'checkbox="' + chkBoxArray + '"&postType=del';
+                    $.ajax({
+                        url: "../itemSave",
+                        data: data,
+                        type: "POST",
+                        success: function (msg) {
+                            alert(msg)
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                }
             });
 
             $("#query").click(function () {
@@ -174,7 +176,7 @@
                     dataType: "json",
                     success: function (JData) {
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫）</th><th>保单状态</th><th>操作</th><</tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫）</th><th>保单状态</th><th>操作</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
                             if (element.operationStatusCode == '0') {
                                 color = "#B5FFB5";
@@ -183,12 +185,12 @@
                             }
                             if (element.payStatusCode == '0') {
                                 color1 = "#B5FFB5";
-                            } else if (element.payStatusCode == '1'){
+                            } else if (element.payStatusCode == '1') {
                                 color1 = "#FFB5B5";
                             } else {
                                 color1 = "white";
                             }
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.orderId + "</td><td>" + element.saleDoc + "</td><td>" + element.productName + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderStatus + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option><option value=\"V\">查看</option><option value=\"C\">審核</option></select></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.orderId + "</td><td>" + element.saleDoc + "</td><td>" + element.productName + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderStatus + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"V\">查看</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -197,10 +199,10 @@
                             //     bFilter: false
                         });
                         $("select[name='operation']").change(function () {
-                            if ($(this).val() === "R") {
+                            if ($(this).val() === "D") {
                                 window.location.href = "orderReport.jsp?key=" + $(this).attr("inx");
                             } else if ($(this).val() === "V") {
-                                window.location.href = "productEdit.jsp?key=" + $(this).attr("inx");
+                                window.location.href = "orderView.jsp?key=" + $(this).attr("inx");
                             }
                         });
 
@@ -217,6 +219,7 @@
                 window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=table_div]').html()));
                 e.preventDefault();
             });
+
 
         });
 
