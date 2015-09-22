@@ -29,7 +29,7 @@
             <ul class="sub">
                 <li><a  href="${pageContext.request.contextPath}/risk/input.jsp" >条件配置</a></li>
                 <li><a  href="${pageContext.request.contextPath}/risk/taskList.jsp">任务列表</a></li>
-                <li><a  href="#">站点组管理</a></li>
+                <li><a  href="${pageContext.request.contextPath}/risk/siteSetManagement.jsp">站点组管理</a></li>
             </ul>
         </li>
 

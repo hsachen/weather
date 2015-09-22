@@ -110,7 +110,7 @@
                                             <input type="text" class="form-control"  placeholder="输入站点组名称" id="eventInput" name="eventInput" value="">  
                                         </div>
                                         <div class="col-sm-2">
-                                            <a href="activityMain.jsp" target="_blank">查看列表...</a>
+                                            <a href="siteSetManagement.jsp" target="_blank">查看列表...</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
