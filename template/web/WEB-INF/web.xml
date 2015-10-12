@@ -80,6 +80,18 @@
         <servlet-name>predictJudgeQuery</servlet-name>
         <servlet-class>view.predictJudgeQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>taskListSave</servlet-name>
+        <servlet-class>view.taskListSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SystemQuery2</servlet-name>
+        <servlet-class>view.SystemQuery2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>mapQuery</servlet-name>
+        <servlet-class>view.mapQuery</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -159,6 +171,18 @@
     <servlet-mapping>
         <servlet-name>predictJudgeQuery</servlet-name>
         <url-pattern>/predictJudgeQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>taskListSave</servlet-name>
+        <url-pattern>/taskListSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SystemQuery2</servlet-name>
+        <url-pattern>/SystemQuery2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mapQuery</servlet-name>
+        <url-pattern>/mapQuery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

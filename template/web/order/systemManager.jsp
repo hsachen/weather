@@ -109,18 +109,18 @@
                                 </form>
                                 <br>
                                 <div class="form-group">
-                                     <div>
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td class="success">所有保单数量</td>
-                                            <td>944850</td>
-                                             <td class="success">所有活动期保单数量</td>
-                                            <td>330578</td>
-                                             <td class="success">近三日预测判赔保单数</td>
-                                            <td>330578 <a class="btn btn-default" href="predictJudgeReport.jsp" >查看</a></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                    <div>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td class="success">所有保单数量</td>
+                                                <td>944850</td>
+                                                <td class="success">所有活动期保单数量</td>
+                                                <td>330578</td>
+                                                <td class="success">近三日预测判赔保单数</td>
+                                                <td>330578 <a class="btn btn-default" href="predictJudgeReport.jsp" >查看</a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>
                                 </div>
                                 <div id="table_div">
@@ -137,6 +137,12 @@
 
     </body>
     <%@include file="../template/script.jsp" %>
+    <style>
+        td.highlight {
+        font-weight: bold;
+        color: blue;
+    }
+    </style>
     <script>
         var color;
         var color1;
@@ -147,7 +153,6 @@
             $('#productDate').datepicker({
                 dateFormat: 'yy/mm/dd'
             });
-
             $("#del").click(function () {
 
                 var chkBoxArray = [];
@@ -168,59 +173,79 @@
                     }
                 });
             });
-
             $("#query").click(function () {
-                $.ajax({
-                    url: "../systemQuery",
-                    data: $('#queryForm').serialize(),
-                    type: "GET",
-                    dataType: "json",
-                    success: function (JData) {
-                        $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
-                        $.each(JData, function (index, element) {
-                            if (element.operationStatusCode == '0') {
-                                color = "#B5FFB5";
-                            } else {
-                                color = "#FFB5B5";
-                            }
-                            if (element.payStatusCode == '0') {
-                                color1 = "#B5FFB5";
-                            } else if (element.payStatusCode == '1'){
-                                color1 = "#FFB5B5";
-                            } else {
-                                color1 = "white";
-                            }
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"systemPay.jsp?key=" + index + "\">" + element.payStatus + "</a></td></tr>");
-                        });
-                        $('#detailTable').DataTable({
-                            columnDefs: [
-                                {orderable: false, targets: 0}
-                            ],
-                            //     bFilter: false
-                        });
-                        $("select[name='operation']").change(function () {
-                            if ($(this).val() === "R") {
-                                window.location.href = "orderReport.jsp?key=" + $(this).attr("inx");
-                            } else if ($(this).val() === "V") {
-                                window.location.href = "productEdit.jsp?key=" + $(this).attr("inx");
-                            }
-                        });
-
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
+                $("#table_div").empty();
+                $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                $('#detailTable').DataTable({
+                    bPaginate: true,
+                    iDisplayStart: 0,
+                    processing: true,
+                    serverSide: true,
+                    sAjaxSource: "../SystemQuery2",
+                    createdRow: function (row, data, index) {
+                        //alert(data[])
+                        if (data[9].replace(/[\$,]/g, '')== 1 ) {
+                            $('td', row).eq(9).addClass('highlight');
+                        }
                     }
                 });
             });
+            /*
+             $("#query").click(function () {
+             $.ajax({
+             url: "../systemQuery",
+             data: $('#queryForm').serialize(),
+             type: "GET",
+             dataType: "json",
+             success: function (JData) {
+             $("#table_div").empty();
+             $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+             $.each(JData, function (index, element) {
+             if (element.operationStatusCode == '0') {
+             color = "#B5FFB5";
+             } else {
+             color = "#FFB5B5";
+             }
+             if (element.payStatusCode == '0') {
+             color1 = "#B5FFB5";
+             } else if (element.payStatusCode == '1') {
+             color1 = "#FFB5B5";
+             } else {
+             color1 = "white";
+             }
+             $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.customerCode + "</td><td>" + element.itemValidFrom + "</td><td>" + element.itemValidEnd + "</td><td>" + element.itemStatus + "</td><td>" + element.itemOrderNum + "</td><td>" + element.activityOrderNum + "</td><td style=\"background-color:" + color + "\"><a href=\"systemSync.jsp?key=" + index + "\">" + element.operationStatus + "</a></td><td  style=\"background-color:" + color1 + "\"><a href=\"systemPay.jsp?key=" + index + "\">" + element.payStatus + "</a></td></tr>");
+             });
+             $('#detailTable').DataTable({
+             processing: true,
+             serverSide: true,
+             columnDefs: [
+             {orderable: false, targets: 0}
+             ],
+             ajax :"../systemQuery"
+             
+             //     bFilter: false
+             });
+             $("select[name='operation']").change(function () {
+             if ($(this).val() === "R") {
+             window.location.href = "orderReport.jsp?key=" + $(this).attr("inx");
+             } else if ($(this).val() === "V") {
+             window.location.href = "productEdit.jsp?key=" + $(this).attr("inx");
+             }
+             });
+             
+             },
+             error: function (xhr, ajaxOptions, thrownError) {
+             alert(xhr.status);
+             alert(thrownError);
+             }
+             });
+             });*/
 
             //匯出excel
             $("#btn_export").click(function (e) {
                 window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=table_div]').html()));
                 e.preventDefault();
             });
-
         });
 
 

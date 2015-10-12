@@ -172,6 +172,7 @@
             });
 
             $("#query").click(function () {
+                $("#table_div").mask("Loading...");
                 $.ajax({
                     url: "../itemQuery",
                     data: $('#queryForm').serialize(),
@@ -200,6 +201,7 @@
 
                             }
                         });
+                            $("#table_div").unmask();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);

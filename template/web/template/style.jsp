@@ -33,6 +33,8 @@
         <link href="${pageContext.request.contextPath}/css/jquery-ui-timepicker-addon.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/dropdowns-enhancement.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/jquery-tree.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+
           <style>
             @media (min-width: 768px){
                 .col{

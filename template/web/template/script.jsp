@@ -25,6 +25,7 @@
 
         <!--custome script for all page-->
         <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.loadmask.min.js"></script>
         <!-- custom script for this page-->
      <!--   <script src="js/sparkline-chart.js"></script>
         <script src="js/easy-pie-chart.js"></script>
