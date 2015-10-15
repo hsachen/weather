@@ -139,9 +139,14 @@
     <%@include file="../template/script.jsp" %>
     <style>
         td.highlight {
-        font-weight: bold;
-        color: blue;
-    }
+            font-weight: bold;
+            color: blue;
+        }
+        .hide{
+
+            visibility: hidden
+
+        }
     </style>
     <script>
         var color;
@@ -175,7 +180,7 @@
             });
             $("#query").click(function () {
                 $("#table_div").empty();
-                $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th>运行情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>项目号代码</th><th>客户代码</th><th>项目有效期（起）</th><th>项目有效期（讫）</th><th>项目状态</th><th>项目保单数量（项目目前的所有保单）</th><th>活动期保单数量（有效保单）</th><th hidden>运行情况</th><th>运行情况</th><th hidden>结账情况</th><th>结账情况</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                 $('#detailTable').DataTable({
                     bPaginate: true,
                     iDisplayStart: 0,
@@ -184,9 +189,27 @@
                     sAjaxSource: "../SystemQuery2",
                     createdRow: function (row, data, index) {
                         //alert(data[])
-                        if (data[9].replace(/[\$,]/g, '')== 1 ) {
-                            $('td', row).eq(9).addClass('highlight');
+                        //     if (data[9].replace(/[\$,]/g, '') === 1) {
+                        //    $('td', row).eq(9).addClass('highlight');
+                        $('td', row).eq(8).addClass("hide")
+                         $('td', row).eq(10).addClass("hide")
+                        if ($('td', row).eq(8) === '0') {
+                            color = "#B5FFB5";
+                        } else {
+                            color = "#FFB5B5";
                         }
+                        if ($('td', row).eq(10) === '0') {
+                            color1 = "#B5FFB5";
+                        } else if ($('td', row).eq(10) === '1') {
+                            color1 = "#FFB5B5";
+                        } else {
+                            color1 = "white";
+                        }
+                        //     
+                        $('td', row).eq(9).attr('style', 'background-color:'+color);
+                        $('td', row).eq(11).attr('style', 'background-color:'+color1);
+
+                        //  }
                     }
                 });
             });

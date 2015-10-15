@@ -92,6 +92,10 @@
         <servlet-name>mapQuery</servlet-name>
         <servlet-class>view.mapQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>systemProMakeQuery</servlet-name>
+        <servlet-class>view.systemProMakeQuery</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -183,6 +187,10 @@
     <servlet-mapping>
         <servlet-name>mapQuery</servlet-name>
         <url-pattern>/mapQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemProMakeQuery</servlet-name>
+        <url-pattern>/systemProMakeQuery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

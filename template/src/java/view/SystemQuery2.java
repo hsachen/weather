@@ -153,6 +153,7 @@ public class SystemQuery2 extends HttpServlet {
 
             for (int i =start ;i <= start+amount; i++) {
                 JSONArray ja = new JSONArray();
+                 ja.put("<input type='checkbox'  name='checkbox' value='"+i+"'>");
                 ja.put("ZA2014000" + i);
                 ja.put("I000000001");
                 ja.put("2015/3/31 0:00");
@@ -161,9 +162,9 @@ public class SystemQuery2 extends HttpServlet {
                 ja.put("125687");
                 ja.put("414856");
                 ja.put("1"); //0:正常(綠色) 1:異常(紅色)
-                ja.put("同步运行异常");
+                ja.put("<a href='systemSync.jsp?key="+i+"'>同步运行异常</a>");
                 ja.put("1");//0:正常(綠色) 1:異常(紅色) 2:未處理(白色)
-                ja.put("应结账");
+                ja.put("<a href='systemPay.jsp?key="+i+"'>应结账</a>");
                 array.put(ja);
             }
             result.put("iTotalRecords", total);

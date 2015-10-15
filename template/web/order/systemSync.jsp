@@ -142,7 +142,7 @@
                         } else {
                             color = "#FFB5B5";
                         }
-                        $("#detailTable1 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation1\" onChange=\"reSync('" + index + "','O');\">> <option value=\"\">--</option><option value=\"R\">重新抓取</option></select></td></tr>");
+                        $("#detailTable1 > tbody ").append("<tr role=\"row\" ><td>" + element.task + "</td><td>" + element.planDate + "</td><td>" + element.exeDate + "</td><td>" + element.compDate + "</td><td style=\"background-color:" + color + "\">" + element.status + "</td><td><select  inx=\"" + index + "\"  class=\"form-control m-bot15\"  name=\"operation1\" > <option value=\"\">--</option><option value=\"R\">重新抓取</option><option value=\"A\">人工补录</option></select></td></tr>");
                     });
                     $('#detailTable1').DataTable({
                         columnDefs: [
@@ -152,6 +152,9 @@
                     });
                     $("select[name='operation1']").change(function () {
                         if ($(this).val() === "R") {
+                            reSync($(this).attr('inx'),'O');
+                        }else if ($(this).val() === "A") {
+                          window.location.href = 'systemProMake.jsp';
                         }
                     });
 
