@@ -15,9 +15,9 @@
                 <span class="menu-arrow arrow_carrot-right"></span>
             </a>
             <ul class="sub">
-                <li><a class="" href="#">行政区</a></li>                          
-                <li><a class="" href="#" folder="risk/input.jsp">观测站</a></li>
-                <li><a class="" href="#">天气要素</a></li>
+                <li><a class="" href="${pageContext.request.contextPath}/main/adminMain.jsp">行政区</a></li>                          
+                <li><a class="" href="${pageContext.request.contextPath}/main/meteroManager.jsp" >观测站</a></li>
+                <li><a class="" href="${pageContext.request.contextPath}/main/meteroManager.jsp">天气要素</a></li>
             </ul>
         </li>       
         <li class="sub-menu">
@@ -42,7 +42,7 @@
             <ul class="sub">                          
                 <li><a  href="${pageContext.request.contextPath}/order/itemManager.jsp" >项目管理</a></li>
                 <li><a  href="${pageContext.request.contextPath}/order/productManager.jsp" >产品管理</a></li>
-                <li><a class="clink" href="${pageContext.request.contextPath}/order/systemManager.jsp" >系统监控</a></li>
+                <li><a  href="${pageContext.request.contextPath}/order/systemManager.jsp" >系统监控</a></li>
 
             </ul>
         </li>
@@ -61,7 +61,7 @@
                 <span class="menu-arrow arrow_carrot-right"></span>
             </a>
             <ul class="sub">                          
-                <li><a class="" href="#">用户管理</a></li>
+                <li><a class="" href="${pageContext.request.contextPath}/system/personManager.jsp">用户管理</a></li>
                 <li><a class="" href="#">客户联系人管理</a></li>
             </ul>
         </li>

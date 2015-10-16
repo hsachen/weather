@@ -7,10 +7,13 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <link href="${pageContext.request.contextPath}/css/multi-select.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/zTreeStyle.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <!-- bootstrap theme -->
+        <link href="${pageContext.request.contextPath}/css/bootstrap-theme.css" rel="stylesheet">
         <style type="text/css">
             body, html{width: 100%;height: 100%;overflow: hidden;margin:0;}
             #allmap {height: 60%;overflow: hidden;}
-            #result {height:40%;width:295px;top:0px;right:0px;font-size:12px;}
+            #result {height:40%;width:40%;top:0px;right:0px;font-size:12px;}
             dl,dt,dd,ul,li{
                 margin:0;
                 padding:0;
@@ -36,7 +39,7 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.min.css" type="text/css" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5E5EE28a7615536d1ffe2ce2a3667859"></script>
-        
+
         <title>百度地图绘制多边型带编辑功能</title>
     </head>
     <body>
@@ -55,8 +58,35 @@
                     <button class="btn btn-default"  id="save">確定</button>
                 </div>
                 <div width="70%" style="float:right">
-                    <table>
+                    <table class="table">
                         <tr>
+                            <th></th>
+                            <th>区域编码</th>
+                            <th>城市名称</th>
+                            <th>所属站点组</th>
+                            <th>活动代码</th>
+                            <th>日期</th>
+                            <th>概率</th>
+                            <th>详情</th>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="checkbox" value="1"></td>
+                            <td></td>
+                            <td></td>
+                            <td>e</td>
+                            <td>r</td>
+                            <td>e</td>
+                            <td>a</td>
+                            <td>详情</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="checkbox" value="2"></td>
+                            <td></td>
+                            <td></td>
+                            <td>e</td>
+                            <td>r</td>
+                            <td>e</td>
+                            <td>a</td>
                             <td>s</td>
                         </tr>
                     </table>
@@ -102,30 +132,8 @@
                     var styleOptions = this.styleOptions;
                     map.centerAndZoom(this.point, 16);
                     map.enableScrollWheelZoom();
-                    //实例化鼠标绘制工具
-                    this.drawingManager = new BMapLib.DrawingManager(map, {
-                        isOpen: false, //是否开启绘制模式
-                        enableDrawingTool: false, //是否显示工具栏
-                        drawingToolOptions: {
-                            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-                            offset: new BMap.Size(5, 5), //偏离值
-                            scale: 0.8 //工具栏缩放比例
-                        },
-                        circleOptions: styleOptions, //圆的样式
-                        polylineOptions: styleOptions, //线的样式
-                        polygonOptions: styleOptions, //多边形的样式
-                        rectangleOptions: styleOptions //矩形的样式
-                    });
-                    //添加鼠标绘制工具监听事件，用于获取绘制结果
-                    this.drawingManager.addEventListener('overlaycomplete', bmap.overlaycomplete);
-                    /*加载一个已有的多边形*/
-                    if (this.myOverlay) {
-                        this.loadMyOverlay();
-                    }
-                    ;
-                    map.addEventListener("rightclick", function (e) {
-                        alert(e.point.lng + "," + e.point.lat);
-                    });
+
+
                 },
                 loadMyOverlay: function () {
                     var map = this.map;
@@ -224,11 +232,18 @@
         <script src="${pageContext.request.contextPath}/js/jquery.multi-select.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery.ztree.core-3.5.min.js"></script>
         <script>
+            function myOnClick(event, treeId, treeNode) {
+                alert(treeNode.tId + ", " + treeNode.name);
+            }
+            ;
             var setting = {
                 data: {
                     simpleData: {
                         enable: true
                     }
+                },
+                callback: {
+                    onClick: myOnClick
                 }
             };
 
@@ -267,6 +282,44 @@
             $(document).ready(function () {
 
                 $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+                $('input[name=checkbox]').click(function () {
+                    var map = new BMap.Map("allmap");
+                    var point = new BMap.Point(116.404, 39.915);
+                    map.centerAndZoom(point, 15);
+                    var bounds = map.getBounds();
+                    var sw = bounds.getSouthWest();
+                    var ne = bounds.getNorthEast();
+                    var lngSpan = Math.abs(sw.lng - ne.lng);
+                    var latSpan = Math.abs(ne.lat - sw.lat);
+                    $.ajax({
+                        url: "../getCoordinate?id=" + $(this).val(),
+                        type: "POST",
+                        dataType: "json",
+                        success: function (msg) {
+//                            for (var i = 0; i < 4; i++) {
+//                                var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+//                                alert(point)
+//                                var marker = new BMap.Marker(new BMap.Point(point));
+//                                map.addOverlay(marker);
+//                            }
+
+                            var marker = new BMap.Marker(new BMap.Point(msg[0].x, msg[0].y));
+                            map.addOverlay(marker);            //增加点
+                            //
+
+//                            var marker = new BMap.Marker(new BMap.Point(msg[1].x, msg[1].y));
+//                            map.addOverlay(marker);            //增加点
+                            //     alert(msg);
+
+                            //       $("#main-content").load("order/itemManager.jsp");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                });
 
                 $("#save").click(function () {
                     alert("已選取")

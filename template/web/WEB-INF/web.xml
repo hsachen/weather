@@ -96,6 +96,30 @@
         <servlet-name>systemProMakeQuery</servlet-name>
         <servlet-class>view.systemProMakeQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminQuery</servlet-name>
+        <servlet-class>view.adminQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminSave</servlet-name>
+        <servlet-class>view.adminSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroQuery</servlet-name>
+        <servlet-class>view.meteroQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroMainEleSave</servlet-name>
+        <servlet-class>view.meteroMainEleSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroMainEleQuery</servlet-name>
+        <servlet-class>view.meteroMainEleQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>meteroSave</servlet-name>
+        <servlet-class>view.meteroSave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -191,6 +215,30 @@
     <servlet-mapping>
         <servlet-name>systemProMakeQuery</servlet-name>
         <url-pattern>/systemProMakeQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminQuery</servlet-name>
+        <url-pattern>/adminQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminSave</servlet-name>
+        <url-pattern>/adminSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroQuery</servlet-name>
+        <url-pattern>/meteroQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroMainEleSave</servlet-name>
+        <url-pattern>/meteroMainEleSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroMainEleQuery</servlet-name>
+        <url-pattern>/meteroMainEleQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>meteroSave</servlet-name>
+        <url-pattern>/meteroSave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
