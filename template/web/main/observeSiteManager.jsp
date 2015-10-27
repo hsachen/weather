@@ -1,9 +1,8 @@
 <%-- 
-    Document   : person
-    Created on : 2015/10/16, 下午 04:52:14
-    Author     : Z00907
+    Document   : observeSiteManager
+    Created on : 2015/10/22, 下午 02:52:30
+    Author     : Jean
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,19 +33,23 @@
                 <%@include file="../template/header.jsp" %>
             </header>      
             <!--header end-->
+
             <aside>
                 <%@include file="../template/sidebar.jsp" %>
             </aside>
             <!--sidebar end-->
             <!--main content start-->
             <section id="main-content">
+
                 <section class="wrapper">
+
+
                     <div class="panel panel-info">
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>用户管理</li>
+                                    <li><i class="icon_documents_alt"></i>观测站</li>
                                 </ol>
                             </div>
                         </div>
@@ -56,23 +59,45 @@
                             <div class="panel-body">           
                                 <form id="queryForm" class="form-horizontal " method="post">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">用户名</label>
+                                        <label class="col-sm-2 control-label">实况观测站站号</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="userId" name="userId">
+                                            <input type="text" class="form-control" id="observeSiteId" name="observeSiteId">
                                         </div>
-                                        <label class="col-sm-2 control-label">真实姓名</label>
+                                        <label class="col-sm-2 control-label">观测站类别</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="userName" name="userName">
-                                        </div>
-                                        <label class="col-sm-2 control-label">用户权限</label>
-                                        <div class="col-sm-2">
-                                            <select class="form-control m-bot15" id="userPrivilege" name="userPrivilege">
-                                                <option value="1">全部权限（admin才可对用户管理修改）</option>
-                                                <option value="2">全部权限（项目副总）</option>
-                                                <option value="3">全部权限（项目总监）</option>
-                                                <option value="4">全部权限（项目经理）</option>
-                                                <option value="5">普通用户（仅可查看）</option>
+                                            <select class="form-control m-bot15" id="observeSiteType" name="observeSiteType">
+                                                <option value=""></option>
+                                                <option value="1">人工观测站-基本站</option>
+                                                <option value="2">人工观测站-一般站</option>
+                                                <option value="9">自动观测站</option>
                                             </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label">站点名称</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="observeSiteName" name="observeSiteName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label class="col-sm-2 control-label">观测站状态</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-bot15" id="status" name="status">
+                                                <option value=""></option>
+                                                <option value="0">不可用</option>
+                                                <option value="1">可用</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label">是否为考核站</label>
+                                        <div class="col-sm-2">
+                                           <select class="form-control m-bot15" id="evaluationFlag" name="evaluationFlag">
+                                                <option value=""></option>
+                                                <option value="0">否</option>
+                                                <option value="1">是</option>
+                                            </select>
+                                        </div>
+                                         <label class="col-sm-2 control-label">中国天气网预报编码</label>
+                                        <div class="col-sm-2">
+                                             <input type="text" class="form-control" id="weatherCNSiteId" name="weatherCNSiteId">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -82,8 +107,9 @@
                                     </div>
                                 </form>
                                 <div class="form-group">
-                                    <a class="btn btn-default" href="personNew.jsp">新建</a>
+                                    <a class="btn btn-default" href="observeSiteNew.jsp">新建</a>
                                     <button class="btn btn-default"  id="del">刪除</button>
+                                    <button class="btn btn-default" id="btn_export">下载csv文件</button>
                                 </div>
                                 <div id="table_div">
                                 </div>
@@ -105,16 +131,16 @@
             $("#query").click(function () {
                 $("#table_div").mask("Loading...");
                 $.ajax({
-                    url: "../personQuery",
+                    url: "../observeSiteQuery",
                     data: $('#queryForm').serialize(),
                     type: "POST",
                     dataType: "json",
                     success: function (JData) {
 
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>用户名</th><th>真实姓名</th><th>手机号</th><th>邮箱地址</th><th>用户权限</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>实况观测站站号</th><th>观测站类别</th><th>站点名称</th><th>经度</th><th>纬度</th><th>海拔高度</th><th>观测站状态</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.userId + "</td><td>" + element.userName + "</td><td>" + element.cellPhone + "</td><td>" + element.eMail + "</td><td>" + element.userPrivilege + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option>-</option></select></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.observeSiteId + "</td><td>" + element.observeSiteTypeDesc + "</td><td>" + element.observeSiteName + "</td><td>" + element.longitude + "</td><td>" + element.latitude + "</td><td>" + element.altitude + "</td><td>" + element.statusDesc + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option>-</option><option value=\"V\">查看</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -125,7 +151,10 @@
 
                         $("#operation").change(function () {
                             if ($(this).val() === "E") {
-                                window.location.href = "personEdit.jsp?key=" + $(this).attr("inx");
+                                window.location.href = "observeSiteEdit.jsp?key=" + $(this).attr("inx");
+                            } else if ($(this).val() === "V") {
+                                window.location.href = "observeSiteView.jsp?key=" + $(this).attr("inx");
+
                             }
                         });
                         $("#table_div").unmask();
@@ -137,6 +166,11 @@
                 });
             });
 
+            //匯出excel
+            $("#btn_export").click(function (e) {
+                window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=table_div]').html()));
+                e.preventDefault();
+            });
 
             $("#del").click(function () {
 
@@ -146,7 +180,7 @@
                 });
                 var data = 'checkbox="' + chkBoxArray + '"&postType=del';
                 $.ajax({
-                    url: "../personSave",
+                    url: "../adminSave",
                     data: data,
                     type: "POST",
                     success: function (msg) {
@@ -161,3 +195,4 @@
 
         });
     </script>
+</html>

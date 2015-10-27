@@ -52,21 +52,29 @@ public class systemProMakeQuery extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             obj.put("itemCode", "201507011110066699586");
+            obj.put("customerId", "A123415");
             obj.put("salesDoc", "2507150829");
-             obj.put("prodName", "汇源高温险（北京市）");
+            obj.put("orderId", "456987");
+            obj.put("productCode", "qwerr");
+            obj.put("prodName", "汇源高温险（北京市）");
             obj.put("orderDate", "2015/7/1 11:00");
             obj.put("validFrom", "2015/7/1 0:00");
             obj.put("validEnd", "2015/8/1 23:59");
             obj.put("orderState", "有效");
+            obj.put("premium", "1000");
             arry.put(obj);
             obj = new JSONObject();
             obj.put("itemCode", "201507011110066699586");
+            obj.put("customerId", "BDS56456");
             obj.put("salesDoc", "2507150829");
-             obj.put("prodName", "汇源高温险（北京市）");
+            obj.put("orderId", "SDs4545");
+            obj.put("productCode", "qwerr");
+            obj.put("prodName", "汇源高温险（北京市）");
             obj.put("orderDate", "2015/7/1 11:00");
             obj.put("validFrom", "2015/7/1 0:00");
             obj.put("validEnd", "2015/8/1 23:59");
             obj.put("orderState", "有效");
+            obj.put("premium", "2000");
             arry.put(obj);
             out.print(arry);
 

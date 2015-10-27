@@ -16,7 +16,7 @@
             </a>
             <ul class="sub">
                 <li><a class="" href="${pageContext.request.contextPath}/main/adminMain.jsp">行政区</a></li>                          
-                <li><a class="" href="${pageContext.request.contextPath}/main/meteroManager.jsp" >观测站</a></li>
+                <li><a class="" href="${pageContext.request.contextPath}/main/observeSiteManager.jsp" >观测站</a></li>
                 <li><a class="" href="${pageContext.request.contextPath}/main/meteroManager.jsp">天气要素</a></li>
             </ul>
         </li>       

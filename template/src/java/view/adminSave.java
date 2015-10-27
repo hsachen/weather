@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Z00907
+ * @author Jean
  */
 public class adminSave extends HttpServlet {
 
@@ -90,9 +90,6 @@ public class adminSave extends HttpServlet {
         } else if (postType != null && postType.equals("edit")) {
             /*修改*/
             out.print("修改成功");
-        } else if (postType != null && postType.equals("check")) {
-            /*審核*/
-            out.print("審核成功");
         } else if (postType != null && postType.equals("del")) {
             /*刪除*/
             String checkbox[] = request.getParameter("checkbox").split(","); //FTP端口
@@ -101,6 +98,9 @@ public class adminSave extends HttpServlet {
                 aa += s + ",";
             }
             out.print("刪除成功:" + aa);
+        }else if (postType != null && postType.equals("upload")) {
+            /*上傳*/
+            out.print("上傳成功");
         }
     }
 

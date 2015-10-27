@@ -43,18 +43,24 @@ public class SystemQuery2 extends HttpServlet {
         int echo = 0;
         int col = 0;
 
-        String engine = "";
-        String browser = "";
-        String platform = "";
-        String version = "";
-        String grade = "";
+        String itemCode = request.getParameter("itemCode"); //项目号代码
+        String orderDate = request.getParameter("orderDate"); //保单建立日期
+        String productDesc = request.getParameter("productDesc"); //产品描述关键字
+        String customerCode = request.getParameter("customerCode"); //客户代码
+        String validFrom = request.getParameter("validFrom"); //承保开始时间
+        String validEnd = request.getParameter("validEnd"); //承保终止时间
+        String productCode = request.getParameter("productCode"); //产品代码
+        String orderStatus = request.getParameter("orderStatus"); //保单状态
 
+        String[] cols = {"項目號代碼", "客戶代碼", "項目有效期(起)", "項目有效期(迄)", "項目保單數量", "活動期保單數量", "運轉情形", "結帳情況"}; //請填DB的欄位名稱
         String dir = "asc";
+
         String sStart = request.getParameter("iDisplayStart");
         String sAmount = request.getParameter("iDisplayLength");
         String sEcho = request.getParameter("sEcho");
         String sCol = request.getParameter("iSortCol_0");
         String sdir = request.getParameter("sSortDir_0");
+        String searchTerm = request.getParameter("sSearch");
         List<String> sArray = new ArrayList<String>();
         String individualSearch = "";
         if (sArray.size() == 1) {
@@ -92,6 +98,7 @@ public class SystemQuery2 extends HttpServlet {
                 dir = "desc";
             }
         }
+        String colName = cols[col];
         /*  String colName = cols[col];
          int total = 0;
          Connection conn = ConnectManager.getConnection();
@@ -107,7 +114,7 @@ public class SystemQuery2 extends HttpServlet {
          }*/
         int total = 20;
         int totalAfterFilter = total;
-    //result.put("sEcho",echo);
+        //result.put("sEcho",echo);
 
         try {
             /*    String searchSQL = "";
@@ -151,9 +158,9 @@ public class SystemQuery2 extends HttpServlet {
              }
              }*/
 
-            for (int i =start ;i <= start+amount; i++) {
+            for (int i = start; i <= start + amount; i++) {
                 JSONArray ja = new JSONArray();
-                 ja.put("<input type='checkbox'  name='checkbox' value='"+i+"'>");
+                ja.put("<input type='checkbox'  name='checkbox' value='" + i + "'>");
                 ja.put("ZA2014000" + i);
                 ja.put("I000000001");
                 ja.put("2015/3/31 0:00");
@@ -162,9 +169,9 @@ public class SystemQuery2 extends HttpServlet {
                 ja.put("125687");
                 ja.put("414856");
                 ja.put("1"); //0:正常(綠色) 1:異常(紅色)
-                ja.put("<a href='systemSync.jsp?key="+i+"'>同步运行异常</a>");
+                ja.put("<a href='systemSync.jsp?key=" + i + "'>同步运行异常</a>");
                 ja.put("1");//0:正常(綠色) 1:異常(紅色) 2:未處理(白色)
-                ja.put("<a href='systemPay.jsp?key="+i+"'>应结账</a>");
+                ja.put("<a href='systemPay.jsp?key=" + i + "'>应结账</a>");
                 array.put(ja);
             }
             result.put("iTotalRecords", total);

@@ -57,7 +57,7 @@
                         <!--        <div class="panel-heading"><span style="font-size:36px;">产品管理</span><span style="font-size:24px;">&nbsp;产品报表</span></div>-->
                         <div class="panel-content ">
                             <div class="panel-body">           
-                                <form id="queryForm" class="form-horizontal " method="get">
+                                <form id="queryForm" class="form-horizontal " method="post">
                                     <div class="form-group">
                                         <label class="col-sm-1 control-label">项目编号</label>
                                         <div class="col-sm-2">
@@ -152,10 +152,13 @@
         var color;
         var color1;
         $(document).ready(function () {
-            $('#productDate').datepicker({
+            $('#orderDate').datepicker({
                 dateFormat: 'yy/mm/dd'
             });
-            $('#productDate').datepicker({
+            $('#validFrom').datepicker({
+                dateFormat: 'yy/mm/dd'
+            });
+             $('#validEnd').datepicker({
                 dateFormat: 'yy/mm/dd'
             });
             $("#del").click(function () {
@@ -186,13 +189,17 @@
                     iDisplayStart: 0,
                     processing: true,
                     serverSide: true,
-                    sAjaxSource: "../SystemQuery2",
+                    ajax: {
+                        url: '../SystemQuery2',
+                        type: 'POST',
+                        data: {"itemCode" : $("#itemCode").val(),"orderDate" : $("#orderDate").val(),"productDesc" : $("#productDesc").val(),"customerCode" : $("#customerCode").val(),"validFrom" : $("#validFrom").val(),"validEnd" : $("#validEnd").val(),"productCode" : $("#productCode").val(),"orderStatus" : $("#orderStatus").val()},
+                    },
                     createdRow: function (row, data, index) {
                         //alert(data[])
                         //     if (data[9].replace(/[\$,]/g, '') === 1) {
                         //    $('td', row).eq(9).addClass('highlight');
                         $('td', row).eq(8).addClass("hide")
-                         $('td', row).eq(10).addClass("hide")
+                        $('td', row).eq(10).addClass("hide")
                         if ($('td', row).eq(8) === '0') {
                             color = "#B5FFB5";
                         } else {
@@ -206,8 +213,8 @@
                             color1 = "white";
                         }
                         //     
-                        $('td', row).eq(9).attr('style', 'background-color:'+color);
-                        $('td', row).eq(11).attr('style', 'background-color:'+color1);
+                        $('td', row).eq(9).attr('style', 'background-color:' + color);
+                        $('td', row).eq(11).attr('style', 'background-color:' + color1);
 
                         //  }
                     }

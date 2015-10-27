@@ -240,7 +240,8 @@
                             alert(thrownError);
                         }
                     });
-                    console.log(box.W);
+                    console.log(box);
+                //    console.log(box.W);
                 },
                 getCount: function () {
                     var n = 0;
@@ -272,8 +273,14 @@
                             $(this).find('option:selected').each(
                                     function () {
                                         //   debugger;
-                                        $(this).remove();
-                                        $("#select").append("<option value=" + $(this).val() + " >" + $(this).text() + "</option>")
+                                        var v = $(this).val();
+                                        if ($("#select option[value=" + v + "]").length == 0) {
+                                            $("#select").append("<option value=" + $(this).val() + " >" + $(this).text() + "</option>")
+                                            $(this).remove();
+                                        } else {
+                                            alert("已存在")
+                                        }
+
                                         // $(this).find('option:selected').remove();
                                     });
                         });
@@ -283,7 +290,10 @@
                             //  $('#select').empty();
                             $(this).find('option:selected').each(
                                     function () {
-                                        $("#unselect").append("<option value=" + $(this).val() + ">" + $(this).text() + "</option>")
+                                        var v = $(this).val();
+                                        if ($("#unselect option[value=" + v + "]").length == 0) {
+                                            $("#unselect").append("<option value=" + $(this).val() + ">" + $(this).text() + "</option>")
+                                        }
                                         $(this).remove();
                                     });
                         });

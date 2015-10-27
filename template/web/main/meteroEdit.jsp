@@ -53,7 +53,7 @@
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="meteroManager.jsp">天气要素</a></li>
-                                    <li><i class="icon_documents_alt"></i>天气要素等级新建</li>
+                                    <li><i class="icon_documents_alt"></i>天气要素等级編輯</li>
                                 </ol>
                             </div>
                         </div>

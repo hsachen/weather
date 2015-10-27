@@ -11,14 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
  * @author Jean
  */
-public class getCoordinate extends HttpServlet {
+public class personSave extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,24 +59,32 @@ public class getCoordinate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        JSONObject obj = new JSONObject();
-        JSONArray arry = new JSONArray();
         processRequest(request, response);
-        String id = request.getParameter("id");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            obj.put("x", "116.414");
-            obj.put("y", "39.925");
-            arry.put(obj);
-            
-            obj = new JSONObject();
-      
-            obj.put("x", "116.410");
-            obj.put("y", "39.915");
-            arry.put(obj);
-            out.print(arry);
-        } catch (Exception e) {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
 
+        String postType = request.getParameter("postType"); //增刪改查
+        String userId = request.getParameter("userId"); //用户名
+        String userpwd = request.getParameter("userpwd"); //密码
+        String userName = request.getParameter("userName"); //真实姓名
+        String cellPhone = request.getParameter("cellPhone"); //手机号
+        String eMail = request.getParameter("eMail"); //邮箱地址
+        String userPrivilege = request.getParameter("userPrivilege"); //用户权限
+
+        String aa = "";
+        if (postType != null && postType.equals("add")) {
+            /*新增*/
+            out.print("用户新增成功");
+        } else if (postType != null && postType.equals("edit")) {
+            /*修改*/
+            out.print("用户修改成功");
+        }  else if (postType != null && postType.equals("del")) {
+            /*刪除*/
+            String checkbox[] = request.getParameter("checkbox").split(","); 
+            for (String s : checkbox) {
+                aa += s + ",";
+            }
+            out.print("用户刪除成功:" + aa);
         }
     }
 

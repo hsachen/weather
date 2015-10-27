@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *
- * @author Jean
+ * @author Z00907
  */
-public class getCoordinate extends HttpServlet {
+public class getMapSite extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,24 +62,36 @@ public class getCoordinate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
-        processRequest(request, response);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
         String id = request.getParameter("id");
+
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            obj.put("x", "116.414");
-            obj.put("y", "39.925");
+            obj.put("areaCode", "A001");
+            obj.put("cityCN", "北京");
+            obj.put("siteCode", "123");
+            obj.put("activityCode", "V123");
+            obj.put("date", "2014/11/16");
+            obj.put("probability", "20%");
+
             arry.put(obj);
-            
             obj = new JSONObject();
-      
-            obj.put("x", "116.410");
-            obj.put("y", "39.915");
+            obj.put("areaCode", "A0012");
+            obj.put("cityCN", "上海");
+            obj.put("siteCode", "123");
+            obj.put("activityCode", "V123");
+            obj.put("date", "2014/11/16");
+            obj.put("probability", "20%");
             arry.put(obj);
             out.print(arry);
-        } catch (Exception e) {
 
+        } catch (JSONException ex) {
+            String a = ex.toString();
+            System.out.print(ex);
+            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

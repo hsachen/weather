@@ -138,8 +138,7 @@
                                 <br>
                                 <div > 
                                     <form id="uploadForm" class="form-horizontal " method="post" enctype="multipart/form-data" >
-
-
+                                        <input type="hidden" class="form-control" id="postType" name="postType" value="upload" >
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label">批量模板</label>
                                             <div class="col-sm-3">
@@ -189,7 +188,7 @@
                         $("#table_div").empty();
                         $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>订单号</th><th>保单号</th><th>客户产品描述</th><th>保单成立日期</th><th>承保时间（起）</th><th>承保时间（讫</th><th>保单状态</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.salesDoc + "</td><td>" + element.prodName + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderState + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option><option value=\"V\">查看</option><option value=\"C\">審核</option></select></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.itemCode + "</td><td>" + element.salesDoc + "</td><td>" + element.prodName + "</td><td>" + element.orderDate + "</td><td>" + element.validFrom + "</td><td>" + element.validEnd + "</td><td>" + element.orderState + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -200,12 +199,7 @@
 
                         $("#operation").change(function () {
                             if ($(this).val() === "E") {
-                                window.location.href = "itemEdit.jsp?key=" + $(this).attr("inx");
-                            } else if ($(this).val() === "C") {
-                                window.location.href = "itemCheck.jsp?key=" + $(this).attr("inx");
-                            } else if ($(this).val() === "V") {
-                                window.location.href = "itemView.jsp?key=" + $(this).attr("inx");
-
+                                window.location.href = "orderEdit.jsp?key=" + $(this).attr("inx");
                             }
                         });
                         $("#table_div").unmask();
@@ -220,7 +214,7 @@
             //上傳
             $("#uploadBtn").click(function () {
                 $.ajax({
-                    url: "../productSave",
+                    url: "../orderSave",
                     data: $('#uploadForm').serialize(),
                     type: "POST",
                     success: function (msg) {
@@ -233,8 +227,9 @@
                     }
                 });
             });
-            
-             $("#del").click(function () {
+
+
+            $("#del").click(function () {
 
                 var chkBoxArray = [];
                 $('input[name="checkbox"]:checked').each(function () {
@@ -242,7 +237,7 @@
                 });
                 var data = 'checkbox="' + chkBoxArray + '"&postType=del';
                 $.ajax({
-                    url: "../itemSave",
+                    url: "../orderSave",
                     data: data,
                     type: "POST",
                     success: function (msg) {
@@ -254,6 +249,7 @@
                     }
                 });
             });
+
         });
     </script>
 </html>

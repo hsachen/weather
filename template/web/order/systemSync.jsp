@@ -154,7 +154,7 @@
                         if ($(this).val() === "R") {
                             reSync($(this).attr('inx'),'O');
                         }else if ($(this).val() === "A") {
-                          window.location.href = 'systemProMake.jsp';
+                          window.location.href = 'orderNew.jsp';
                         }
                     });
 

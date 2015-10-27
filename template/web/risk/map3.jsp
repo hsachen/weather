@@ -8,12 +8,15 @@
         <link href="${pageContext.request.contextPath}/css/multi-select.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/zTreeStyle.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-        <!-- bootstrap theme -->
+        <!-- bootstrap theme -->                   
         <link href="${pageContext.request.contextPath}/css/bootstrap-theme.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
         <style type="text/css">
             body, html{width: 100%;height: 100%;overflow: hidden;margin:0;}
             #allmap {height: 60%;overflow: hidden;}
-            #result {height:40%;width:40%;top:0px;right:0px;font-size:12px;}
+            #result {height:40%;width:60%;top:0px;right:0px;font-size:12px;}
             dl,dt,dd,ul,li{
                 margin:0;
                 padding:0;
@@ -55,43 +58,13 @@
             <form>
                 <div class="zTreeDemoBackground left" width="30%" style="float:left">
                     <ul id="treeDemo" class="ztree"></ul>
-                    <button class="btn btn-default"  id="save">確定</button>
                 </div>
-                <div width="70%" style="float:right">
+                <div width="70%" style="float:right" id="table_div">
                     <table class="table">
-                        <tr>
-                            <th></th>
-                            <th>区域编码</th>
-                            <th>城市名称</th>
-                            <th>所属站点组</th>
-                            <th>活动代码</th>
-                            <th>日期</th>
-                            <th>概率</th>
-                            <th>详情</th>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox" value="1"></td>
-                            <td></td>
-                            <td></td>
-                            <td>e</td>
-                            <td>r</td>
-                            <td>e</td>
-                            <td>a</td>
-                            <td>详情</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox" value="2"></td>
-                            <td></td>
-                            <td></td>
-                            <td>e</td>
-                            <td>r</td>
-                            <td>e</td>
-                            <td>a</td>
-                            <td>s</td>
-                        </tr>
                     </table>
                 </div>
             </form> </div>
+
         <script type="text/javascript">
             /**
              * Author: mobai
@@ -133,109 +106,82 @@
                     map.centerAndZoom(this.point, 16);
                     map.enableScrollWheelZoom();
 
-
-                },
-                loadMyOverlay: function () {
-                    var map = this.map;
-                    this.clearAll();
-                    map.centerAndZoom(this.point, 11);
-                    myPolygon = new BMap.Polygon(this.myOverlay, this.styleOptions);
-                    this.myPolygon = myPolygon;
-                    try {
-                        myPolygon.enableEditing();
-                    } catch (e) {
-                    }
-                    ;
-                    myPolygon.addEventListener("lineupdate", function (e) {
-                        bmap.showLatLon(e.currentTarget.W);
-                    });
-                    map.addOverlay(myPolygon);
-                },
-                showLatLon: function (a) {
-                    var len = a.length;
-                    var s = '';
-                    var arr = [];
-                    for (var i = 0; i < len - 1; i++) {
-                        arr.push([a[i].lng, a[i].lat]);
-                        s += '<li>' + a[i].lng + ',' + a[i].lat + '<span class="red" title="删除" onclick="bmap.delPoint(' + i + ')">X</span></li>';
-                    }
-                    this.overlaysCache = arr;
-                    $("panelWrap").innerHTML = '<ul>' + s + '</ul>';
-                },
-                delPoint: function (i) {
-                    if (this.overlaysCache.length <= 3) {
-                        alert('不能再删除, 请保留3个以上的点.');
-                        return;
-                    }
-                    this.overlaysCache.splice(i, 1);
-                    var a = this.overlaysCache;
-                    var newOverlay = [];
-                    for (var i in a) {
-                        newOverlay.push(new BMap.Point(a[i][0], a[i][1]));
-                    }
-                    this.myOverlay = newOverlay;
-                    this.loadMyOverlay();
-                },
-                /**
-                 *回调获得覆盖物信息
-                 */
-                overlaycomplete: function (e) {
-                    bmap.overlays.push(e.overlay);
-                    e.overlay.enableEditing();
-                    e.overlay.addEventListener("lineupdate", function (e) {
-                        bmap.showLatLon(e.currentTarget.W);
-                    });
-                },
-                /**
-                 * 清除覆盖物
-                 */
-                clearAll: function () {
-                    var map = this.map;
-                    var overlays = this.overlays;
-                    for (var i = 0; i < overlays.length; i++) {
-                        map.removeOverlay(overlays[i]);
-                    }
-                    this.overlays.length = 0
-                    map.removeOverlay(this.myPolygon);
-                    this.myPolygon = '';
-                },
-                /**
-                 *取覆盖物的经纬度
-                 */
-                getOverLay: function () {
-                    var box = this.myPolygon ? this.myPolygon : this.overlays[this.overlays.length - 1];
-
-                    console.log(box.W);
-                },
-                getCount: function () {
-                    var n = 0;
-                    if (this.myPolygon) {
-                        n++;
-                    }
-                    ;
-                    if (this.overlays) {
-                        n = n + this.overlays.length;
-                    }
-                    ;
-                    console.log(n);
                 }
             };
 
-            //加载一个已有的多边形
-            bmap.myOverlay = [
-            ];
-            bmap.init();
-            bmap.clearAll()
 
         </script>
         <script src="${pageContext.request.contextPath}/js/jquery-1.8.3.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery.multi-select.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery.ztree.core-3.5.min.js"></script>
+        <script src="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/js/jquery.dataTables.min.js"></script>
         <script>
+            var map = new BMap.Map("allmap");
+            var point = new BMap.Point(116.404, 39.915);
+
+            map.centerAndZoom(point, 15);
+
             function myOnClick(event, treeId, treeNode) {
-                alert(treeNode.tId + ", " + treeNode.name);
+                $.ajax({
+                    url: "../getMapSite?id=" + treeNode.id,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (JData) {
+                        $("#table_div").empty();
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>区域编码</th><th>城市名称</th><th>所属站点组</th><th>活动代码</th><th>日期</th><th>概率</th><th>详情</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $.each(JData, function (index, element) {
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
+                        });
+                        $('#detailTable').DataTable({
+                            columnDefs: [
+                                {orderable: false, targets: 0}
+                            ],
+                            //     bFilter: false
+                        });
+
+                        $('input[name=checkbox]').click(function () {
+                            var a = $(this).attr('checked');
+                            $.ajax({
+                                url: "../getCoordinate?id=" + $(this).val(),
+                                type: "POST",
+                                dataType: "json",
+                                success: function (msg) {
+                                    for (var i = 0; i < msg.length; i++) {
+                                        var point = new BMap.Point(msg[i].x, msg[i].y);
+                                        debugger;
+                                        if (a == "checked") {
+                                            var marker = new BMap.Marker(point);
+                                            map.addOverlay(marker);
+                                        } else {
+                                            var allOverlay = map.getOverlays();
+                                            for (var j = 0; j < allOverlay.length ; j++) {
+                                                debugger;
+                                                if (allOverlay[j].point != null) {
+                                                    if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
+                                                        map.removeOverlay(allOverlay[j]);
+                                                    }
+                                                }
+                                            }
+                                            //   map.clearOverlays();       
+                                            //    removeMarker(point)
+                                        }
+
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    alert(xhr.status);
+                                    alert(thrownError);
+                                }
+                            });
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
             }
-            ;
+
             var setting = {
                 data: {
                     simpleData: {
@@ -282,44 +228,6 @@
             $(document).ready(function () {
 
                 $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-
-                $('input[name=checkbox]').click(function () {
-                    var map = new BMap.Map("allmap");
-                    var point = new BMap.Point(116.404, 39.915);
-                    map.centerAndZoom(point, 15);
-                    var bounds = map.getBounds();
-                    var sw = bounds.getSouthWest();
-                    var ne = bounds.getNorthEast();
-                    var lngSpan = Math.abs(sw.lng - ne.lng);
-                    var latSpan = Math.abs(ne.lat - sw.lat);
-                    $.ajax({
-                        url: "../getCoordinate?id=" + $(this).val(),
-                        type: "POST",
-                        dataType: "json",
-                        success: function (msg) {
-//                            for (var i = 0; i < 4; i++) {
-//                                var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
-//                                alert(point)
-//                                var marker = new BMap.Marker(new BMap.Point(point));
-//                                map.addOverlay(marker);
-//                            }
-
-                            var marker = new BMap.Marker(new BMap.Point(msg[0].x, msg[0].y));
-                            map.addOverlay(marker);            //增加点
-                            //
-
-//                            var marker = new BMap.Marker(new BMap.Point(msg[1].x, msg[1].y));
-//                            map.addOverlay(marker);            //增加点
-                            //     alert(msg);
-
-                            //       $("#main-content").load("order/itemManager.jsp");
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                        }
-                    });
-                });
 
                 $("#save").click(function () {
                     alert("已選取")

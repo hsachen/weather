@@ -120,6 +120,30 @@
         <servlet-name>meteroSave</servlet-name>
         <servlet-class>view.meteroSave</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>personQuery</servlet-name>
+        <servlet-class>view.personQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>personSave</servlet-name>
+        <servlet-class>view.personSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getCoordinate</servlet-name>
+        <servlet-class>view.getCoordinate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getMapSite</servlet-name>
+        <servlet-class>view.getMapSite</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>observeSiteQuery</servlet-name>
+        <servlet-class>view.observeSiteQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>observeSiteSave</servlet-name>
+        <servlet-class>view.observeSiteSave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -239,6 +263,30 @@
     <servlet-mapping>
         <servlet-name>meteroSave</servlet-name>
         <url-pattern>/meteroSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>personQuery</servlet-name>
+        <url-pattern>/personQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>personSave</servlet-name>
+        <url-pattern>/personSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getCoordinate</servlet-name>
+        <url-pattern>/getCoordinate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getMapSite</servlet-name>
+        <url-pattern>/getMapSite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>observeSiteQuery</servlet-name>
+        <url-pattern>/observeSiteQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>observeSiteSave</servlet-name>
+        <url-pattern>/observeSiteSave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

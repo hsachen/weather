@@ -15,7 +15,10 @@
         <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
         <link rel="shortcut icon" href="img/favicon.png">
 
-
+        <style type="text/css">
+            .red{color: red;}
+        </style>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5E5EE28a7615536d1ffe2ce2a3667859"></script>
 
         <title></title>
 
@@ -45,18 +48,18 @@
             <section id="main-content">
 
                 <section class="wrapper">
-
                     <div class="panel panel-info">
                         <div class="row">
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="adminMain.jsp">行政区</a></li>
-                                    <li><i class="icon_documents_alt"></i>行政区新建</li>
+                                    <li><i class="icon_documents_alt"></i>行政区編輯</li>
                                 </ol>
                             </div>
                         </div>
                         <div class="panel-content ">
+
                             <div class="panel-body">
                                 <form id="addForm" class="form-horizontal " method="post"  >
                                     <input type="hidden" class="form-control" id="postType" name="postType" value="edit" >
@@ -154,17 +157,31 @@
                                     <a class="btn btn-default"  title="保存" id="submitBtn">保存</a>
                                     <input type="reset" class="btn btn-default" value="重置">
                                 </div>
+
                             </div>
+                            <div class="panel-body"  id="allmap" style = "height:600px">
+                            </div>
+                        </div>
+
+                        <div class="panel-content ">
+
                         </div>
                     </div>
                 </section>
             </section>
+
             <!--main content end-->
         </section>
+
         <!-- container section start -->
         <%@include file="../template/script.jsp" %>
 
         <script>
+
+            var map = new BMap.Map("allmap");
+            var point = new BMap.Point(116.404, 39.915);
+
+            map.centerAndZoom(point, 15);
             $(document).ready(function () {
 
                 $.ajax({
@@ -229,6 +246,8 @@
                 });
 
             });
+
+
 
         </script>
     </body>

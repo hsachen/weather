@@ -148,7 +148,24 @@
                                         </div>
                                     </div>
                                 </form>
-    
+                                <form id="uploadForm" class="form-horizontal " method="post" enctype="multipart/form-data" >
+                                    <input type="hidden" class="form-control" id="postType" name="postType" value="upload" >
+                                    <div class="panel-heading">批量新增</div>
+                                    <div class="panel-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">批量模板</label>
+                                            <div class="col-sm-3">
+                                                <a class="btn btn-default" href="download.xls" title="確定" target="_blank">下載</a>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="file" class="form-control" name="file">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="button" class="btn btn-default" id="uploadBtn"  >上传</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                                 <div class="form-group">
                                     <label class="col-sm-5 control-label"></label>
                                     <a class="btn btn-default"  title="保存" id="submitBtn">保存</a>
@@ -181,7 +198,7 @@
                         type: "POST",
                         success: function (msg) {
                             alert(msg);
-                              window.location.href = "adminView.jsp";
+                            window.location.href = "adminView.jsp";
                             //       $("#main-content").load("order/itemManager.jsp");
                         },
                         error: function (xhr, ajaxOptions, thrownError) {

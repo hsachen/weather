@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *
  * @author Jean
  */
-public class getCoordinate extends HttpServlet {
+public class personQuery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,24 +62,39 @@ public class getCoordinate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
+        processRequest(request, response);
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
-        processRequest(request, response);
-        String id = request.getParameter("id");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        String userId = request.getParameter("userId"); //用户名
+        String userName = request.getParameter("userName"); //真实姓名
+        String userPrivilege = request.getParameter("userPrivilege"); //用户权限
+
+
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            obj.put("x", "116.414");
-            obj.put("y", "39.925");
+            obj.put("userId", "AAA000");//用户名
+            obj.put("userpwd", "A123456");//密码
+            obj.put("userName", "林小二");//真实姓名
+            obj.put("cellPhone", "98654654");//手机号
+            obj.put("eMail", "asda@gmail.com");//邮箱地址
+            obj.put("userPrivilege", "全部权限（项目副总）");//用户权限
+
             arry.put(obj);
-            
             obj = new JSONObject();
-      
-            obj.put("x", "116.410");
-            obj.put("y", "39.915");
+            obj.put("userId", "BBB000");//用户名
+            obj.put("userpwd", "A123456");//密码
+            obj.put("userName", "林小二");//真实姓名
+            obj.put("cellPhone", "98654654");//手机号
+            obj.put("eMail", "asda@gmail.com");//邮箱地址
+            obj.put("userPrivilege", "全部权限（项目经理）");//用户权限
             arry.put(obj);
             out.print(arry);
-        } catch (Exception e) {
 
+        } catch (JSONException ex) {
+            System.out.print(ex);
+            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
