@@ -16,9 +16,13 @@
         <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
         <link rel="shortcut icon" href="img/favicon.png">
 
-
+        <style type="text/css">
+            .red{color: red;}
+        </style>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5E5EE28a7615536d1ffe2ce2a3667859"></script>
 
         <title></title>
+
 
         <%@include file="../template/style.jsp" %>
 
@@ -369,6 +373,8 @@
                                             <div class="col-sm-2">  
                                                 <input id="aqSite3" name="aqSite3" type="text" value="" class="form-control" disabled="disbled">
                                             </div>
+                                            <div class="panel-body"  id="allmap" style = "height:600px">
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -383,6 +389,31 @@
         <%@include file="../template/script.jsp" %>
 
         <script>
+
+            //產生地圖
+            $.ajax({
+                url: "../getCoordinate?id=111",
+                type: "POST",
+                dataType: "json",
+                success: function (msg) {
+                    var map = new BMap.Map("allmap");
+                    var point = new BMap.Point(116.404, 39.915);
+                    map.centerAndZoom(point, 15);
+                    for (var i = 0; i < msg.length; i++) {
+                        var point = new BMap.Point(msg[i].x, msg[i].y);
+                        debugger;
+                        var marker = new BMap.Marker(point);
+                        map.addOverlay(marker);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+
+
+
             $(document).ready(function () {
 
                 $.ajax({

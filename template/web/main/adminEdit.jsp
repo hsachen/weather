@@ -157,14 +157,9 @@
                                     <a class="btn btn-default"  title="保存" id="submitBtn">保存</a>
                                     <input type="reset" class="btn btn-default" value="重置">
                                 </div>
-
                             </div>
                             <div class="panel-body"  id="allmap" style = "height:600px">
                             </div>
-                        </div>
-
-                        <div class="panel-content ">
-
                         </div>
                     </div>
                 </section>
@@ -177,13 +172,30 @@
         <%@include file="../template/script.jsp" %>
 
         <script>
+            //產生地圖
+            $.ajax({
+                url: "../getCoordinate?id=111",
+                type: "POST",
+                dataType: "json",
+                success: function (msg) {
+                    var map = new BMap.Map("allmap");
+                    var point = new BMap.Point(116.404, 39.915);
+                    map.centerAndZoom(point, 15);
+                    for (var i = 0; i < msg.length; i++) {
+                        var point = new BMap.Point(msg[i].x, msg[i].y);
+                        debugger;
+                        var marker = new BMap.Marker(point);
+                        map.addOverlay(marker);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
 
-            var map = new BMap.Map("allmap");
-            var point = new BMap.Point(116.404, 39.915);
 
-            map.centerAndZoom(point, 15);
             $(document).ready(function () {
-
                 $.ajax({
                     url: "../adminQuery",
                     //  data: $('#queryForm').serialize(),
