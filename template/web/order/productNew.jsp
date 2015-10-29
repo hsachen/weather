@@ -67,6 +67,7 @@
                                             <label class="col-sm-2 control-label">项目编号</label>
                                             <div class="col-sm-2">
                                                 <input type="text" class="form-control" id="projectCode" name="projectCode">
+                                                <a href="itemList.jsp" target="_blank">查詢项目编号...</a>
                                             </div>
                                             <label class="col-sm-2 control-label">客户编号</label>
                                             <div class="col-sm-2">
@@ -145,12 +146,16 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <a href="paramSiteSet.jsp" id="set">设置阈值站点参数...</a>
+                                                <br>
+                                                <a  href="activityMain.jsp" target="_blank">查詢活动代码...</a>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </form>
                                 <form id="uploadForm" class="form-horizontal " method="post" enctype="multipart/form-data" >
-                                      <input type="hidden" class="form-control" id="postType" name="postType" value="upload" >
+                                    <input type="hidden" class="form-control" id="postType" name="postType" value="upload" >
                                     <div class="panel-heading">产品批量新增</div>
                                     <div class="panel-content">
                                         <div class="form-group">

@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control"  placeholder="输入活动代码或活动名称" id="eventInput" name="eventInput" value="">  
+                            <input type="text" class="form-control"  placeholder="输入活动代码或活动名称" id="eventId" name="eventId" value="">  
                         </div>
                         <div class="col-sm-2">
                             <a href="activityMain.jsp" target="_blank">查看列表...</a>

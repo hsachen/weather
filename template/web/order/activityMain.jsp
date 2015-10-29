@@ -148,7 +148,7 @@
                         if ($(this).val() === "V") {
                             //   $("#main-content").load("order/itemEdit.jsp");
                         } else if ($(this).val() === "C") {
-                            $('#eventInput', opener.document).val($(this).attr("key"));
+                            $('#eventId', opener.document).val($(this).attr("key"));
                             window.close();
                         }
                     });

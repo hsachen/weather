@@ -68,7 +68,7 @@
                                             <div class="col-sm-2">
                                                 <select class="form-control m-bot15" id="metetoElementId" name="metetoElementId">
                                                 </select>
-                                                <a class="btn btn-default" href="meteroElementManager.jsp" target="_bank">編輯</a>
+                                                <a class="btn btn-default" href="meteroElementManager.jsp" target="_bank">天氣要素管理</a>
                                             </div>
                                             <label class="col-sm-2 control-label">天气要素等级标准</label>
                                             <div class="col-sm-2">

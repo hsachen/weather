@@ -67,6 +67,7 @@
                                             <label class="col-sm-2 control-label">项目编号</label>
                                             <div class="col-sm-2">
                                                 <input type="text" class="form-control" id="projectCode" name="projectCode">
+                                                       <a href="itemList.jsp" target="_blank">查詢项目编号...</a>
                                             </div>
                                             <label class="col-sm-2 control-label">客户编号</label>
                                             <div class="col-sm-2">
@@ -145,6 +146,8 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <a href="paramSiteSet.jsp" id="set">设置阈值站点参数...</a>
+                                                <br>
+                                                     <a  href="activityMain.jsp" target="_blank">查詢活动代码...</a>
                                             </div>
                                         </div>
                                     </div>

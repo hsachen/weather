@@ -45,7 +45,7 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>天气要素</li>
+                                    <li><i class="icon_documents_alt"></i>天氣要素等級</li>
                                 </ol>
                             </div>
                         </div>
@@ -69,12 +69,28 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                          <label class="col-sm-2 control-label">天气要素等级标准</label>
+                                      <div class="col-sm-2">
+                                                <select class="form-control m-bot15" id="standardVersion" name="standardVersion">
+                                                    <option value="GB">国标</option>
+                                                    <option value="ISO">国际标准</option>
+                                                    <option value="DB">地方标准;省市地</option>
+                                                    <option value="HB">行标</option>
+                                                </select>
+                                            </div>
+                                         <label class="col-sm-2 control-label">天气要素等级代码</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" id="metetoElementGrade" name="metetoElementGrade">
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-5 control-label"></label>
                                         <a class="btn btn-default"  title="查询" id="query">查询</a>
                                         <input type="reset" class="btn btn-default" value="重置">
                                     </div>
                                 </form>
                                 <div class="form-group">
+                                       <a class="btn btn-default" href="meteroElementManager.jsp" target="_bank">天氣要素管理</a>
                                     <a class="btn btn-default" href="meteroNew.jsp">新建</a>
                                     <button class="btn btn-default"  id="del">刪除</button>
                                     <button class="btn btn-default" id="btn_export">下载csv文件</button>

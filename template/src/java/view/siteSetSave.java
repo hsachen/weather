@@ -77,7 +77,7 @@ public class siteSetSave extends HttpServlet {
             String surveyName = request.getParameter("surveyName");//经纬度命名
             out.print("命名保存成功");
         } else if (inputForm != null && inputForm.equals("B")) {
-            String eventInput = request.getParameter("eventInput"); //输入活动代码或活动名称
+            String eventId = request.getParameter("eventId"); //输入活动代码或活动名称
             String siteName = request.getParameter("siteName"); //输入站点组名称
             String siteName2 = request.getParameter("siteName2"); //输入站点组名称
             String[] checkboxSite = request.getParameterValues("checkboxSite");

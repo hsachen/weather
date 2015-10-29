@@ -70,6 +70,8 @@ public class meteroQuery extends HttpServlet {
         String metetoElementId = request.getParameter("metetoElementId"); //天气要素代码
         String metetoElementCN = request.getParameter("metetoElementCN"); //天气要素描述(中文)
         String metetoElementEN = request.getParameter("metetoElementEN"); //天气要素描述(英文)
+           String standardVersion = request.getParameter("standardVersion"); //天气要素等级标准
+              String metetoElementGrade = request.getParameter("metetoElementGrade"); //天气要素等级代码
 
         try (PrintWriter out = response.getWriter()) {
             obj.put("metetoElementId", "A1"); //天气要素代码
