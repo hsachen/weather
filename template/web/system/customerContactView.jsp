@@ -1,6 +1,6 @@
 <%-- 
-    Document   : customerContactNew
-    Created on : 2015/10/19, 上午 09:02:58
+    Document   : customerContactView
+    Created on : 2015/10/30, 上午 09:02:58
     Author     : Z00907
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -58,13 +58,12 @@
                         <div class="panel-content ">
                             <div class="panel-body">
                                 <form id="addForm" class="form-horizontal " method="post"  >
-                                    <input type="hidden" class="form-control" id="postType" name="postType" value="add" >
                                     <div class="panel-heading"></div>
                                     <div class="panel-content">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">客户分类代码</label>
                                             <div class="col-sm-2">
-                                                <select class="form-control m-bot15" id="customerIndustry" name="customerIndustry">
+                                                <select class="form-control m-bot15" id="customerIndustry" name="customerIndustry" disabled="disbled">
                                                     <option value=""></option>
                                                     <option value="I">保险公司</option>
                                                     <option value="C">谘询公司</option>
@@ -79,73 +78,68 @@
                                             </div>
                                             <label class="col-sm-2 control-label">客户代码</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="customerCode" name="customerCode">
+                                                <input type="text" class="form-control" id="customerCode" name="customerCode" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">客户名称</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="customerName" name="customerName">
+                                                <input type="text" class="form-control" id="customerName" name="customerName" disabled="disbled">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">客户简称</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="customerSortName" name="customerSortName">
+                                                <input type="text" class="form-control" id="customerSortName" name="customerSortName" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">客户英文简称</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="customerAbb" name="customerAbb">
+                                                <input type="text" class="form-control" id="customerAbb" name="customerAbb" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">联系人</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="contactPerson" name="contactPerson">
+                                                <input type="text" class="form-control" id="contactPerson" name="contactPerson" disabled="disbled">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">联系电话</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="contactNumber" name="contactNumber">
+                                                <input type="text" class="form-control" id="contactNumber" name="contactNumber" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">发票地址</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="invoiceAddress" name="invoiceAddress">
+                                                <input type="text" class="form-control" id="invoiceAddress" name="invoiceAddress" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">SFTP帐号</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="sftpAccountId" name="sftpAccountId">
+                                                <input type="text" class="form-control" id="sftpAccountId" name="sftpAccountId" disabled="disbled">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">SFTP密码</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="sftpAccountPsw" name="sftpAccountPsw">
+                                                <input type="text" class="form-control" id="sftpAccountPsw" name="sftpAccountPsw" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">SFTP IP(IPV4)</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="sftpAccountIP4" name="sftpAccountIP4">
+                                                <input type="text" class="form-control" id="sftpAccountIP4" name="sftpAccountIP4" disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">SFTP IP(IPV6)</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="sftpAccountIP6" name="sftpAccountIP6">
+                                                <input type="text" class="form-control" id="sftpAccountIP6" name="sftpAccountIP6" disabled="disbled">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">SFTP路徑</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="sftpAccountPath" name="sftpAccountPath">
+                                                <input type="text" class="form-control" id="sftpAccountPath" name="sftpAccountPath disabled="disbled"">
                                             </div>
 
                                         </div>
                                     </div>
                                 </form>
 
-                                <div class="form-group">
-                                    <label class="col-sm-5 control-label"></label>
-                                    <a class="btn btn-default"  title="保存" id="submitBtn">保存</a>
-                                    <input type="reset" class="btn btn-default" value="重置">
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -158,29 +152,43 @@
 
         <script>
             $(document).ready(function () {
+                $.ajax({
+                    url: "../customerContactQuey",
+                    //  data: $('#queryForm').serialize(),
+                    type: "POST",
+                    dataType: "json",
+                    success: function (JData) {
+
+                        $.each(JData, function (index, element) {
+                            $("#customerIndustry").val(element.customerIndustry);
+                            $("#customerCode").val(element.customerCode);
+                            $("#customerName").val(element.customerName);
+                            $("#customerSortName").val(element.customerSortName);
+                            $("#customerAbb").val(element.customerAbb);
+                            $("#contactPerson").val(element.contactPerson);
+                            $("#contactNumber").val(element.contactNumber);
+                            $("#invoiceAddress").val(element.invoiceAddress);
+                            $("#sftpAccountId").val(element.sftpAccountId);
+                            $("#sftpAccountPsw").val(element.sftpAccountPsw);
+                            $("#sftpAccountIP4").val(element.sftpAccountIP4);
+                            $("#sftpAccountIP6").val(element.sftpAccountIP6);
+                            $("#sftpAccountPath").val(element.sftpAccountPath);
+
+                        });
+
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
 
                 $("#reset").click(function () {
                     $('#addForm')[0].reset();
 
                 });
 
-                //保存
-                $("#submitBtn").click(function () {
-                    $.ajax({
-                        url: "../customerContactSave",
-                        data: $('#addForm').serialize(),
-                        type: "POST",
-                        success: function (msg) {
-                            alert(msg);
-                            window.location.href = "customerContactManager.jsp";
-                            //       $("#main-content").load("order/itemManager.jsp");
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                        }
-                    });
-                });
 
             });
 

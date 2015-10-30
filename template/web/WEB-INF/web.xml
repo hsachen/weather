@@ -148,6 +148,10 @@
         <servlet-name>customerContactQuey</servlet-name>
         <servlet-class>view.customerContactQuey</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>customerContactSave</servlet-name>
+        <servlet-class>view.customerContactSave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -295,6 +299,10 @@
     <servlet-mapping>
         <servlet-name>customerContactQuey</servlet-name>
         <url-pattern>/customerContactQuey</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>customerContactSave</servlet-name>
+        <url-pattern>/customerContactSave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

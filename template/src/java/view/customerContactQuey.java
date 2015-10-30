@@ -33,7 +33,54 @@ public class customerContactQuey extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        JSONObject obj = new JSONObject();
+        JSONArray arry = new JSONArray();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        String customerIndustry = request.getParameter("customerIndustry"); //客户分类代码
+        String customerCode = request.getParameter("customerCode"); //客户代码
+        String customerName = request.getParameter("customerName"); //客户名称
+        String customerAbb = request.getParameter("customerAbb"); //客户英文简称
+        String contactPerson = request.getParameter("contactPerson"); //联系人
 
+        try (PrintWriter out = response.getWriter()) {
+            obj.put("customerIndustry", "456");  //客户分类代码
+            obj.put("customerCode", "123");  //客户代码
+            obj.put("customerName", "AAA000");//客户名称
+            obj.put("customerSortName", "AAA000");//客户简称
+            obj.put("customerAbb", "SSaaa");//客户英文简称
+            obj.put("contactPerson", "林小二");//联系人
+            obj.put("contactNumber", "021456");//联系电话
+            obj.put("invoiceAddress", "XXXXX");//发票地址
+            obj.put("sftpAccountId", "Aaaaa");//SFTP帐号
+            obj.put("sftpAccountPsw", "asdf");//SFTP密码
+            obj.put("sftpAccountIP4", "1234");//SFTP IP(IPV4)
+            obj.put("sftpAccountIP6", "5678");//SFTP IP(IPV4)
+            obj.put("sftpAccountPath", "SSS");//路徑
+            arry.put(obj);
+
+            obj = new JSONObject();
+            obj.put("customerIndustry", "123");  //客户分类代码
+            obj.put("customerCode", "123");  //客户代码
+            obj.put("customerName", "AAA000");//客户名称
+            obj.put("customerSortName", "AAA000");//客户简称
+            obj.put("customerAbb", "SSSaaa");//客户英文简称
+            obj.put("contactPerson", "林小二");//联系人
+            obj.put("contactNumber", "021456");//联系电话
+            obj.put("invoiceAddress", "XXXXX");//发票地址
+            obj.put("sftpAccountId", "Aaaaa");//SFTP帐号
+            obj.put("sftpAccountPsw", "asdf");//SFTP密码
+            obj.put("sftpAccountIP4", "1234");//SFTP IP(IPV4)
+            obj.put("sftpAccountIP6", "5678");//SFTP IP(IPV4)
+            obj.put("sftpAccountPath", "SSS");//SFTP路徑
+
+            arry.put(obj);
+            out.print(arry);
+
+        } catch (JSONException ex) {
+            System.out.print(ex);
+            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,37 +110,6 @@ public class customerContactQuey extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        processRequest(request, response);
-        JSONObject obj = new JSONObject();
-        JSONArray arry = new JSONArray();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        String userId = request.getParameter("userId"); //用户名
-        String userName = request.getParameter("userName"); //真实姓名
-        String userPrivilege = request.getParameter("userPrivilege"); //用户权限
-
-        try (PrintWriter out = response.getWriter()) {
-            obj.put("customerIndustry", "456");  //客户分类代码
-            obj.put("customerCode", "123");  //客户代码
-            obj.put("customerName", "AAA000");//客户名称
-            obj.put("customerAbb", "?aaa");//客户英文简称
-            obj.put("contactPerson", "林小二");//真实联系人姓名
-
-            arry.put(obj);
-            obj = new JSONObject();
-            obj.put("customerIndustry", "456");  //客户分类代码
-            obj.put("customerCode", "456");  //客户代码
-            obj.put("customerName", "AAA000");//客户名称
-            obj.put("customerAbb", "?aaa");//客户英文简称
-            obj.put("contactPerson", "林小二");//真实联系人姓名
-
-            arry.put(obj);
-            out.print(arry);
-
-        } catch (JSONException ex) {
-            System.out.print(ex);
-            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**

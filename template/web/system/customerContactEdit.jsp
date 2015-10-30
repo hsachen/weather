@@ -1,6 +1,6 @@
 <%-- 
-    Document   : customerContactNew
-    Created on : 2015/10/19, 上午 09:02:58
+    Document   : customerContactEdit
+    Created on : 2015/10/30, 上午 09:02:58
     Author     : Z00907
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -58,7 +58,7 @@
                         <div class="panel-content ">
                             <div class="panel-body">
                                 <form id="addForm" class="form-horizontal " method="post"  >
-                                    <input type="hidden" class="form-control" id="postType" name="postType" value="add" >
+                                    <input type="hidden" class="form-control" id="postType" name="postType" value="edit" >
                                     <div class="panel-heading"></div>
                                     <div class="panel-content">
                                         <div class="form-group">
@@ -158,6 +158,37 @@
 
         <script>
             $(document).ready(function () {
+                $.ajax({
+                    url: "../customerContactQuey",
+                    //  data: $('#queryForm').serialize(),
+                    type: "POST",
+                    dataType: "json",
+                    success: function (JData) {
+
+                        $.each(JData, function (index, element) {
+                            $("#customerIndustry").val(element.customerIndustry);
+                            $("#customerCode").val(element.customerCode);
+                            $("#customerName").val(element.customerName);
+                            $("#customerSortName").val(element.customerSortName);
+                            $("#customerAbb").val(element.customerAbb);
+                            $("#contactPerson").val(element.contactPerson);
+                            $("#contactNumber").val(element.contactNumber);
+                            $("#invoiceAddress").val(element.invoiceAddress);
+                            $("#sftpAccountId").val(element.sftpAccountId);
+                            $("#sftpAccountPsw").val(element.sftpAccountPsw);
+                            $("#sftpAccountIP4").val(element.sftpAccountIP4);
+                            $("#sftpAccountIP6").val(element.sftpAccountIP6);
+                            $("#sftpAccountPath").val(element.sftpAccountPath);
+
+                        });
+
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
 
                 $("#reset").click(function () {
                     $('#addForm')[0].reset();

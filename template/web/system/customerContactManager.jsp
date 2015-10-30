@@ -98,7 +98,7 @@
                                     </div>
                                 </form>
                                 <div class="form-group">
-                                    <a class="btn btn-default" href="personNew.jsp">新建</a>
+                                    <a class="btn btn-default" href="customerContactNew.jsp">新建</a>
                                     <button class="btn btn-default"  id="del">刪除</button>
                                 </div>
                                 <div id="table_div">
