@@ -1198,7 +1198,6 @@ div[data-role="editor-toolbar"] {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.1);
   
 }
-}
 .panel.panel-default.panel-heading {
   background: #97d3c5;   
 }
@@ -1505,7 +1504,7 @@ div[data-role="editor-toolbar"] {
   -moz-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
 }
-* /Widget-Content */
+ /*Widget-Content */
 
 .widget-content .error .form-inline button{
 	margin-left:-2px;
@@ -1683,7 +1682,7 @@ div[data-role="editor-toolbar"] {
   cursor:move;
 }
 /*-----	map-----*/
-* Google maps */
+/* Google maps */
 
 .gmap iframe{
 	width: 100%;

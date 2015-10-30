@@ -1,5 +1,5 @@
 <%-- 
-    Document   : person
+    Document   : customerContactManager
     Created on : 2015/10/16, 下午 04:52:14
     Author     : Z00907
 --%>
@@ -46,7 +46,7 @@
                             <div class="col-lg-12">
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
-                                    <li><i class="icon_documents_alt"></i>用户管理</li>
+                                    <li><i class="icon_documents_alt"></i>客户联系人管理</li>
                                 </ol>
                             </div>
                         </div>
@@ -75,29 +75,20 @@
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="customerCode" name="customerCode">
                                         </div>
-                                        <label class="col-sm-2 control-label">用户代碼</label>
+                                        <label class="col-sm-2 control-label">客户名称</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="userId" name="userId">
+                                            <input type="text" class="form-control" id="customerName" name="customerName">
                                         </div>
+                                        
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">帐户动作</label>
+                                               <label class="col-sm-2 control-label">客户英文简称</label>
                                         <div class="col-sm-2">
-                                            <select class="form-control m-bot15" id="uidAttribute" name="uidAttribute">
-                                                <option value="1">新增</option>
-                                                <option value="2">暂停使用(冻结)</option>
-                                                <option value="3">终止</option>
-                                            </select>
+                                            <input type="text" class="form-control" id="customerAbb" name="customerAbb">
                                         </div>
-                                        <label class="col-sm-2 control-label">用户权限</label>
+                                        <label class="col-sm-2 control-label">联系人</label>
                                         <div class="col-sm-2">
-                                            <select class="form-control m-bot15" id="userPrivilege" name="userPrivilege">
-                                                <option value="1">全部权限（admin才可对用户管理修改）</option>
-                                                <option value="2">全部权限（项目副总）</option>
-                                                <option value="3">全部权限（项目总监）</option>
-                                                <option value="4">全部权限（项目经理）</option>
-                                                <option value="5">普通用户（仅可查看）</option>
-                                            </select>
+                                            <input type="text" class="form-control" id="contactPerson" name="contactPerson">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -130,16 +121,16 @@
             $("#query").click(function () {
                 $("#table_div").mask("Loading...");
                 $.ajax({
-                    url: "../personQuery",
+                    url: "../customerContactQuey",
                     data: $('#queryForm').serialize(),
                     type: "POST",
                     dataType: "json",
                     success: function (JData) {
 
                         $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>客户分类代码</th><th>客户代码</th><th>用户代碼</th><th>用户权限</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>客户分类代码</th><th>客户代码</th><th>客户名称</th><th>客户英文简称</th><th>联系人</th><th>操作</th> </tr></thead><tfoot></tfoot><tbody></tbody></table>");
                         $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.customerIndustry + "</td><td>" + element.customerCode + "</td><td>" + element.userId + "</td><td>" + element.userPrivilege + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option><option value=\"V\">查看</option></select></td></tr>");
+                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.customerIndustry + "</td><td>" + element.customerCode + "</td><td>" + element.customerName + "</td><td>" + element.customerAbb + "</td><td>" + element.contactPerson + "</td><td><select inx=\"" + index + "\" class=\"form-control m-bot15\" id=\"operation\" name=\"operation\"> <option value=\"\">--</option><option value=\"E\">編輯</option>-</option></option><option value=\"V\">查看</option>-</option></select></td></tr>");
                         });
                         $('#detailTable').DataTable({
                             columnDefs: [
@@ -150,9 +141,9 @@
 
                         $("#operation").change(function () {
                             if ($(this).val() === "E") {
-                                window.location.href = "personEdit.jsp?key=" + $(this).attr("inx");
+                                window.location.href = "customerContactEdit.jsp?key=" + $(this).attr("inx");
                             } else if ($(this).val() === "V") {
-                                window.location.href = "personView.jsp?key=" + $(this).attr("inx");
+                                window.location.href = "customerContactView.jsp?key=" + $(this).attr("inx");
                             }
                         });
                         $("#table_div").unmask();

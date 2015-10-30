@@ -74,6 +74,8 @@ public class personQuery extends HttpServlet {
 
 
         try (PrintWriter out = response.getWriter()) {
+                obj.put("customerIndustry", "保险公司");//客户分类代码
+                  obj.put("customerCode", "123");  //客户代码
             obj.put("userId", "AAA000");//用户名
             obj.put("userpwd", "A123456");//密码
             obj.put("userName", "林小二");//真实姓名
@@ -83,12 +85,15 @@ public class personQuery extends HttpServlet {
 
             arry.put(obj);
             obj = new JSONObject();
+               obj.put("customerIndustry", "保险公司");//客户分类代码
+                  obj.put("customerCode", "456");  //客户代码
             obj.put("userId", "BBB000");//用户名
             obj.put("userpwd", "A123456");//密码
             obj.put("userName", "林小二");//真实姓名
             obj.put("cellPhone", "98654654");//手机号
             obj.put("eMail", "asda@gmail.com");//邮箱地址
             obj.put("userPrivilege", "全部权限（项目经理）");//用户权限
+            
             arry.put(obj);
             out.print(arry);
 

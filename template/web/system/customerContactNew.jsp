@@ -1,9 +1,8 @@
 <%-- 
-    Document   : personEdit
-    Created on : 2015/10/19, 上午 09:40:36
-    Author     : Jean
+    Document   : customerContactNew
+    Created on : 2015/10/19, 上午 09:02:58
+    Author     : Z00907
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,14 +51,14 @@
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="personManager.jsp">用户管理</a></li>
-                                    <li><i class="icon_documents_alt"></i>用户編輯</li>
+                                    <li><i class="icon_documents_alt"></i>用户新建</li>
                                 </ol>
                             </div>
                         </div>
                         <div class="panel-content ">
                             <div class="panel-body">
                                 <form id="addForm" class="form-horizontal " method="post"  >
-                                    <input type="hidden" class="form-control" id="postType" name="postType" value="edit" >
+                                    <input type="hidden" class="form-control" id="postType" name="postType" value="add" >
                                     <div class="panel-heading"></div>
                                     <div class="panel-content">
                                         <div class="form-group">
@@ -159,7 +158,6 @@
                 $('#validEnd').datepicker({
                     dateFormat: 'yy/mm/dd'
                 });
-
                 $("#reset").click(function () {
                     $('#addForm')[0].reset();
 
@@ -189,4 +187,3 @@
     </body>
 
 </html>
-

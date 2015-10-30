@@ -144,6 +144,10 @@
         <servlet-name>observeSiteSave</servlet-name>
         <servlet-class>view.observeSiteSave</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>customerContactQuey</servlet-name>
+        <servlet-class>view.customerContactQuey</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>itemSave</servlet-name>
         <url-pattern>/itemSave</url-pattern>
@@ -287,6 +291,10 @@
     <servlet-mapping>
         <servlet-name>observeSiteSave</servlet-name>
         <url-pattern>/observeSiteSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>customerContactQuey</servlet-name>
+        <url-pattern>/customerContactQuey</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

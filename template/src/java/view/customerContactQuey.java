@@ -11,12 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
- * @author Jean
+ * @author Z00907
  */
-public class personSave extends HttpServlet {
+public class customerContactQuey extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,35 +63,36 @@ public class personSave extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-
-        String postType = request.getParameter("postType"); //增刪改查
-        String customerIndustry = request.getParameter("customerIndustry"); //客户分类代码
-        String customerCode = request.getParameter("customerCode"); //客户分类代码
+        processRequest(request, response);
+        JSONObject obj = new JSONObject();
+        JSONArray arry = new JSONArray();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
         String userId = request.getParameter("userId"); //用户名
-        String userpwd = request.getParameter("userpwd"); //密码
         String userName = request.getParameter("userName"); //真实姓名
-        String cellPhone = request.getParameter("cellPhone"); //手机号
-        String eMail = request.getParameter("eMail"); //邮箱地址
-        String validFrom = request.getParameter("validFrom"); //生效日期(起)址
-        String validEnd = request.getParameter("validEnd"); //生效日期(迄)
         String userPrivilege = request.getParameter("userPrivilege"); //用户权限
 
-        String aa = "";
-        if (postType != null && postType.equals("add")) {
-            /*新增*/
-            out.print("用户新增成功");
-        } else if (postType != null && postType.equals("edit")) {
-            /*修改*/
-            out.print("用户修改成功");
-        } else if (postType != null && postType.equals("del")) {
-            /*刪除*/
-            String checkbox[] = request.getParameter("checkbox").split(",");
-            for (String s : checkbox) {
-                aa += s + ",";
-            }
-            out.print("用户刪除成功:" + aa);
+        try (PrintWriter out = response.getWriter()) {
+            obj.put("customerIndustry", "456");  //客户分类代码
+            obj.put("customerCode", "123");  //客户代码
+            obj.put("customerName", "AAA000");//客户名称
+            obj.put("customerAbb", "?aaa");//客户英文简称
+            obj.put("contactPerson", "林小二");//真实联系人姓名
+
+            arry.put(obj);
+            obj = new JSONObject();
+            obj.put("customerIndustry", "456");  //客户分类代码
+            obj.put("customerCode", "456");  //客户代码
+            obj.put("customerName", "AAA000");//客户名称
+            obj.put("customerAbb", "?aaa");//客户英文简称
+            obj.put("contactPerson", "林小二");//真实联系人姓名
+
+            arry.put(obj);
+            out.print(arry);
+
+        } catch (JSONException ex) {
+            System.out.print(ex);
+            //      Logger.getLogger(itemQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

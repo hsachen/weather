@@ -1,5 +1,5 @@
 <%-- 
-    Document   : personEdit
+    Document   : personView
     Created on : 2015/10/19, 上午 09:40:36
     Author     : Jean
 --%>
@@ -52,21 +52,20 @@
                                 <ol class="breadcrumb">
                                     <li><i class="fa fa-home"></i><a href="../index.jsp">Home</a></li>
                                     <li><i class="icon_documents_alt"></i><a href="personManager.jsp">用户管理</a></li>
-                                    <li><i class="icon_documents_alt"></i>用户編輯</li>
+                                    <li><i class="icon_documents_alt"></i>用户查看</li>
                                 </ol>
                             </div>
                         </div>
                         <div class="panel-content ">
                             <div class="panel-body">
                                 <form id="addForm" class="form-horizontal " method="post"  >
-                                    <input type="hidden" class="form-control" id="postType" name="postType" value="edit" >
                                     <div class="panel-heading"></div>
                                     <div class="panel-content">
                                         <div class="form-group">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">客户分类代码</label>
                                                 <div class="col-sm-2">
-                                                    <select class="form-control m-bot15" id="customerIndustry" name="customerIndustry">
+                                                    <select class="form-control m-bot15" id="customerIndustry" name="customerIndustry"  disabled="disbled">
                                                         <option value=""></option>
                                                         <option value="I">保险公司</option>
                                                         <option value="C">谘询公司</option>
@@ -81,49 +80,49 @@
                                                 </div>
                                                 <label class="col-sm-2 control-label">客户代码</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" id="customerCode" name="customerCode">
+                                                    <input type="text" class="form-control" id="customerCode" name="customerCode"  disabled="disbled">
                                                 </div>
                                                 <label class="col-sm-2 control-label">用户代碼</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" id="userId" name="userId">
+                                                    <input type="text" class="form-control" id="userId" name="userId"  disabled="disbled">
                                                 </div>
                                             </div>
                                             <label class="col-sm-2 control-label">用户名</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="userId" name="userId">
+                                                <input type="text" class="form-control" id="userId" name="userId"  disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">密码</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="userpwd" name="userpwd">
+                                                <input type="text" class="form-control" id="userpwd" name="userpwd"  disabled="disbled">
                                             </div>
 
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">真实姓名</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="userName" name="userName">
+                                                <input type="text" class="form-control" id="userName" name="userName"  disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">手机号</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="cellPhone" name="cellPhone">
+                                                <input type="text" class="form-control" id="cellPhone" name="cellPhone"  disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">邮箱地址</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="eMail" name="eMail">
+                                                <input type="text" class="form-control" id="eMail" name="eMail"  disabled="disbled">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">生效日期(起)</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="validFrom" name="validFrom">
+                                                <input type="text" class="form-control" id="validFrom" name="validFrom"  disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">生效日期(迄)</label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" id="validEnd" name="validEnd">
+                                                <input type="text" class="form-control" id="validEnd" name="validEnd"  disabled="disbled">
                                             </div>
                                             <label class="col-sm-2 control-label">用户权限</label>
                                             <div class="col-sm-2">
-                                                <select class="form-control m-bot15" id="userPrivilege" name="userPrivilege">
+                                                <select class="form-control m-bot15" id="userPrivilege" name="userPrivilege"  disabled="disbled">
                                                     <option value="1">全部权限（admin才可对用户管理修改）</option>
                                                     <option value="2">全部权限（项目副总）</option>
                                                     <option value="3">全部权限（项目总监）</option>
@@ -134,12 +133,6 @@
                                         </div>
                                     </div>
                                 </form>
-
-                                <div class="form-group">
-                                    <label class="col-sm-5 control-label"></label>
-                                    <a class="btn btn-default"  title="保存" id="submitBtn">保存</a>
-                                    <input type="reset" class="btn btn-default" value="重置">
-                                </div>
                             </div>
                         </div>
                     </div>

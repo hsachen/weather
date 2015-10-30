@@ -62,7 +62,7 @@
             </a>
             <ul class="sub">                          
                 <li><a class="" href="${pageContext.request.contextPath}/system/personManager.jsp">用户管理</a></li>
-                <li><a class="" href="#">客户联系人管理</a></li>
+                <li><a class="" href="${pageContext.request.contextPath}/system/customerContactManager.jsp">客户联系人管理</a></li>
             </ul>
         </li>
     </ul>

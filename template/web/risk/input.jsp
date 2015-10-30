@@ -72,6 +72,9 @@
                                                 <option value="2">多站点代表</option>
                                             </select>
                                         </div>
+                                        <div class="col-sm-2">
+                                          <a class="btn btn-default" href="inputMap.jsp"  target="_blank">地圖選取</a>
+                                          </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-1">

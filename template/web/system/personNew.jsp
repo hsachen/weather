@@ -62,6 +62,31 @@
                                     <div class="panel-heading"></div>
                                     <div class="panel-content">
                                         <div class="form-group">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">客户分类代码</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control m-bot15" id="customerIndustry" name="customerIndustry">
+                                                        <option value=""></option>
+                                                        <option value="I">保险公司</option>
+                                                        <option value="C">谘询公司</option>
+                                                        <option value="G">政府</option>
+                                                        <option value="E">科研教育</option>
+                                                        <option value="X">气象局</option>
+                                                        <option value="N">NGO</option>
+                                                        <option value="B">商业公司</option>
+                                                        <option value="P">个人</option>
+
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label">客户代码</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="customerCode" name="customerCode">
+                                                </div>
+                                                <label class="col-sm-2 control-label">用户代碼</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="userId" name="userId">
+                                                </div>
+                                            </div>
                                             <label class="col-sm-2 control-label">用户名</label>
                                             <div class="col-sm-2">
                                                 <input type="text" class="form-control" id="userId" name="userId">
@@ -87,6 +112,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label">生效日期(起)</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" id="validFrom" name="validFrom">
+                                            </div>
+                                            <label class="col-sm-2 control-label">生效日期(迄)</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" id="validEnd" name="validEnd">
+                                            </div>
                                             <label class="col-sm-2 control-label">用户权限</label>
                                             <div class="col-sm-2">
                                                 <select class="form-control m-bot15" id="userPrivilege" name="userPrivilege">
@@ -119,7 +152,12 @@
         <script>
             $(document).ready(function () {
 
-
+                $('#validFrom').datepicker({
+                    dateFormat: 'yy/mm/dd'
+                });
+                $('#validEnd').datepicker({
+                    dateFormat: 'yy/mm/dd'
+                });
                 $("#reset").click(function () {
                     $('#addForm')[0].reset();
 
