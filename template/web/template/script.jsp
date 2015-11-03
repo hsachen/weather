@@ -40,8 +40,9 @@
         <script src="js/charts.js"></script>
         <script src="js/jquery.slimscroll.min.js"></script>-->
         <script src="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/js/jquery.dataTables.min.js"></script>
-             <script src="${pageContext.request.contextPath}/js/jquery-ui-timepicker-addon.js"></script>
+        <!--     <script src="${pageContext.request.contextPath}/js/jquery-ui-timepicker-addon.js"></script> -->
        <script src="${pageContext.request.contextPath}/js/dropdowns-enhancement.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery-tree.js"></script>
+           <!--       <script src="${pageContext.request.contextPath}/lib/datepicker/bootstrap-datepicker.js"></script> -->
 
       

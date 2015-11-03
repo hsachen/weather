@@ -52,8 +52,9 @@
                         </div>
                         <div class="panel-content ">
                             <div class="panel-heading">空间范围</div>
-                            <div class="panel-body">手动输入  
-                                <form class="form-horizontal" method="post" id="areaForm">
+                            <form class="form-horizontal" method="post" id="areaForm">
+                                <div class="panel-body">手动输入  
+
                                     <input type="hidden" name="inputForm" value="S" >
                                     <div class="form-group">
                                         <div class="col-sm-1">
@@ -73,40 +74,48 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-2">
-                                          <a class="btn btn-default" href="inputMap.jsp"  target="_blank">地圖選取</a>
-                                          </div>
+                                            <a class="btn btn-default" href="inputMap.jsp"  id="mapsel" target="_blank">地圖選取</a>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-1">
                                             <div class="radio">
-                                                <input type="radio" name="inputType" id="inputType1" value="1" >
+                                                <input type="radio" name="inputType" id="inputType1" value="1"   >
                                                 经纬海拔
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="longLaAl" name="longLaAl" readonly>
+                                            <input type="text" class="form-control" id="longLaAl" name="longLaAl" readonly placeholder="104.11,23.56,300">
                                         </div>
                                         <label class="col-sm-1 control-label">半径(km)</label>
                                         <div class="col-sm-1">
-                                            <input type="text" class="form-control"  id="siteRadius" name="siteRadius" readonly>
+                                            <input type="text" class="form-control"  id="siteRadiusTmp" name="siteRadiusTmp" readonly>
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" placeholder="输入经纬度命名" id="surveyName" name="surveyName" readonly>
+                                            <input type="text" class="form-control" placeholder="输入经纬度命名" id="surveyNameTmp" name="surveyNameTmp" readonly>
                                         </div>
                                         <div class="col-sm-3">
-                                            <a class="btn btn-default"  title="確定" id="saveName">確定</a>
+                                            <a class="btn btn-default"  title="確定" id="saveName" disable>確定</a>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <table class="table" id ="table1">
+                                                <tr><td>经纬度名称</td><td>经度</td><td>纬度</td><td>海拔</td><td>半径(km)</td><td>操作</td><td></td></tr>
+                                            </table>
+                                        </div>
 
-                            <div class="panel-body">批量输入           
-                                <form class="form-horizontal " method="post" enctype="multipart/form-data" id="batchForm">
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-body">批量输入           
                                     <input type="hidden" name="inputForm" value="B" >
                                     <div class="form-group">
                                         <div class="col-sm-1">
                                             <div class="radio">
-                                                <label>调取站点组</label>
+                                                <input type="radio" name="inputType" id="inputType" value="0" >
+                                                调取站点组
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -117,7 +126,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-1 control-label">批量模板</label>
+                                        <div class="col-sm-1">
+                                            <div class="radio">
+                                                <input type="radio" name="inputType" id="inputType" value="0" >
+                                                批量模板
+                                            </div>
+                                        </div>
                                         <div class="col-sm-3">
                                             <a class="btn btn-default" href="download.xls" title="確定" target="_blank">下載</a>
                                         </div>
@@ -125,8 +139,12 @@
                                             <input type="file" class="form-control" name="file">
                                         </div>
                                         <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#siteModal" >站点确认</button>
+                                            <button type="button" class="btn btn-default" id="upload" >上傳</button>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-5 control-label"></label>
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#siteModal" >站点确认</button>
                                     </div>
 
                                     <div class="modal fade" id="siteModal" tabindex="-1" role="dialog" aria-labelledby="">
@@ -145,7 +163,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal" id="modelSave">保存</button>
-                                                        <button type="button" class="btn btn-primary" id="modelSubmit">确定</button>
+                                                        <!--                                                        <button type="button" class="btn btn-primary" id="modelSubmit">确定</button>-->
                                                     </div>
                                                     <input type="hidden" name="inputForm" value="B" >
                                                     <div id="treeCheckbox2">
@@ -155,28 +173,29 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal" id="modelSave2">保存</button>
-                                                        <button type="button" class="btn btn-primary" id="modelSubmit2">确定</button>
+                                                        <!--                                                        <button type="button" class="btn btn-primary" id="modelSubmit2">确定</button>-->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-
-                                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"  id="saveModal" aria-labelledby="saveModal">
-                                    <div class="modal-dialog modal-sm">
-                                        <div class="modal-content">
-                                            <div class="modal-body" id="saveModalContent">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="index.jsp?path=order/siteList.jsp" class="btn btn-default" target="_blank">查看</a>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
-                                                <button type="button" class="btn btn-default" id="siteReturn" data-dismiss="modal">返回</button>
+                                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"  id="saveModal" aria-labelledby="saveModal">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-body" id="saveModalContent">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="index.jsp?path=order/siteList.jsp" class="btn btn-default" target="_blank">查看</a>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                                                    <button type="button" class="btn btn-default" id="siteReturn" data-dismiss="modal">返回</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>         
+                                </div>  
+                            </form>
+
+
                             <form class="form-horizontal " method="post" id="submitForm" >
                                 <input type="hidden" name="inputForm" value="C" >
                                 <div class="panel panel-info">
@@ -232,7 +251,7 @@
                                             <div class="col-sm-1">
                                                 <input type="text" class="form-control" id="historyYear" name="historyYear"> 
                                             </div>
-                                              <label class="col">年</label>
+                                            <label class="col">年</label>
                                             <div class="col-sm-1">
                                                 <input type="text" class="form-control" disabled="disabled"> 
                                             </div>
@@ -372,19 +391,23 @@
 
             $("#inputType").click(function () {
                 $("#longLaAl").prop("readonly", true);
-                $("#siteRadius").prop("readonly", true);
-                $("#surveyName").prop("readonly", true);
+                $("#siteRadiusTmp").prop("readonly", true);
+                $("#surveyNameTmp").prop("readonly", true);
                 $("#areaName").prop("readonly", false);
                 $("#observeSite").attr("disabled", false);
+                $("#saveName").attr("disabled", true);
+                $("#mapsel").attr("disabled", false);
 
             });
 
             $("#inputType1").click(function () {
                 $("#longLaAl").prop("readonly", false);
-                $("#siteRadius").prop("readonly", false);
-                $("#surveyName").prop("readonly", false);
+                $("#siteRadiusTmp").prop("readonly", false);
+                $("#surveyNameTmp").prop("readonly", false);
                 $("#areaName").prop("readonly", true);
                 $("#observeSite").attr("disabled", true);
+                $("#saveName").attr("disabled", false);
+                $("#mapsel").attr("disabled", true);
             });
 
             //手动输入
@@ -394,6 +417,15 @@
                     data: $('#areaForm').serialize(),
                     type: "POST",
                     success: function (msg) {
+                        var arr = $("#longLaAl").val().split(",");
+                        var long = arr[0];
+                        var la = arr[1];
+                        var al = arr[2];
+                        for (var i in arr) {
+                            lng = arr[i]
+                        }
+                        debugger;
+                        $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" +  $("#surveyNameTmp").val()  + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='surveyName' value='" +  $("#surveyNameTmp").val()  + "'> " + $("#siteRadiusTmp").val() + "</td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
                         alert(msg);
                         //       $("#main-content").load("order/itemManager.jsp");
                     },
@@ -403,7 +435,6 @@
                     }
                 });
             });
-
 
             //站點保存
             $("#modelSave").click(function () {
@@ -494,7 +525,26 @@
             return str;
         }
 
+        function deleteRow(obj, index) {
 
+            $.ajax({
+                url: "../riskInputSave",
+                data: {posttype: 'del', id: index, inputForm: "S"},
+                type: "POST",
+                success: function (msg) {
+                    alert(msg);
+                    //       $("#main-content").load("order/itemManager.jsp");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+
+            $(obj).closest('tr').remove();
+
+
+        }
 
         function add() {
             count = count + 1;

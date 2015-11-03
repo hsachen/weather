@@ -5,11 +5,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap-theme.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/multi-select.css" rel="stylesheet">
         <style type="text/css">
             body, html{width: 100%;height: 100%;overflow: hidden;margin:0;}
             #allmap {height: 60%;overflow: hidden;}
-            #result {height:40%;width:295px;top:0px;right:0px;font-size:12px;}
+            #result {height:40%;width:800px;top:0px;right:0px;font-size:12px;}
             dl,dt,dd,ul,li{
                 margin:0;
                 padding:0;
@@ -59,22 +61,20 @@
                     <dd>
                         <ul>
                             <li>
-                                <input type="button" value="获取站點" onclick="bmap.getOverLay()"/>
+                                <input type="button" value="获取站點" class="btn btn-default" onclick="bmap.getOverLay()"/>
                             </li>
                         </ul>
                     </dd>
                     <dd>
 
                 </dl>
-                <div class="ms-container" style="width:300px">
+                <div class="ms-container" style="width:800px">
                     <div class="ms-selectable" >
-                        <select style="height:173px;width: 133px" id='unselect' multiple='multiple' size="10" style="width: 10em;">
-                            <option></option>
+                        <select style="height:173px;width: 350px" id='unselect' multiple='multiple' size="10" style="width: 10em;">
                         </select>
                     </div>
                     <div class="ms-selection"  style="height:173px">
-                        <select style="height:173px;width: 133px"  id='select' multiple='multiple' size="10" style="width: 10em;">
-                            
+                        <select style="height:173px;width: 350px"  id='select' multiple='multiple' size="10" style="width: 10em;">
                         </select>
                     </div>
 
@@ -82,6 +82,8 @@
                 <button class="btn btn-default"  id="save">確定</button>
             </form> </div>
         <script type="text/javascript">
+
+
             /**
              * Author: mobai
              * http://mobai.blog.51cto.com/
@@ -121,6 +123,7 @@
                     var styleOptions = this.styleOptions;
                     map.centerAndZoom(this.point, 16);
                     map.enableScrollWheelZoom();
+
                     //实例化鼠标绘制工具
                     this.drawingManager = new BMapLib.DrawingManager(map, {
                         //isOpen: false, //是否开启绘制模式
@@ -129,7 +132,7 @@
                             anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
                             offset: new BMap.Size(5, 5), //偏离值
                             scale: 0.8, //工具栏缩放比例
-                            drawingModes : [ BMAP_DRAWING_CIRCLE] 
+                            drawingModes: [BMAP_DRAWING_CIRCLE]
 
                         },
                         circleOptions: styleOptions, //圆的样式
@@ -139,6 +142,9 @@
                     });
                     //添加鼠标绘制工具监听事件，用于获取绘制结果
                     this.drawingManager.addEventListener('overlaycomplete', bmap.overlaycomplete);
+                    this.drawingManager.addEventListener("circlecomplete", function (e, overlay) {
+                        bmap.clearAll();
+                    });
                     /*加载一个已有的多边形*/
                     if (this.myOverlay) {
                         this.loadMyOverlay();
@@ -193,6 +199,7 @@
                  *回调获得覆盖物信息
                  */
                 overlaycomplete: function (e) {
+
                     bmap.overlays.push(e.overlay);
                     e.overlay.enableEditing();
                     e.overlay.addEventListener("lineupdate", function (e) {
@@ -217,16 +224,20 @@
                  */
                 getOverLay: function () {
                     var box = this.myPolygon ? this.myPolygon : this.overlays[this.overlays.length - 1];
+                    var url = "../mapQuery";
+                    if (this.drawingManager._drawingType == "circle") {
+                        url = url + "?radius=" + box.getRadius() + "&lng=" + box.getCenter().lng + "&lat=" + box.getCenter().lat;
+                    }
                     $.ajax({
-                        url: "../mapQuery?p=" + box.W,
-                        //    data: {p: box.W},
+                        url: url,
+                        //      data: {point: box.W},
                         type: "POST",
                         dataType: "json",
                         success: function (JData) {
-                            $("#pre-selected-options").each(function () {
-                                alert($(this).find('option').attr('selected'));
-
-                            });
+//                            $("#pre-selected-options").each(function () {
+//                                alert($(this).find('option').attr('selected'));
+//
+//                            });
                             $("#unselect").empty();
 
                             $.each(JData, function (index, element) {
@@ -241,6 +252,7 @@
                             alert(thrownError);
                         }
                     });
+
                     console.log(box);
                     //    console.log(box.W);
                 },
@@ -262,13 +274,38 @@
             bmap.myOverlay = [
             ];
             bmap.init();
-            bmap.clearAll()
+            bmap.clearAll();
 
         </script>
         <script src="${pageContext.request.contextPath}/js/jquery-1.8.3.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery.multi-select.js"></script>
         <script>
             $(document).ready(function () {
+
+                $.ajax({
+                    url: "../inputMapGetSelected",
+                    //    data: {p: box.W},
+                    type: "GET",
+                    dataType: "json",
+                    success: function (JData) {
+
+//                        $("#pre-selected-options").each(function () {
+//                            alert($(this).find('option').attr('selected'));
+//                        });
+                        $("#select").empty();
+
+                        $.each(JData, function (index, element) {
+
+                            $("#select").append("<option site=" + element.siteName + " value=" + element.siteId + ">" + element.siteId + "-" + element.siteName + "</option>")
+                        });
+
+                        $('#pre-selected-options').multiSelect("refresh");
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
                 //
                 $('#unselect').change(
                         function () {
@@ -301,7 +338,12 @@
                         });
 
                 $("#save").click(function () {
-                    alert("已選取")
+                    var area = "";
+                    $("#select  option").each(function () {
+                        area = area + $(this).attr("site") + ";"
+                    });
+                    $('#areaName', opener.document).val(area);
+                    window.close();
                 });
             });
         </script>

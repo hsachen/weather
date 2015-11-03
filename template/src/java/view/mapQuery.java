@@ -34,23 +34,24 @@ public class mapQuery extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         JSONObject obj = new JSONObject();
         JSONArray arry = new JSONArray();
-          response.setContentType("application/json");
-       String a[] = request.getParameterValues("p");
+        response.setContentType("application/json");
+        String radius = request.getParameter("radius"); //半徑
+        String lng = request.getParameter("lng");
+        String lat = request.getParameter("lat");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-              obj.put("siteId", "11000");
+            obj.put("siteId", "11000");
             obj.put("siteName", "北京");
 
- 
             arry.put(obj);
             obj = new JSONObject();
-             obj.put("siteId", "110105");
+            obj.put("siteId", "110105");
             obj.put("siteName", "朝阳");
 
             arry.put(obj);
             out.print(arry);
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
 
