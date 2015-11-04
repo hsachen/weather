@@ -57,7 +57,7 @@
 
                                     <input type="hidden" name="inputForm" value="S" >
                                     <div class="form-group">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-2">
                                             <div class="radio">
                                                 <input type="radio" name="inputType" id="inputType" value="0" checked="checked">
                                                 行政区域
@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-2">
                                             <div class="radio">
                                                 <input type="radio" name="inputType" id="inputType1" value="1"   >
                                                 经纬海拔
@@ -87,14 +87,14 @@
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="longLaAl" name="longLaAl" readonly placeholder="104.11,23.56,300">
                                         </div>
-                                        <label class="col-sm-1 control-label">半径(km)</label>
-                                        <div class="col-sm-1">
+                                        <label class="col-sm-2 control-label">半径(km)</label>
+                                        <div class="col-sm-2">
                                             <input type="text" class="form-control"  id="siteRadiusTmp" name="siteRadiusTmp" readonly>
                                         </div>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" placeholder="输入经纬度命名" id="surveyNameTmp" name="surveyNameTmp" readonly>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-1">
                                             <a class="btn btn-default"  title="確定" id="saveName" disable>確定</a>
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@
                                 <div class="panel-body">批量输入           
                                     <input type="hidden" name="inputForm" value="B" >
                                     <div class="form-group">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-2">
                                             <div class="radio">
                                                 <input type="radio" name="inputType" id="inputType2" value="2" >
                                                 调取站点组
@@ -126,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-2">
                                             <div class="radio">
                                                 <input type="radio" name="inputType" id="inputType3" value="3" >
                                                 批量模板
@@ -203,7 +203,7 @@
                                     <div class="panel-content">
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label">评估时间</label>
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-2">
                                                 <select class="form-control m-bot15" id="validFromYear" name="validFromYear">
                                                 </select>
                                             </div>
@@ -225,7 +225,7 @@
                                             </div>
                                             <label class="col">日</label>
                                             <label class="col">~</label>
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-2">
                                                 <select class="form-control m-bot15" id="validEndYear" name="validEndYear">
                                                 </select>
                                             </div>
@@ -245,6 +245,7 @@
                                                         }%>
                                                 </select>
                                             </div>
+                                                   <label class="col">日</label>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label">历史年数</label>
@@ -449,7 +450,7 @@
                 for (var i in arr) {
                     lng = arr[i];
                 }
-                $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" + $("#surveyNameTmp").val() + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='siteRadius' value='" + $("#siteRadiusTmp").val() + "'> " + $("#siteRadiusTmp").val() + "</td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
+                $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" + $("#surveyNameTmp").val() + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='siteRadius' value='" + $("#siteRadiusTmp").val() + "'></td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
 //     
 //                $.ajax({
 //                    url: "../riskInputSave",

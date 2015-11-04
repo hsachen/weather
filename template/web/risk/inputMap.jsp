@@ -242,7 +242,7 @@
 
                             $.each(JData, function (index, element) {
 
-                                $("#unselect").append("<option value=" + element.siteId + ">" + element.siteId + "-" + element.siteName + "</option>")
+                                $("#unselect").append("<option site="+element.siteName+" value=" + element.siteId + ">" + element.siteId + "-" + element.siteName + "</option>")
                             });
 
                             $('#pre-selected-options').multiSelect("refresh");
@@ -314,7 +314,7 @@
                                         //   debugger;
                                         var v = $(this).val();
                                         if ($("#select option[value=" + v + "]").length == 0) {
-                                            $("#select").append("<option value=" + $(this).val() + " >" + $(this).text() + "</option>")
+                                            $("#select").append("<option site=" + $(this).attr("site") + " value=" + $(this).val() + " >" + $(this).text() + "</option>")
                                             $(this).remove();
                                         } else {
                                             alert("已存在")
@@ -331,7 +331,7 @@
                                     function () {
                                         var v = $(this).val();
                                         if ($("#unselect option[value=" + v + "]").length == 0) {
-                                            $("#unselect").append("<option value=" + $(this).val() + ">" + $(this).text() + "</option>")
+                                            $("#unselect").append("<option site=" + $(this).attr("site")  + " value=" + $(this).val() + ">" + $(this).text() + "</option>")
                                         }
                                         $(this).remove();
                                     });
