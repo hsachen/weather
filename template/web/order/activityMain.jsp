@@ -90,9 +90,7 @@
                         <div class="col-sm-2">
                             <input id="submitDate1" name="submitDate1" type="text" value="" size="16" class="form-control">
                         </div>
-
                     </div>
-
 
                     <div class="form-group">
                         <label class="col-sm-5 control-label"></label>

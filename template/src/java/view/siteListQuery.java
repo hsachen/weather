@@ -43,12 +43,14 @@ public class siteListQuery extends HttpServlet {
         response.setContentType("application/json");
 
         try (PrintWriter out = response.getWriter()) {
+            obj.put("siteId", "123");
             obj.put("siteName", "美的");
             obj.put("siteDesc", "高温险329个城市");
             obj.put("siteList", "哈尔滨,齐齐哈尔,牡丹江,佳木斯,大庆,长春,延吉,吉林,大连,沈阳,抚顺,锦州,石家庄,承德,保定,唐山,秦皇岛,北京,天津,太原,大同,呼和浩特,鄂尔多斯,包头,济南,青岛,临沂,潍坊,淄博,烟台,南昌,九江,景德镇,赣州,黄山,合肥,芜湖,马鞍山");
 
             arry.put(obj);
             obj = new JSONObject();
+            obj.put("siteId", "456");
             obj.put("siteName", "5A景区");
             obj.put("siteDesc", "北京4个AAAAA景区");
             obj.put("siteList", "故宫博物院,天坛公园,颐和园,八达岭长城");

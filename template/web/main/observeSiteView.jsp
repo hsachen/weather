@@ -1,5 +1,5 @@
 <%-- 
-    Document   : observeSiteVView
+    Document   : observeSiteView
     Created on : 2015/10/22, 下午 04:55:05
     Author     : Z00907
 --%>
@@ -373,7 +373,7 @@
                                             <div class="col-sm-2">  
                                                 <input id="aqSite3" name="aqSite3" type="text" value="" class="form-control" disabled="disbled">
                                             </div>
-                                            <div class="panel-body"  id="allmap" style = "height:600px">
+                                            <div class="panel-body"  id="allmap" style = "height:600px ;margin: 0px auto; width: 70%" >
                                             </div>
                                         </div>
                                     </div>

@@ -148,7 +148,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="panel-body"  id="allmap" style = "height:600px">
+                               <div class="panel-body"  id="allmap" style = "height:600px ;margin: 0px auto; width: 70%" >
                             </div>
                         </div>
                     </div>

@@ -114,21 +114,21 @@
                                     <div class="form-group">
                                         <div class="col-sm-1">
                                             <div class="radio">
-                                                <input type="radio" name="inputType" id="inputType" value="0" >
+                                                <input type="radio" name="inputType" id="inputType2" value="2" >
                                                 调取站点组
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control"  placeholder="输入站点组名称" id="eventInput" name="eventInput" value="">  
+                                            <input type="text" class="form-control"  placeholder="输入站点组名称" id="eventInput" name="eventInput" value="" readonly>  
                                         </div>
                                         <div class="col-sm-2">
-                                            <a href="siteSetManagement.jsp" target="_blank">查看列表...</a>
+                                            <a href="siteList.jsp" target="_blank">查看列表...</a>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-1">
                                             <div class="radio">
-                                                <input type="radio" name="inputType" id="inputType" value="0" >
+                                                <input type="radio" name="inputType" id="inputType3" value="3" >
                                                 批量模板
                                             </div>
                                         </div>
@@ -165,16 +165,16 @@
                                                         <button type="button" class="btn btn-default" data-dismiss="modal" id="modelSave">保存</button>
                                                         <!--                                                        <button type="button" class="btn btn-primary" id="modelSubmit">确定</button>-->
                                                     </div>
-                                                    <input type="hidden" name="inputForm" value="B" >
-                                                    <div id="treeCheckbox2">
-                                                    </div>
-                                                    <div>
-                                                        <input type="text" placeholder="输入站点组名称" id="siteName2" name="siteName2">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="modelSave2">保存</button>
-                                                        <!--                                                        <button type="button" class="btn btn-primary" id="modelSubmit2">确定</button>-->
-                                                    </div>
+                                                    <!--                                                    <input type="hidden" name="inputForm" value="B" >
+                                                                                                        <div id="treeCheckbox2">
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <input type="text" placeholder="输入站点组名称" id="siteName2" name="siteName2">
+                                                                                                        </div>
+                                                                                                        <div class="modal-footer">
+                                                                                                            <button type="button" class="btn btn-default" data-dismiss="modal" id="modelSave2">保存</button>
+                                                                                                                                                                    <button type="button" class="btn btn-primary" id="modelSubmit2">确定</button>
+                                                                                                        </div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -185,7 +185,7 @@
                                                 <div class="modal-body" id="saveModalContent">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <a href="index.jsp?path=order/siteList.jsp" class="btn btn-default" target="_blank">查看</a>
+                                                    <a href="../order/siteList.jsp" class="btn btn-default" target="_blank">查看</a>
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
                                                     <button type="button" class="btn btn-default" id="siteReturn" data-dismiss="modal">返回</button>
                                                 </div>
@@ -323,16 +323,15 @@
         var d = new Date();
         var count = 1;
         var conditionString = "";
-
         var nowYear = d.getFullYear();
-
-
+        var checkboxSite = [];
+        var tag = 0;
         function htmlg(count) {
             var html = "<div>阈值" + count + "</div><input name=\"countNo\" type=\"hidden\" value=\"" + count + "\"><div class=\"form-group\" id=\"div_condition\"><label class=\"col-sm-1 control-label\"><input type=\"radio\" name=\"elementType" + count + "\"  value=\"0\" checked=\"checked\">数值 </label>";
             html += "  <div class=\"col-sm-1\"><select class=\"form-control m-bot15\" name=\"meteroElement" + count + "\"> </select></div>";
             html += "<div class=\"col-sm-1\"><select class=\"form-control m-bot15\" name=\"operationLB" + count + "\"><option value=\">\">></option><option value=\">=\">>=</option><option value=\"<\"><</option> <option value=\"<=\"><=</option><option value=\"=\">=</option></select> </div>";
             html += " <div class=\"col-sm-1\"><input type=\"text\" class=\"form-control\" name=\"triggerPointLB" + count + "\"></div><div class=\"col-sm-1\"> <select class=\"form-control m-bot15\"  name=\"operationUB" + count + "\"> <option value=\">\">></option><option value=\">=\">>=</option><option value=\"<\"><</option> <option value=\"<=\"><=</option> <option value=\"=\">=</option></select></div>";
-            html += " <div class=\"col-sm-1\">  <input type=\"text\" class=\"form-control\"  name=\"operationUB" + count + "\"></div> <label class=\"col-sm-1 control-label\">";
+            html += " <div class=\"col-sm-1\">  <input type=\"text\" class=\"form-control\"  name=\"triggerPointUB" + count + "\"></div> <label class=\"col-sm-1 control-label\">";
             html += "<input type=\"radio\" name=\"elementType" + count + "\" value=\"1\" > 等级 </label> <div class=\"col-sm-1\"> <select class=\"form-control m-bot15\"  name=\"operationGrade" + count + "\" > <option value=\">\">></option><option value=\">=\">>=</option><option value=\"<\"><</option><option value=\"<=\"><=</option><option value=\"=\">=</option></select></div>";
             html += "<div class=\"col-sm-2\"> <select class=\"form-control m-bot15\" name=\"meteroElementGrade" + count + "\"> </select></div>";
             html += " <div class=\"col-sm-1\"> <a class=\"btn btn-default add\"  title=\"添加阈值条件\" onclick=\"add(" + count + ")\">添加阈值条件</a> </div>  </div>"
@@ -385,6 +384,7 @@
 
         $(document).ready(function () {
             $("#validFromYear").append("<option value='" + nowYear + "'>" + nowYear + "</option>")
+            $("#validEndYear").append("<option value='" + nowYear + "'>" + nowYear + "</option>")
             $("#form_condition").append(htmlg(count));
             conditionString = "阈值1"
             $("#conditionArea").val(conditionString);
@@ -397,7 +397,9 @@
                 $("#observeSite").attr("disabled", false);
                 $("#saveName").attr("disabled", true);
                 $("#mapsel").attr("disabled", false);
-
+                $("#eventInput").prop("readonly", true);
+                tag = 1;
+                checkboxSite = [];
             });
 
             $("#inputType1").click(function () {
@@ -408,89 +410,177 @@
                 $("#observeSite").attr("disabled", true);
                 $("#saveName").attr("disabled", false);
                 $("#mapsel").attr("disabled", true);
+                $("#eventInput").prop("readonly", true);
+                tag = 1;
+                checkboxSite = [];
             });
 
+            $("#inputType2").click(function () {
+                $("#longLaAl").prop("readonly", true);
+                $("#siteRadiusTmp").prop("readonly", true);
+                $("#surveyNameTmp").prop("readonly", true);
+                $("#areaName").prop("readonly", true);
+                $("#observeSite").attr("disabled", true);
+                $("#saveName").attr("disabled", true);
+                $("#mapsel").attr("disabled", true);
+                $("#eventInput").prop("readonly", false);
+                tag = 1;
+                checkboxSite = [];
+            });
+
+            $("#inputType3").click(function () {
+                $("#longLaAl").prop("readonly", true);
+                $("#siteRadiusTmp").prop("readonly", true);
+                $("#surveyNameTmp").prop("readonly", true);
+                $("#areaName").prop("readonly", true);
+                $("#observeSite").attr("disabled", true);
+                $("#saveName").attr("disabled", true);
+                $("#mapsel").attr("disabled", true);
+                $("#eventInput").prop("readonly", true);
+                tag = 1;
+                checkboxSite = [];
+            });
             //手动输入
             $("#saveName").click(function () {
-                $.ajax({
-                    url: "../riskInputSave",
-                    data: $('#areaForm').serialize(),
-                    type: "POST",
-                    success: function (msg) {
-                        var arr = $("#longLaAl").val().split(",");
-                        var long = arr[0];
-                        var la = arr[1];
-                        var al = arr[2];
-                        for (var i in arr) {
-                            lng = arr[i]
-                        }
-                        debugger;
-                        $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" +  $("#surveyNameTmp").val()  + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='surveyName' value='" +  $("#surveyNameTmp").val()  + "'> " + $("#siteRadiusTmp").val() + "</td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
-                        alert(msg);
-                        //       $("#main-content").load("order/itemManager.jsp");
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
+                var arr = $("#longLaAl").val().split(",");
+                var long = arr[0];
+                var la = arr[1];
+                var al = arr[2];
+                for (var i in arr) {
+                    lng = arr[i];
+                }
+                $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" + $("#surveyNameTmp").val() + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='siteRadius' value='" + $("#siteRadiusTmp").val() + "'> " + $("#siteRadiusTmp").val() + "</td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
+//     
+//                $.ajax({
+//                    url: "../riskInputSave",
+//                    data: $('#areaForm').serialize(),
+//                    type: "POST",
+//                    success: function (msg) {
+//                        var arr = $("#longLaAl").val().split(",");
+//                        var long = arr[0];
+//                        var la = arr[1];
+//                        var al = arr[2];
+//                        for (var i in arr) {
+//                            lng = arr[i]
+//                        }
+//                        debugger;
+//                        $("#table1").append("<tr><td><input size='1' class='form-control' name='surveyName' value='" + $("#surveyNameTmp").val() + "'></td><td><input size='1' class='form-control' name='long' value='" + long + "'></td><td><input size='1' class='form-control' name='la' value='" + la + "'></td><td><input size='1' class='form-control' name='al' value='" + al + "'></td><td><input size='1' class='form-control' name='surveyName' value='" + $("#surveyNameTmp").val() + "'> " + $("#siteRadiusTmp").val() + "</td><td><a href='#' onClick='deleteRow(this,1);' >刪除</a></td><td></td></tr>");
+//                        alert(msg);
+//                        //       $("#main-content").load("order/itemManager.jsp");
+//                    },
+//                    error: function (xhr, ajaxOptions, thrownError) {
+//                        alert(xhr.status);
+//                        alert(thrownError);
+//                    }
+//                });
             });
 
             //站點保存
             $("#modelSave").click(function () {
-                $.ajax({
-                    url: "../riskInputSave",
-                    data: $('#batchForm').serialize(),
-                    type: "POST",
-                    success: function (msg) {
-                        //    alert(msg);
-                        $('#saveModalContent').empty();
-                        $('#saveModalContent').append(msg);
-                        $('#saveModal').modal('show');
-                        //       $("#main-content").load("order/itemManager.jsp");
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
+
+                $('input[name="checkboxSite"]:checked').each(function () {
+                    checkboxSite.push($(this).val());
                 });
+                tag = 0;
+                $('#saveModalContent').empty();
+                $('#saveModalContent').append("已保存至站点组" + $("#siteName").val());
+                $('#saveModal').modal('show');
+                //       $("#main-content").load("order/itemManager.jsp");
+
+//                $.ajax({
+//                    url: "../riskInputSave",
+//                    data: $('#batchForm').serialize(),
+//                    type: "POST",
+//                    success: function (msg) {
+//                          alert(msg);
+//                        $('#saveModalContent').empty();
+//                        $('#saveModalContent').append(msg);
+//                        $('#saveModal').modal('show');
+//                        //       $("#main-content").load("order/itemManager.jsp");
+//                    },
+//                    error: function (xhr, ajaxOptions, thrownError) {
+//                        alert(xhr.status);
+//                        alert(thrownError);
+//                    }
+//                });
             });
-            $("#modelSave2").click(function () {
-                $.ajax({
-                    url: "../riskInputSave",
-                    data: $('#batchForm').serialize(),
-                    type: "POST",
-                    success: function (msg) {
-                        //     alert(msg);
-                        $('#saveModalContent').empty();
-                        $('#saveModalContent').append(msg);
-                        $('#saveModal').modal('show');
-                        //       $("#main-content").load("order/itemManager.jsp");
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
-            });
+//            $("#modelSave2").click(function () {
+//                $.ajax({
+//                    url: "../riskInputSave",
+//                    data: $('#batchForm').serialize(),
+//                    type: "POST",
+//                    success: function (msg) {
+//                        //     alert(msg);
+//                        $('#saveModalContent').empty();
+//                        $('#saveModalContent').append(msg);
+//                        $('#saveModal').modal('show');
+//                        //       $("#main-content").load("order/itemManager.jsp");
+//                    },
+//                    error: function (xhr, ajaxOptions, thrownError) {
+//                        alert(xhr.status);
+//                        alert(thrownError);
+//                    }
+//                });
+//            });
 
             $("#submitBtn").click(function () {
-                $.ajax({
-                    url: "../riskInputSave",
-                    data: $('#submitForm').serialize(),
-                    type: "POST",
-                    success: function (msg) {
-                        alert(msg);
-                        //    $('#saveModalContent').empty();
-                        //     $('#saveModalContent').append(msg);
-                        //    $('#saveModal').modal('show');
-                        //       $("#main-content").load("order/itemManager.jsp");
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
+                var v = $("input[name='inputType']:checked").val();
+                var data = "&v=" + v + "&site=" + checkboxSite;
+                if (v === 0) {
+                    data = data + "&areaName=" + $("#areaName").val() + "&observeSite=" + $("#observeSite").val();
+                }
+                else if (v === 1) {
+                    var surveyName = [];
+                    $('input[name="surveyName"]').each(function () {
+                        surveyName.push($(this).val());
+                    });
+
+                    var lng = [];
+                    $('input[name="long"]').each(function () {
+                        lng.push($(this).val());
+                    });
+
+                    var la = [];
+                    $('input[name="la"]').each(function () {
+                        la.push($(this).val());
+                    });
+
+                    var al = [];
+                    $('input[name="al"]').each(function () {
+                        al.push($(this).val());
+                    });
+
+                    var siteRadius = [];
+                    $('input[siteRadius="al"]').each(function () {
+                        siteRadius.push($(this).val());
+                    });
+
+                    data = data + "&surveyName=" + surveyName + "&lng=" + lng + "&la=" + la + "&al=" + al + "&siteRadius=" + siteRadius;
+                } else if (v === 2) {
+                    data = data + "&eventInput=" + $("#eventInput").val();
+                }
+
+                if (tag !== 0 && checkboxSite.length === 0) {
+                    alert("已經更改條件,請重新站點確認!!")
+                } else {
+                    alert($('#submitForm').serialize() + data)
+                    $.ajax({
+                        url: "../riskInputSave",
+                        data: $('#submitForm').serialize() + data,
+                        type: "POST",
+                        success: function (msg) {
+                            alert(msg);
+                            //    $('#saveModalContent').empty();
+                            //     $('#saveModalContent').append(msg);
+                            //    $('#saveModal').modal('show');
+                            //       $("#main-content").load("order/itemManager.jsp");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                }
             });
 
 
@@ -502,21 +592,23 @@
 
         });
 
+
         $('#treeCheckbox').tree({
             lazyLoading: true,
-            nodesLazyUrl: '../siteQuery',
+            nodesLazyUrl: '../siteQuery?',
             nodesInitUrl: '../siteQuery',
             collapseUiIcon: 'ui-icon-plus',
             expandUiIcon: 'ui-icon-minus',
         });
 
-        $('#treeCheckbox2').tree({
-            lazyLoading: true,
-            nodesLazyUrl: '../siteAttrQuery',
-            nodesInitUrl: '../siteAttrQuery',
-            collapseUiIcon: 'ui-icon-plus',
-            expandUiIcon: 'ui-icon-minus',
-        });
+//        $('#treeCheckbox2').tree({
+//                lazyLoading: true,
+//            nodesLazyUrl: '../siteAttrQuery',
+//            nodesInitUrl: '../siteAttrQuery',
+//            collapseUiIcon: 'ui-icon-plus',
+//            expandUiIcon: 'ui-icon-minus',
+//            data : 
+//        });
 
 
         function replacePos(strObj, pos, replacetext)
