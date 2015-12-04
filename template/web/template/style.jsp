@@ -23,7 +23,8 @@
         <link href="${pageContext.request.contextPath}/css/weather.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/style-responsive.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+         <link href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet">
+       <!--   <link href="${pageContext.request.contextPath}/css/jquery-ui-1.10.4.min.css" rel="stylesheet">-->
         <link href="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/css/jquery.dataTables.min.css" rel="stylesheet">
     <!--    <link href="${pageContext.request.contextPath}/css/jquery-ui-timepicker-addon.css" rel="stylesheet">-->
         <link href="${pageContext.request.contextPath}/css/dropdowns-enhancement.css" rel="stylesheet">
