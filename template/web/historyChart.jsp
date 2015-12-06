@@ -45,7 +45,7 @@
                         <div >
                             <table class="table table-bordered">
                                 <tr>
-                                    <td class="warning" rowspan="2">整点天气实况</td><td>最新整點實況風力:2級</td> <td class="" rowspan="2"><button id="1" type="button" class="btn btn-default">溫度</button><button id="2"  type="button" class="btn btn-default">相對溼度</button><button id="3"  type="button" class="btn btn-default">降水量</button></td>
+                                    <td class="warning" rowspan="2">整点天气实况</td><td>最新整點實況風力:2級</td> <td class="" rowspan="2"><button id="temperature" type="button" class="btn btn-default">溫度</button><button id="humidity"  type="button" class="btn btn-default">相對溼度</button><button id="3"  type="button" class="btn btn-default">降水量</button></td>
                                 </tr>
                                 <tr>
                                     <td >最大風力:3級</td>
@@ -54,43 +54,6 @@
                         </div>
                     </div>
                     <div id="conDiv" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-                    <table id="datatable" class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Jane</th>
-                                <th>John</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Apples</th>
-                                <td>3</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
-                                <th>Pears</th>
-                                <td>2</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <th>Plums</th>
-                                <td>5</td>
-                                <td>11</td>
-                            </tr>
-                            <tr>
-                                <th>Bananas</th>
-                                <td>1</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <th>Oranges</th>
-                                <td>2</td>
-                                <td>4</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </section>
             </section>
             <!--main content end-->
@@ -103,29 +66,49 @@
     <script src="http://code.highcharts.com/modules/data.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script>
-        $(function () {
-            $('#conDiv').highcharts({
-                data: {
-                    table: 'datatable'
-                },
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Data extracted from a HTML table in the page'
-                },
-                yAxis: {
-                    allowDecimals: false,
-                    title: {
-                        text: 'Units'
-                    }
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                                this.point.y + ' ' + this.point.name.toLowerCase();
-                    }
-                }
-            });
-        });
+        $("#temperature").click(
+                function () {
+                    $("#conDiv").html("Wait, Loading graph...");
+                    var options = {
+                        series: [{
+
+                            }],
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: '歷史溫度'
+                        },
+                        yAxis: {
+                            allowDecimals: false,
+                            title: {
+                                text: '溫度'
+                            }
+                        },
+                        xAxis: {
+                            categories: [{}]
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                        this.point.y + ' ' + this.point.name.toLowerCase();
+                            }
+                        }
+                    };
+
+
+                    $.ajax({
+                        url: "historyChartJson.json",
+                        //	data: 'show=impression',
+                        type: 'post',
+                        dataType: "json",
+                        success: function (data) {
+                            debugger;
+                            options.xAxis.categories = data.thead[0].value;
+                            options.series[0].name = data.data[0].title;
+                            options.series[0].data = data.data[0].value;
+                            $("#conDiv").highcharts(options);
+                        }
+                    });
+                });
     </script>

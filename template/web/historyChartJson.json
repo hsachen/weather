@@ -1,0 +1,36 @@
+{
+    "header": "北京8月1日至9月1日每天超過37℃的概率",
+    "returnTyp": "1",
+    "thead": [{
+            "title": "日期",
+            "value": ["8月1日", "8月2日", "8月3日"]
+        }],
+    "data": [
+        {
+            "title": "北京",
+            "value": [7.0, 6.9, 9.5],
+            "unit": "%",
+            "gtype": "column"
+        },
+        {
+            "title": "天數",
+            "value": [6, 8, 4],
+            "unit": "",
+            "gtype": "line"
+        }
+    ],
+    "secondTable": [
+        {
+            "title": "條件",
+            "value": [">=3天", ">=4天", ">=5天"],
+            "unit": "",
+            "gtype": ""
+        },
+        {
+            "title": "還比年概率",
+            "value": ["70", "60", "50"],
+            "unit": "%",
+            "gtype": ""
+        }
+    ]
+}
