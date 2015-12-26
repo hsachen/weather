@@ -18,6 +18,7 @@
                 <li><a class="" href="${pageContext.request.contextPath}/main/adminMain.jsp">行政区</a></li>                          
                 <li><a class="" href="${pageContext.request.contextPath}/main/observeSiteManager.jsp" >观测站</a></li>
                 <li><a class="" href="${pageContext.request.contextPath}/main/meteroManager.jsp">天氣要素等級</a></li>
+                 <li><a class="" href="${pageContext.request.contextPath}/historyChart.jsp">歷史數據查詢</a></li>
             </ul>
         </li>       
         <li class="sub-menu">

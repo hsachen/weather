@@ -46,24 +46,32 @@
         <title>百度地图绘制多边型带编辑功能</title>
     </head>
     <body>
-        <div id="allmap" style="overflow:hidden;zoom:1;position:relative;"> 
+        <div id="allmap" style="height: 70%;width: 70%;overflow:hidden;zoom:1;position:relative;float:left"> 
             <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;"></div>
 
             <div id="panelWrap" style="width:0px;position:absolute;top:0px;right:0px;height:100%;overflow:auto;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;">
                 <div style="width:20px;height:200px;margin:-100px 0 0 -10px;color:#999;position:absolute;opacity:0.5;top:50%;left:50%;" id="showOverlayInfo"></div>
                 <div id="panel" style="position:absolute;"></div>
             </div>
+
         </div>
-        <div id="result" >
+
+        <div id="result"  style="width: 30%;float:right">
+            <div style="left: 1px">
+                <a class="btn btn-success"  title="基礎圖層" id="query" style="margin-left:20px">基礎圖層</a>
+                <a class="btn btn-success"  title="評估展示" id="query" style="margin-left:20px">評估展示</a>
+                <a class="btn btn-success"  title="預測判賠" id="query" style="margin-left:20px">預測判賠</a>
+            </div>
             <form>
-                <div class="zTreeDemoBackground left" width="30%" style="float:left">
+                <div class="zTreeDemoBackground left" width="30%" >
                     <ul id="treeDemo" class="ztree"></ul>
                 </div>
-                <div width="70%" style="float:right" id="table_div">
-                    <table class="table">
-                    </table>
-                </div>
-            </form> </div>
+            </form>
+        </div>
+        <div style="height: 30%;width: 70%;"> 
+            <table id="table_div" class="display" cellspacing="0" width="100%">
+            </table>
+        </div>
 
         <script type="text/javascript">
             /**
@@ -116,6 +124,10 @@
         <script src="${pageContext.request.contextPath}/js/jquery.ztree.core-3.5.min.js"></script>
         <script src="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/js/jquery.dataTables.min.js"></script>
         <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+
             var map = new BMap.Map("allmap");
             var point = new BMap.Point(116.404, 39.915);
 
@@ -154,7 +166,7 @@
                                             map.addOverlay(marker);
                                         } else {
                                             var allOverlay = map.getOverlays();
-                                            for (var j = 0; j < allOverlay.length ; j++) {
+                                            for (var j = 0; j < allOverlay.length; j++) {
                                                 debugger;
                                                 if (allOverlay[j].point != null) {
                                                     if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
