@@ -14,7 +14,7 @@
 
 
         <style type="text/css">
-            body, html{width: 100%;height: 100%;overflow: hidden;margin:0;}
+            body, html{width: 100%;height: 100%;overflow: auto;margin:0;}
             #allmap {height: 60%;overflow: hidden;}
             #result {height:40%;width:60%;top:0px;right:0px;font-size:12px;}
             dl,dt,dd,ul,li{
@@ -134,6 +134,7 @@
 
 
             function myOnCheck(event, treeId, treeNode) {
+
                 //alert(treeNode.id + ", " + treeNode.name + "," + treeNode.checked);
                 if (treeNode.checked) {
                     $.ajax({
@@ -141,12 +142,21 @@
                         type: "POST",
                         dataType: "json",
                         success: function (JData) {
-                            //$("#table_div").empty();
-if ($("#detailTable").length < 0) {
+                            var t = $('#detailTable').DataTable();
 
-}
+
                             $.each(JData, function (index, element) {
-                                $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
+                                t.row.add([
+                                    "<input type=\"checkbox\" name=\"checkbox\" value=" + index + " >",
+                                    element.areaCode,
+                                    element.cityCN,
+                                    element.siteCode,
+                                    element.activityCode,
+                                    element.date,
+                                    element.probability,
+                                    element.probability
+                                ]).draw(false);
+                                //  $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
                             });
 
                             $('input[name=checkbox]').click(function () {
@@ -184,12 +194,17 @@ if ($("#detailTable").length < 0) {
                                     }
                                 });
                             });
+
+
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             alert(xhr.status);
                             alert(thrownError);
                         }
                     });
+                } else {
+                    //取消選取
+
                 }
             }
 
@@ -318,19 +333,32 @@ if ($("#detailTable").length < 0) {
 
             $(document).ready(function () {
 
+
                 $("#query").click(function () {
-                    $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>区域编码</th><th>城市名称</th><th>站點號</th><th>數據長度</th><th>站點狀態</th><th>實況準時率</th><th>數據完整度</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
-                    $('#detailTable').DataTable({
+                    $("#table_div").empty();
+                    $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th><input type=\"checkbox\" id=\"selectAll\"  ></th><th>区域编码</th><th>城市名称</th><th>站點號</th><th>數據長度</th><th>站點狀態</th><th>實況準時率</th><th>數據完整度</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                    var t = $('#detailTable').DataTable({
                         columnDefs: [
                             {orderable: false, targets: 0}
                         ],
                         //     bFilter: false
                     });
+                    t.on('draw', function () {
+                        debugger;
+                        // Update state of "Select all" control
+                        updateDataTableSelectAllCtrl(t);
+                    });
+                    $("#selectAll").click(function () {
+                        updateDataTableSelectAllCtrl(t);
+                        if ($(this).hasClass('allChecked')) {
+                            $('input[type="checkbox"]', '#detailTable').prop('checked', false);
+                        } else {
+                            $('input[type="checkbox"]', '#detailTable').prop('checked', true);
+                        }
+                        $(this).toggleClass('allChecked');
+
+                    });
                     $.fn.zTree.init($("#treeDemo"), setting, zNodes1);
-
-
-
-
                 })
 
                 $("#query1").click(function () {
@@ -342,6 +370,26 @@ if ($("#detailTable").length < 0) {
                     alert("已選取")
                 });
             });
+
+            function updateDataTableSelectAllCtrl(table) {
+                var $table = table.table().node();
+                var $chkbox_all = $('tbody input[type="checkbox"]', $table);
+                var $chkbox_checked = $('tbody input[type="checkbox"]:checked', $table);
+                var chkbox_select_all = $('thead input[id="selectAll"]', $table).get(0);
+
+                // If none of the checkboxes are checked
+                debugger;
+                if ($chkbox_checked.length === 0) {
+                    chkbox_select_all.checked = false;
+
+                    // If all of the checkboxes are checked
+                } else if ($chkbox_checked.length === $chkbox_all.length) {
+                    chkbox_select_all.checked = true;
+
+
+                    // If some of the checkboxes are checked
+                } 
+            }
         </script>
     </body>
 </html>
