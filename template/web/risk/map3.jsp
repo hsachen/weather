@@ -58,9 +58,9 @@
 
         <div id="result"  style="width: 30%;float:right">
             <div style="left: 1px">
-                <a class="btn btn-success"  title="基礎圖層" id="query" style="margin-left:20px">基礎圖層</a>
-                <a class="btn btn-success"  title="評估展示" id="query1" style="margin-left:20px">評估展示</a>
-                <a class="btn btn-success"  title="預測判賠" id="query2" style="margin-left:20px">預測判賠</a>
+                <button  type="button" class="btn btn-success"  title="基礎圖層" id="query" style="margin-left:20px">基礎圖層</button>
+                <button  type="button" class="btn btn-success"  title="評估展示" id="query1" style="margin-left:20px">評估展示</button>
+                <button  type="button" class="btn btn-success"  title="預測判賠" id="query2" style="margin-left:20px">預測判賠</button>
             </div>
             <form>
                 <div class="zTreeDemoBackground left" width="30%" >
@@ -124,272 +124,360 @@
         <script src="${pageContext.request.contextPath}/js/ztree/jquery.ztree.core-3.5.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/ztree/jquery.ztree.excheck-3.5.js"></script>
         <script src="${pageContext.request.contextPath}/lib/DataTables1.10.8/media/js/jquery.dataTables.min.js"></script>
+        <script src="${pageContext.request.contextPath}/lib/DataTables1.10.8/extensions/Select/js/dataTables.select.min.js" type="text/javascript"></script>
         <script>
+           var map = new BMap.Map("allmap");
+           var point = new BMap.Point(116.404, 39.915);
+           var ln;
 
-            var map = new BMap.Map("allmap");
-            var point = new BMap.Point(116.404, 39.915);
-            var ln;
-
-            map.centerAndZoom(point, 15);
+           map.centerAndZoom(point, 15);
 
 
-            function myOnCheck(event, treeId, treeNode) {
+           function myOnCheck(event, treeId, treeNode) {
+               //alert(treeNode.id + ", " + treeNode.name + "," + treeNode.checked);
+               if (treeNode.checked) {
+                   $.ajax({
+                       url: "../getMapSite?id=" + treeNode.id,
+                       type: "POST",
+                       dataType: "json",
+                       success: function (JData) {
+                           var t = $('#detailTable').DataTable();
 
-                //alert(treeNode.id + ", " + treeNode.name + "," + treeNode.checked);
-                if (treeNode.checked) {
-                    $.ajax({
-                        url: "../getMapSite?id=" + treeNode.id,
-                        type: "POST",
+
+                           $.each(JData, function (index, element) {
+                               t.row.add([
+                                   "<input type=\"checkbox\" name=\"checkbox\" value=" + index + " >",
+                                   treeNode.id,
+                                   element.areaCode,
+                                   element.cityCN,
+                                   element.siteCode,
+                                   element.activityCode,
+                                   element.date,
+                                   element.probability,
+                                   element.probability
+                               ]).draw(false);
+                               //  $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
+                           });
+
+                           $('input[name=checkbox]').click(function () {
+                               var a = $(this).attr('checked');
+                               $.ajax({
+                                   url: "../getCoordinate?id=" + $(this).val(),
+                                   type: "POST",
+                                   dataType: "json",
+                                   success: function (msg) {
+                                       for (var i = 0; i < msg.length; i++) {
+                                           var point = new BMap.Point(msg[i].x, msg[i].y);
+                                           debugger;
+                                           if (a == "checked") {
+                                               var marker = new BMap.Marker(point);
+                                               map.addOverlay(marker);
+                                           } else {
+                                               var allOverlay = map.getOverlays();
+                                               for (var j = 0; j < allOverlay.length; j++) {
+                                                   debugger;
+                                                   if (allOverlay[j].point != null) {
+                                                       if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
+                                                           map.removeOverlay(allOverlay[j]);
+                                                       }
+                                                   }
+                                               }
+                                               //   map.clearOverlays();       
+                                               //    removeMarker(point)
+                                           }
+
+                                       }
+                                   },
+                                   error: function (xhr, ajaxOptions, thrownError) {
+                                       alert(xhr.status);
+                                       alert(thrownError);
+                                   }
+                               });
+                           });
+
+
+                       },
+                       error: function (xhr, ajaxOptions, thrownError) {
+                           alert(xhr.status);
+                           alert(thrownError);
+                       }
+                   });
+               } else {
+                   //取消選取
+                   var table = $('#detailTable').DataTable();
+                   table.column(1)
+                           .data()
+                           .each(function (value, index) {
+                               if (treeNode.id == value) {
+                                   table.rows(':eq(' + index + ')', {page: 'current'}).select();
+                                   //  console.log('Data in index: ' + index + ' is: ' + value);
+                               }
+                           });
+
+                   table.rows('.selected').remove().draw(false);
+               }
+           }
+
+
+
+           function myOnClick1(event, treeId, treeNode) {
+               $.ajax({
+                   url: "../getMapSite?id=" + treeNode.id,
+                   type: "POST",
+                   dataType: "json",
+                   success: function (JData) {
+                       var t = $('#detailTable').DataTable();
+                       t.clear().draw();
+
+                       $.each(JData, function (index, element) {
+                           t.row.add([
+                               "<input type=\"checkbox\" name=\"checkbox\" value=" + index + " >",
+                               element.areaCode,
+                               element.cityCN,
+                               element.siteCode,
+                               element.activityCode,
+                               element.date,
+                               element.probability,
+                               element.probability
+                           ]).draw(false);
+                           //  $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
+                       });
+
+                       $('input[name=checkbox]').click(function () {
+                           var a = $(this).attr('checked');
+                           $.ajax({
+                               url: "../getCoordinate?id=" + $(this).val(),
+                               type: "POST",
+                               dataType: "json",
+                               success: function (msg) {
+                                   for (var i = 0; i < msg.length; i++) {
+                                       var point = new BMap.Point(msg[i].x, msg[i].y);
+                                       debugger;
+                                       if (a == "checked") {
+                                           var marker = new BMap.Marker(point);
+                                           map.addOverlay(marker);
+                                       } else {
+                                           var allOverlay = map.getOverlays();
+                                           for (var j = 0; j < allOverlay.length; j++) {
+                                               debugger;
+                                               if (allOverlay[j].point != null) {
+                                                   if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
+                                                       map.removeOverlay(allOverlay[j]);
+                                                   }
+                                               }
+                                           }
+                                           //   map.clearOverlays();       
+                                           //    removeMarker(point)
+                                       }
+
+                                   }
+                               },
+                               error: function (xhr, ajaxOptions, thrownError) {
+                                   alert(xhr.status);
+                                   alert(thrownError);
+                               }
+                           });
+                       });
+                   },
+                   error: function (xhr, ajaxOptions, thrownError) {
+                       alert(xhr.status);
+                       alert(thrownError);
+                   }
+               });
+           }
+
+           var setting = {
+               check: {
+                   enable: true, //设置zTree的节点上是否显示checkbox/radio框，默认值: false
+                   chkboxType: {"Y": "ps", "N": "ps"}
+               },
+               data: {
+                   simpleData: {
+                       enable: true
+                   }
+               },
+               callback: {
+                   onCheck: myOnCheck
+               }
+           };
+
+           var setting1 = {
+               async: {
+                   enable: true,
+                   url: "../map3Data",
+                   dataType: "json",
+                   autoParam: ["id", "name=n", "level=lv"],
+                   dataFilter: filter
+               },
+               callback: {
+                   onClick: myOnClick1
+               }
+           };
+
+           function filter(treeId, parentNode, childNodes) {
+               debugger;
+               if (!childNodes)
+                   return null;
+               for (var i = 0, l = childNodes.length; i < l; i++) {
+                   //  childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+               }
+               return childNodes;
+           }
+
+
+           $(document).ready(function () {
+
+
+               $("#query").click(function () {
+                   map.clearOverlays();
+                   $("#table_div").empty();
+                   $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th><input type=\"checkbox\" id=\"selectAll\"  ></th><th>treenode</th><th>区域编码</th><th>城市名称</th><th>站點號</th><th>數據長度</th><th>站點狀態</th><th>實況準時率</th><th>數據完整度</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                   var t = $('#detailTable').DataTable({
+                       columnDefs: [
+                           {orderable: false, targets: 0}
+                       ],
+                       language: {
+                           url: '../lib/DataTables1.10.8/Chinese.json'
+                       },
+                       bLengthChange: false
+
+                               //     bFilter: false
+                   });
+                   t.on('draw', function () {
+                       debugger;
+                       // Update state of "Select all" control
+                       updateDataTableSelectAllCtrl(t);
+                   });
+                   $("#selectAll").click(function () {
+                       updateDataTableSelectAllCtrl(t);
+                       if ($(this).hasClass('allChecked')) {
+                           $('input[type="checkbox"]', '#detailTable').prop('checked', false);
+                       } else {
+                           $('input[type="checkbox"]', '#detailTable').prop('checked', true);
+                       }
+                       $(this).toggleClass('allChecked');
+
+                   });
+                   var treeNodes;
+                   //  $.fn.zTree.init($("#treeDemo"), setting1, zNodes1);
+                   $(function () {
+                       $.ajax({
+                           async: false,
+                           cache: false,
+                           type: 'POST',
+                           dataType: "json",
+                           url: "map3.json", //请求的action路径  
+                           error: function () {//请求失败处理函数  
+                               alert('请求失败');
+                           },
+                           success: function (data) { //请求成功后处理函数。    
+                               //   alert(data);
+                               treeNodes = data;   //把后台封装好的简单Json格式赋给treeNodes  
+                           }
+                       });
+                       $.fn.zTree.init($("#treeDemo"), setting, treeNodes);
+                   });
+
+               });
+
+               $("#query1").click(function () {
+                   map.clearOverlays();
+                   var treeNodes;
+                   $("#table_div").empty();
+                   $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th><input type=\"checkbox\" id=\"selectAll\"  ></th><th>区域编码</th><th>省份</th><th>城市名称</th><th>所属站点组</th><th>活动代码</th><th>概率</th><th>详情</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
+                   var t = $('#detailTable').DataTable({
+                       columnDefs: [
+                           {orderable: false, targets: 0}
+                       ],
+                       language: {
+                           url: '../lib/DataTables1.10.8/Chinese.json'
+                       },
+                       bLengthChange: false
+                               //     bFilter: false
+                   });
+                   t.on('draw', function () {
+                       debugger;
+                       // Update state of "Select all" control
+                       updateDataTableSelectAllCtrl(t);
+                   });
+                   $("#selectAll").click(function () {
+                       updateDataTableSelectAllCtrl(t);
+                       if ($(this).hasClass('allChecked')) {
+                           $('input[type="checkbox"]', '#detailTable').prop('checked', false);
+                       } else {
+                           $('input[type="checkbox"]', '#detailTable').prop('checked', true);
+                       }
+                       $(this).toggleClass('allChecked');
+
+                   });
+                   $(function () {
+                       $.ajax({
+                           async: true,
+                           cache: false,
+                           type: 'POST',
+                           dataType: "json",
+                           url: "map3.json", //请求的action路径  
+                           error: function () {//请求失败处理函数  
+                               alert('请求失败');
+                           },
+                           success: function (data) { //请求成功后处理函数。    
+                               //   alert(data);
+                               treeNodes = data;   //把后台封装好的简单Json格式赋给treeNodes  
+                           }
+                       });
+                       $.fn.zTree.init($("#treeDemo"), setting1);
+                       // zTree = $("#treeDemo").zTree(setting, treeNodes);
+                   });
+               });
+
+               $("#query2").click(function () {
+                   map.clearOverlays();
+                   var treeNodes;
+                   //  $.fn.zTree.init($("#treeDemo"), setting1, zNodes1);
+                   $(function () {
+                       /* $.ajax({
+                        async: false,
+                        cache: false,
+                        type: 'POST',
                         dataType: "json",
-                        success: function (JData) {
-                            var t = $('#detailTable').DataTable();
-
-
-                            $.each(JData, function (index, element) {
-                                t.row.add([
-                                    "<input type=\"checkbox\" name=\"checkbox\" value=" + index + " >",
-                                    element.areaCode,
-                                    element.cityCN,
-                                    element.siteCode,
-                                    element.activityCode,
-                                    element.date,
-                                    element.probability,
-                                    element.probability
-                                ]).draw(false);
-                                //  $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
-                            });
-
-                            $('input[name=checkbox]').click(function () {
-                                var a = $(this).attr('checked');
-                                $.ajax({
-                                    url: "../getCoordinate?id=" + $(this).val(),
-                                    type: "POST",
-                                    dataType: "json",
-                                    success: function (msg) {
-                                        for (var i = 0; i < msg.length; i++) {
-                                            var point = new BMap.Point(msg[i].x, msg[i].y);
-                                            debugger;
-                                            if (a == "checked") {
-                                                var marker = new BMap.Marker(point);
-                                                map.addOverlay(marker);
-                                            } else {
-                                                var allOverlay = map.getOverlays();
-                                                for (var j = 0; j < allOverlay.length; j++) {
-                                                    debugger;
-                                                    if (allOverlay[j].point != null) {
-                                                        if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
-                                                            map.removeOverlay(allOverlay[j]);
-                                                        }
-                                                    }
-                                                }
-                                                //   map.clearOverlays();       
-                                                //    removeMarker(point)
-                                            }
-
-                                        }
-                                    },
-                                    error: function (xhr, ajaxOptions, thrownError) {
-                                        alert(xhr.status);
-                                        alert(thrownError);
-                                    }
-                                });
-                            });
-
-
+                        url: "map3.json", //请求的action路径  
+                        error: function () {//请求失败处理函数  
+                        alert('请求失败');
                         },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
+                        success: function (data) { //请求成功后处理函数。    
+                        //   alert(data);
+                        treeNodes = data;   //把后台封装好的简单Json格式赋给treeNodes  
                         }
-                    });
-                } else {
-                    //取消選取
-
-                }
-            }
-
+                        });*/
+                       $.fn.zTree.init($("#treeDemo"), setting1, treeNodes);
+                       //  zTree = $("#treeDemo").zTree(setting, treeNodes);
+                   });
+               })
 
 
-            function myOnClick1(event, treeId, treeNode) {
+               $("#save").click(function () {
+                   alert("已選取")
+               });
+           });
+           function updateDataTableSelectAllCtrl(table) {
+               var $table = table.table().node();
+               var $chkbox_all = $('tbody input[type="checkbox"]', $table);
+               var $chkbox_checked = $('tbody input[type="checkbox"]:checked', $table);
+               var chkbox_select_all = $('thead input[id="selectAll"]', $table).get(0);
 
-                $.ajax({
-                    url: "../getMapSite?id=" + treeNode.id,
-                    type: "POST",
-                    dataType: "json",
-                    success: function (JData) {
-                        $("#table_div").empty();
-                        $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th></th><th>区域编码</th><th>城市名称</th><th>所属站点组</th><th>活动代码</th><th>日期</th><th>概率</th><th>详情</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
-                        $.each(JData, function (index, element) {
-                            $("#detailTable > tbody ").append("<tr role=\"row\" ><td><input type=\"checkbox\" name=\"checkbox\" value=" + index + " ></td><td>" + element.areaCode + "</td><td>" + element.cityCN + "</td><td>" + element.siteCode + "</td><td>" + element.activityCode + "</td><td>" + element.date + "</td><td>" + element.probability + "</td><td>" + element.logUser + "</td></tr>");
-                        });
-                        $('#detailTable').DataTable({
-                            columnDefs: [
-                                {orderable: false, targets: 0}
-                            ],
-                            //     bFilter: false
-                        });
+               // If none of the checkboxes are checked
+               debugger;
+               if ($chkbox_checked.length === 0) {
+                   chkbox_select_all.checked = false;
 
-                        $('input[name=checkbox]').click(function () {
-                            var a = $(this).attr('checked');
-                            $.ajax({
-                                url: "../getCoordinate?id=" + $(this).val(),
-                                type: "POST",
-                                dataType: "json",
-                                success: function (msg) {
-                                    for (var i = 0; i < msg.length; i++) {
-                                        var point = new BMap.Point(msg[i].x, msg[i].y);
-                                        debugger;
-                                        if (a == "checked") {
-                                            var marker = new BMap.Marker(point);
-                                            map.addOverlay(marker);
-                                        } else {
-                                            var allOverlay = map.getOverlays();
-                                            for (var j = 0; j < allOverlay.length; j++) {
-                                                debugger;
-                                                if (allOverlay[j].point != null) {
-                                                    if (allOverlay[j].point.lat == msg[i].y && allOverlay[j].point.lng == msg[i].x) {
-                                                        map.removeOverlay(allOverlay[j]);
-                                                    }
-                                                }
-                                            }
-                                            //   map.clearOverlays();       
-                                            //    removeMarker(point)
-                                        }
-
-                                    }
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {
-                                    alert(xhr.status);
-                                    alert(thrownError);
-                                }
-                            });
-                        });
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
-            }
-
-            var setting = {
-                check: {
-                    enable: true, //设置zTree的节点上是否显示checkbox/radio框，默认值: false
-                    chkboxType: {"Y": "ps", "N": "ps"}
-                },
-                data: {
-                    simpleData: {
-                        enable: true
-                    }
-                },
-                callback: {
-                    onCheck: myOnCheck
-                }
-            };
-
-            var setting1 = {
-                data: {
-                    simpleData: {
-                        enable: true
-                    }
-                },
-                callback: {
-                    onClick: myOnClick1
-                }
-            };
+                   // If all of the checkboxes are checked
+               } else if ($chkbox_checked.length === $chkbox_all.length) {
+                   chkbox_select_all.checked = true;
 
 
-            var zNodes1 = [
-                {id: 1, pId: 0, name: "父节点1 - 展开", open: true, checked: true},
-                {id: 11, pId: 1, name: "父节点11 - 折叠"},
-                {id: 111, pId: 11, name: "叶子节点111"},
-                {id: 112, pId: 11, name: "叶子节点112"},
-                {id: 113, pId: 11, name: "叶子节点113"},
-                {id: 114, pId: 11, name: "叶子节点114"},
-                {id: 12, pId: 1, name: "父节点12 - 折叠"},
-                {id: 121, pId: 12, name: "叶子节点121"},
-                {id: 122, pId: 12, name: "叶子节点122"},
-                {id: 123, pId: 12, name: "叶子节点123"},
-                {id: 124, pId: 12, name: "叶子节点124"},
-                {id: 13, pId: 1, name: "父节点13 - 没有子节点", isParent: true},
-                {id: 2, pId: 0, name: "父节点2 - 折叠"},
-                {id: 21, pId: 2, name: "父节点21 - 展开", open: true},
-                {id: 211, pId: 21, name: "叶子节点211"},
-                {id: 212, pId: 21, name: "叶子节点212"},
-                {id: 213, pId: 21, name: "叶子节点213"},
-                {id: 214, pId: 21, name: "叶子节点214"},
-                {id: 22, pId: 2, name: "父节点22 - 折叠"},
-                {id: 221, pId: 22, name: "叶子节点221"},
-                {id: 222, pId: 22, name: "叶子节点222"},
-                {id: 223, pId: 22, name: "叶子节点223"},
-                {id: 224, pId: 22, name: "叶子节点224"},
-                {id: 23, pId: 2, name: "父节点23 - 折叠"},
-                {id: 231, pId: 23, name: "叶子节点231"},
-                {id: 232, pId: 23, name: "叶子节点232"},
-                {id: 233, pId: 23, name: "叶子节点233"},
-                {id: 234, pId: 23, name: "叶子节点234"},
-                {id: 3, pId: 0, name: "父节点3 - 没有子节点", isParent: true}
-            ];
-
-            $(document).ready(function () {
-
-
-                $("#query").click(function () {
-                    $("#table_div").empty();
-                    $("#table_div").append("<table id=\"detailTable\" class=\"display\" cellspacing=\"0\" width=\"100%\"><thead><tr><th><input type=\"checkbox\" id=\"selectAll\"  ></th><th>区域编码</th><th>城市名称</th><th>站點號</th><th>數據長度</th><th>站點狀態</th><th>實況準時率</th><th>數據完整度</th></tr></thead><tfoot></tfoot><tbody></tbody></table>");
-                    var t = $('#detailTable').DataTable({
-                        columnDefs: [
-                            {orderable: false, targets: 0}
-                        ],
-                        //     bFilter: false
-                    });
-                    t.on('draw', function () {
-                        debugger;
-                        // Update state of "Select all" control
-                        updateDataTableSelectAllCtrl(t);
-                    });
-                    $("#selectAll").click(function () {
-                        updateDataTableSelectAllCtrl(t);
-                        if ($(this).hasClass('allChecked')) {
-                            $('input[type="checkbox"]', '#detailTable').prop('checked', false);
-                        } else {
-                            $('input[type="checkbox"]', '#detailTable').prop('checked', true);
-                        }
-                        $(this).toggleClass('allChecked');
-
-                    });
-                    $.fn.zTree.init($("#treeDemo"), setting, zNodes1);
-                })
-
-                $("#query1").click(function () {
-                    $.fn.zTree.init($("#treeDemo"), setting1, zNodes1);
-                })
-
-
-                $("#save").click(function () {
-                    alert("已選取")
-                });
-            });
-
-            function updateDataTableSelectAllCtrl(table) {
-                var $table = table.table().node();
-                var $chkbox_all = $('tbody input[type="checkbox"]', $table);
-                var $chkbox_checked = $('tbody input[type="checkbox"]:checked', $table);
-                var chkbox_select_all = $('thead input[id="selectAll"]', $table).get(0);
-
-                // If none of the checkboxes are checked
-                debugger;
-                if ($chkbox_checked.length === 0) {
-                    chkbox_select_all.checked = false;
-
-                    // If all of the checkboxes are checked
-                } else if ($chkbox_checked.length === $chkbox_all.length) {
-                    chkbox_select_all.checked = true;
-
-
-                    // If some of the checkboxes are checked
-                } 
-            }
+                   // If some of the checkboxes are checked
+               }
+           }
         </script>
     </body>
 </html>
